@@ -58,23 +58,27 @@ public class Section {
         return title;
     }
 
-    public void start() {
+    public void first() {
         activeStepIndex = 0;
     }
 
-    public void end() {
+    public void last() {
         activeStepIndex = steps.size() - 1;
     }
 
-    public void next() {
+    public void next() throws StepException {
         if (activeStepIndex < steps.size() - 1) {
             activeStepIndex += 1;
+        } else {
+            throw new StepException("Next step not found");
         }
     }
 
-    public void prev() {
+    public void prev() throws StepException {
         if (activeStepIndex > 0) {
             activeStepIndex -= 1;
+        } else {
+            throw new StepException("Prev step not found");
         }
     }
 

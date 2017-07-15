@@ -45,7 +45,7 @@ public class Pattern {
         return creationDate;
     }
 
-    public void start() {
+    public void first() {
         activeSectionIndex = 0;
     }
 
@@ -58,15 +58,25 @@ public class Pattern {
     }
 
     public void nextStep() {
-        Section activeSection = getActiveSection();
-        if (activeSection.getActiveStepIndex() < activeSection.getTotalteps() - 1) {
-            activeSection.next();
-        } else {
+        try {
+            getActiveSection().next();
+        } catch (StepException e) {
             activeSectionIndex += 1;
         }
     }
 
     public void nextSection() {
-        activeSectionIndex += 1;
+        if (activeSectionIndex < sections.size() - 1) {
+            activeSectionIndex += 1;
+        }
+    }
+
+    public void prevStep() {
+        try {
+            getActiveSection().prev();
+        } catch (StepException e) {
+            activeSectionIndex -= 1;
+            getActiveSection().last();
+        }
     }
 }

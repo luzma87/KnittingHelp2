@@ -29,7 +29,13 @@ public class PatternTest {
     }
 
     @Test
-    public void shouldCreatePatternWithTitleAndSections() throws Exception {
+    public void shouldCreatePatternWithTitleAndSectionsAndSetFirstStepFromFirstSectionActive() throws Exception {
+        Section expectedActiveSection = new Section(pattern, "LEGS (make 2)\n" +
+                "1: st 4 in magic ring (4)\n" +
+                "2: st 2 in each around (8)\n" +
+                "3-7: st in each (8) Finish. Leave tail for sewing");
+        Step expectedActiveStep = new Step(expectedActiveSection, "1: st 4 in magic ring (4)");
+
         assertThat(pattern.getName(), is("TMNT"));
         assertThat(pattern.getContent(), is(description));
 
@@ -60,23 +66,13 @@ public class PatternTest {
         assertThat(secondSectionSteps.get(2).getDescription(), is("3-7: st in each (8)"));
         assertThat(secondSectionSteps.get(2).getSection(), is(secondSection));
         assertThat(secondSectionSteps.get(3).getDescription(), is("8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing"));
-        assertThat(secondSectionSteps.get(3).getSection(), is(secondSection));
-    }
 
-    @Test
-    public void startShouldSetFirstSectionAsActiveAndStartIt() throws Exception {
-        Section expectedActiveSection = new Section(pattern, "LEGS (make 2)\n" +
-                "1: st 4 in magic ring (4)\n" +
-                "2: st 2 in each around (8)\n" +
-                "3-7: st in each (8) Finish. Leave tail for sewing");
-        Step expectedActiveStep = new Step(expectedActiveSection, "1: st 4 in magic ring (4)");
-
-        pattern.start();
         Section activeSection = pattern.getActiveSection();
         Step activeStep = pattern.getActiveStep();
 
         assertThat(activeSection, is(expectedActiveSection));
         assertThat(activeStep, is(expectedActiveStep));
+        assertThat(secondSectionSteps.get(3).getSection(), is(secondSection));
     }
 
     @Test
@@ -87,7 +83,6 @@ public class PatternTest {
                 "3-7: st in each (8) Finish. Leave tail for sewing");
         Step expectedActiveStep = new Step(expectedActiveSection, "2: st 2 in each around (8)");
 
-        pattern.start();
         pattern.nextStep();
         Section activeSection = pattern.getActiveSection();
         Step activeStep = pattern.getActiveStep();
@@ -105,7 +100,24 @@ public class PatternTest {
                 "8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing");
         Step expectedActiveStep = new Step(expectedActiveSection, "1: st 4 in magic ring (4)");
 
-        pattern.start();
+        pattern.nextSection();
+        Section activeSection = pattern.getActiveSection();
+        Step activeStep = pattern.getActiveStep();
+
+        assertThat(activeSection, is(expectedActiveSection));
+        assertThat(activeStep, is(expectedActiveStep));
+    }
+
+    @Test
+    public void nextSectionShouldNotGoPastNumberOfSections() throws Exception {
+        Section expectedActiveSection = new Section(pattern, "ARMS (make 2, I used a smaller hook to make them slightly smaller than the legs)\n" +
+                "1: st 4 in magic ring (4)\n" +
+                "2: st 2 in each (8)\n" +
+                "3-7: st in each (8)\n" +
+                "8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing");
+        Step expectedActiveStep = new Step(expectedActiveSection, "1: st 4 in magic ring (4)");
+
+        pattern.nextSection();
         pattern.nextSection();
         Section activeSection = pattern.getActiveSection();
         Step activeStep = pattern.getActiveStep();
@@ -123,7 +135,6 @@ public class PatternTest {
                 "8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing");
         Step expectedActiveStep = new Step(expectedActiveSection, "1: st 4 in magic ring (4)");
 
-        pattern.start();
         pattern.nextStep();
         pattern.nextStep();
         pattern.nextStep();
@@ -135,18 +146,17 @@ public class PatternTest {
     }
 
     @Test
-    public void startShouldSetFirstSectionAsActiveAndStartItFromAnyActiveStep() throws Exception {
+    public void firstShouldSetFirstSectionAsActiveAndStartIt() throws Exception {
         Section expectedActiveSection = new Section(pattern, "LEGS (make 2)\n" +
                 "1: st 4 in magic ring (4)\n" +
                 "2: st 2 in each around (8)\n" +
                 "3-7: st in each (8) Finish. Leave tail for sewing");
         Step expectedActiveStep = new Step(expectedActiveSection, "1: st 4 in magic ring (4)");
 
-        pattern.start();
         pattern.nextSection();
         pattern.nextStep();
 
-        pattern.start();
+        pattern.first();
         Section activeSection = pattern.getActiveSection();
         Step activeStep = pattern.getActiveStep();
 
@@ -154,5 +164,38 @@ public class PatternTest {
         assertThat(activeStep, is(expectedActiveStep));
     }
 
+    @Test
+    public void prevStepShouldSetPrevStepFromSectionAsActive() throws Exception {
+        Section expectedActiveSection = new Section(pattern, "LEGS (make 2)\n" +
+                "1: st 4 in magic ring (4)\n" +
+                "2: st 2 in each around (8)\n" +
+                "3-7: st in each (8) Finish. Leave tail for sewing");
+        Step expectedActiveStep = new Step(expectedActiveSection, "2: st 2 in each around (8)");
 
+        pattern.nextStep();
+        pattern.nextStep();
+        pattern.prevStep();
+        Section activeSection = pattern.getActiveSection();
+        Step activeStep = pattern.getActiveStep();
+
+        assertThat(activeSection, is(expectedActiveSection));
+        assertThat(activeStep, is(expectedActiveStep));
+    }
+
+    @Test
+    public void prevStepShouldSetLastStepFromPreviousSectionAsActive() throws Exception {
+        Section expectedActiveSection = new Section(pattern, "LEGS (make 2)\n" +
+                "1: st 4 in magic ring (4)\n" +
+                "2: st 2 in each around (8)\n" +
+                "3-7: st in each (8) Finish. Leave tail for sewing");
+        Step expectedActiveStep = new Step(expectedActiveSection, "3-7: st in each (8) Finish. Leave tail for sewing");
+
+        pattern.nextSection();
+        pattern.prevStep();
+        Section activeSection = pattern.getActiveSection();
+        Step activeStep = pattern.getActiveStep();
+
+        assertThat(activeSection, is(expectedActiveSection));
+        assertThat(activeStep, is(expectedActiveStep));
+    }
 }

@@ -1,7 +1,9 @@
 package com.lzm.knittinghelp2;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.List;
 
@@ -13,6 +15,9 @@ public class SectionTest {
     private String description;
     private Section section;
 
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+
     @Before
     public void setUp() throws Exception {
         description = "LEGS (make 2)\n" +
@@ -23,7 +28,8 @@ public class SectionTest {
     }
 
     @Test
-    public void shouldBeCreatedFromString() throws Exception {
+    public void shouldBeCreatedFromStringAndSetFirstStepAsActive() throws Exception {
+        Step expectedActiveStep = new Step(section, "1: st 4 in magic ring (4)");
         assertThat(section.getContent(), is(description));
         assertThat(section.getTitle(), is("LEGS (make 2)"));
         List<Step> steps = section.getSteps();
@@ -34,21 +40,26 @@ public class SectionTest {
         assertThat(steps.get(1).getSection(), is(section));
         assertThat(steps.get(2).getDescription(), is("3-7: st in each (8) Finish. Leave tail for sewing"));
         assertThat(steps.get(2).getSection(), is(section));
-    }
-
-    @Test
-    public void startShouldSetFirstStepAsActive() throws Exception {
-        Step expectedActiveStep = new Step(section, "1: st 4 in magic ring (4)");
-        section.start();
 
         Step activeStep = section.getActiveStep();
         assertThat(activeStep, is(expectedActiveStep));
     }
 
     @Test
-    public void endShouldSetLastStepAsActive() throws Exception {
+    public void firstShouldSetFirstStepAsActive() throws Exception {
+        Step expectedActiveStep = new Step(section, "1: st 4 in magic ring (4)");
+        section.next();
+        section.next();
+        section.first();
+
+        Step activeStep = section.getActiveStep();
+        assertThat(activeStep, is(expectedActiveStep));
+    }
+
+    @Test
+    public void lastShouldSetLastStepAsActive() throws Exception {
         Step expectedActiveStep = new Step(section, "3-7: st in each (8) Finish. Leave tail for sewing");
-        section.end();
+        section.last();
 
         Step activeStep = section.getActiveStep();
         assertThat(activeStep, is(expectedActiveStep));
@@ -57,7 +68,6 @@ public class SectionTest {
     @Test
     public void nextShouldSetNextStepAsActive() throws Exception {
         Step expectedActiveStep = new Step(section, "2: st 2 in each around (8)");
-        section.start();
         section.next();
 
         Step activeStep = section.getActiveStep();
@@ -71,31 +81,24 @@ public class SectionTest {
     }
 
     @Test
-    public void nextShouldNotGoPastNumberOfSteps() throws Exception {
-        Step expectedActiveStep = new Step(section, "3-7: st in each (8) Finish. Leave tail for sewing");
-        section.start();
+    public void nextShouldThrowExceptionWhenPastNumberOfSteps() throws Exception {
+        expectedException.expect(StepException.class);
+        expectedException.expectMessage("Next step not found");
         section.next();
         section.next();
         section.next();
-
-        Step activeStep = section.getActiveStep();
-        assertThat(activeStep, is(expectedActiveStep));
     }
 
     @Test
-    public void prevShouldNotGoPast0() throws Exception {
-        Step expectedActiveStep = new Step(section, "1: st 4 in magic ring (4)");
-        section.start();
+    public void prevShouldThrowExceptionWhenGoingBefore0() throws Exception {
+        expectedException.expect(StepException.class);
+        expectedException.expectMessage("Prev step not found");
         section.prev();
-
-        Step activeStep = section.getActiveStep();
-        assertThat(activeStep, is(expectedActiveStep));
     }
 
     @Test
     public void prevShouldSetPreviousStepAsActive() throws Exception {
         Step expectedActiveStep = new Step(section, "2: st 2 in each around (8)");
-        section.start();
         section.next();
         section.next();
         section.prev();
