@@ -78,4 +78,81 @@ public class PatternTest {
         assertThat(activeSection, is(expectedActiveSection));
         assertThat(activeStep, is(expectedActiveStep));
     }
+
+    @Test
+    public void nextStepShouldSetNextStepFromActiveSectionAsActive() throws Exception {
+        Section expectedActiveSection = new Section(pattern, "LEGS (make 2)\n" +
+                "1: st 4 in magic ring (4)\n" +
+                "2: st 2 in each around (8)\n" +
+                "3-7: st in each (8) Finish. Leave tail for sewing");
+        Step expectedActiveStep = new Step(expectedActiveSection, "2: st 2 in each around (8)");
+
+        pattern.start();
+        pattern.nextStep();
+        Section activeSection = pattern.getActiveSection();
+        Step activeStep = pattern.getActiveStep();
+
+        assertThat(activeSection, is(expectedActiveSection));
+        assertThat(activeStep, is(expectedActiveStep));
+    }
+
+    @Test
+    public void nextSectionShouldSetNextSSectionAsActiveAndStartIt() throws Exception {
+        Section expectedActiveSection = new Section(pattern, "ARMS (make 2, I used a smaller hook to make them slightly smaller than the legs)\n" +
+                "1: st 4 in magic ring (4)\n" +
+                "2: st 2 in each (8)\n" +
+                "3-7: st in each (8)\n" +
+                "8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing");
+        Step expectedActiveStep = new Step(expectedActiveSection, "1: st 4 in magic ring (4)");
+
+        pattern.start();
+        pattern.nextSection();
+        Section activeSection = pattern.getActiveSection();
+        Step activeStep = pattern.getActiveStep();
+
+        assertThat(activeSection, is(expectedActiveSection));
+        assertThat(activeStep, is(expectedActiveStep));
+    }
+
+    @Test
+    public void nextStepShouldGoOnToNextSectionAfterFinishingAllStepsInSection() throws Exception {
+        Section expectedActiveSection = new Section(pattern, "ARMS (make 2, I used a smaller hook to make them slightly smaller than the legs)\n" +
+                "1: st 4 in magic ring (4)\n" +
+                "2: st 2 in each (8)\n" +
+                "3-7: st in each (8)\n" +
+                "8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing");
+        Step expectedActiveStep = new Step(expectedActiveSection, "1: st 4 in magic ring (4)");
+
+        pattern.start();
+        pattern.nextStep();
+        pattern.nextStep();
+        pattern.nextStep();
+        Section activeSection = pattern.getActiveSection();
+        Step activeStep = pattern.getActiveStep();
+
+        assertThat(activeSection, is(expectedActiveSection));
+        assertThat(activeStep, is(expectedActiveStep));
+    }
+
+    @Test
+    public void startShouldSetFirstSectionAsActiveAndStartItFromAnyActiveStep() throws Exception {
+        Section expectedActiveSection = new Section(pattern, "LEGS (make 2)\n" +
+                "1: st 4 in magic ring (4)\n" +
+                "2: st 2 in each around (8)\n" +
+                "3-7: st in each (8) Finish. Leave tail for sewing");
+        Step expectedActiveStep = new Step(expectedActiveSection, "1: st 4 in magic ring (4)");
+
+        pattern.start();
+        pattern.nextSection();
+        pattern.nextStep();
+
+        pattern.start();
+        Section activeSection = pattern.getActiveSection();
+        Step activeStep = pattern.getActiveStep();
+
+        assertThat(activeSection, is(expectedActiveSection));
+        assertThat(activeStep, is(expectedActiveStep));
+    }
+
+
 }

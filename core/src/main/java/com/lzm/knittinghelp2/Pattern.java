@@ -46,7 +46,7 @@ public class Pattern {
     }
 
     public void start() {
-
+        activeSectionIndex = 0;
     }
 
     public Section getActiveSection() {
@@ -55,5 +55,18 @@ public class Pattern {
 
     public Step getActiveStep() {
         return getActiveSection().getActiveStep();
+    }
+
+    public void nextStep() {
+        Section activeSection = getActiveSection();
+        if (activeSection.getActiveStepIndex() < activeSection.getTotalteps() - 1) {
+            activeSection.next();
+        } else {
+            activeSectionIndex += 1;
+        }
+    }
+
+    public void nextSection() {
+        activeSectionIndex += 1;
     }
 }
