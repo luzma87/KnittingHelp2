@@ -1,6 +1,6 @@
 package com.lzm.knittinghelp2;
 
-class Part {
+public class Part {
     private String description;
     private Step step;
 

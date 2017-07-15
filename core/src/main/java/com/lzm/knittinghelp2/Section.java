@@ -48,14 +48,6 @@ public class Section {
         return pattern;
     }
 
-    public int getActiveStepIndex() {
-        return activeStepIndex;
-    }
-
-    public int getTotalteps() {
-        return steps.size();
-    }
-
     public String toString() {
         return title;
     }

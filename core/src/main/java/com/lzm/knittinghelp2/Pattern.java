@@ -5,7 +5,6 @@ import com.lzm.knittinghelp2.exceptions.SectionException;
 import com.lzm.knittinghelp2.exceptions.StepException;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Pattern {
@@ -13,15 +12,11 @@ public class Pattern {
     private String content;
     private List<Section> sections;
 
-    private Date creationDate;
-    private Date updateDate;
-
     private int activeSectionIndex;
 
     public Pattern(String name, String content) {
         this.name = name;
         this.content = content;
-        this.creationDate = new Date();
         this.activeSectionIndex = 0;
         sections = new ArrayList<>();
 
@@ -42,10 +37,6 @@ public class Pattern {
 
     public String getContent() {
         return content;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
     }
 
     public void first() {
