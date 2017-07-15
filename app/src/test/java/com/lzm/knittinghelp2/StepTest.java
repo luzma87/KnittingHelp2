@@ -1,5 +1,7 @@
 package com.lzm.knittinghelp2;
 
+import com.lzm.knittinghelp2.exceptions.PartException;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

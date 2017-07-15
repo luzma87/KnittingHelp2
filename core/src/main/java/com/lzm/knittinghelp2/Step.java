@@ -1,5 +1,7 @@
 package com.lzm.knittinghelp2;
 
+import com.lzm.knittinghelp2.exceptions.PartException;
+
 import java.util.ArrayList;
 import java.util.List;
 

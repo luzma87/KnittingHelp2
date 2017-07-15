@@ -1,7 +1,11 @@
 package com.lzm.knittinghelp2;
 
+import com.lzm.knittinghelp2.exceptions.SectionException;
+
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.List;
 
@@ -12,6 +16,9 @@ public class PatternTest {
 
     private String description;
     private Pattern pattern;
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
@@ -76,14 +83,14 @@ public class PatternTest {
     }
 
     @Test
-    public void nextStepShouldSetNextStepFromActiveSectionAsActive() throws Exception {
+    public void nextPartShouldSetNextPartFromActiveSectionAsActive() throws Exception {
         Section expectedActiveSection = new Section(pattern, "LEGS (make 2)\n" +
                 "1: st 4 in magic ring (4)\n" +
                 "2: st 2 in each around (8)\n" +
                 "3-7: st in each (8) Finish. Leave tail for sewing");
         Step expectedActiveStep = new Step(expectedActiveSection, "2: st 2 in each around (8)");
 
-        pattern.nextStep();
+        pattern.nextPart();
         Section activeSection = pattern.getActiveSection();
         Step activeStep = pattern.getActiveStep();
 
@@ -92,7 +99,7 @@ public class PatternTest {
     }
 
     @Test
-    public void nextSectionShouldSetNextSSectionAsActiveAndStartIt() throws Exception {
+    public void nextSectionShouldSetNextSectionAsActiveAndStartIt() throws Exception {
         Section expectedActiveSection = new Section(pattern, "ARMS (make 2, I used a smaller hook to make them slightly smaller than the legs)\n" +
                 "1: st 4 in magic ring (4)\n" +
                 "2: st 2 in each (8)\n" +
@@ -109,25 +116,16 @@ public class PatternTest {
     }
 
     @Test
-    public void nextSectionShouldNotGoPastNumberOfSections() throws Exception {
-        Section expectedActiveSection = new Section(pattern, "ARMS (make 2, I used a smaller hook to make them slightly smaller than the legs)\n" +
-                "1: st 4 in magic ring (4)\n" +
-                "2: st 2 in each (8)\n" +
-                "3-7: st in each (8)\n" +
-                "8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing");
-        Step expectedActiveStep = new Step(expectedActiveSection, "1: st 4 in magic ring (4)");
-
+    public void nextSectionShouldThrowExceptionWhenPastNumberOfSections() throws Exception {
+        expectedException.expect(SectionException.class);
+        expectedException.expectMessage("Next section not found");
         pattern.nextSection();
         pattern.nextSection();
-        Section activeSection = pattern.getActiveSection();
-        Step activeStep = pattern.getActiveStep();
-
-        assertThat(activeSection, is(expectedActiveSection));
-        assertThat(activeStep, is(expectedActiveStep));
+        pattern.nextSection();
     }
 
     @Test
-    public void nextStepShouldGoOnToNextSectionAfterFinishingAllStepsInSection() throws Exception {
+    public void nextPartShouldGoOnToNextSectionAfterFinishingAllStepsInSection() throws Exception {
         Section expectedActiveSection = new Section(pattern, "ARMS (make 2, I used a smaller hook to make them slightly smaller than the legs)\n" +
                 "1: st 4 in magic ring (4)\n" +
                 "2: st 2 in each (8)\n" +
@@ -135,9 +133,9 @@ public class PatternTest {
                 "8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing");
         Step expectedActiveStep = new Step(expectedActiveSection, "1: st 4 in magic ring (4)");
 
-        pattern.nextStep();
-        pattern.nextStep();
-        pattern.nextStep();
+        pattern.nextPart();
+        pattern.nextPart();
+        pattern.nextPart();
         Section activeSection = pattern.getActiveSection();
         Step activeStep = pattern.getActiveStep();
 
@@ -154,7 +152,7 @@ public class PatternTest {
         Step expectedActiveStep = new Step(expectedActiveSection, "1: st 4 in magic ring (4)");
 
         pattern.nextSection();
-        pattern.nextStep();
+        pattern.nextPart();
 
         pattern.first();
         Section activeSection = pattern.getActiveSection();
@@ -165,16 +163,16 @@ public class PatternTest {
     }
 
     @Test
-    public void prevStepShouldSetPrevStepFromSectionAsActive() throws Exception {
+    public void prevPartShouldSetPrevPartFromSectionAsActive() throws Exception {
         Section expectedActiveSection = new Section(pattern, "LEGS (make 2)\n" +
                 "1: st 4 in magic ring (4)\n" +
                 "2: st 2 in each around (8)\n" +
                 "3-7: st in each (8) Finish. Leave tail for sewing");
         Step expectedActiveStep = new Step(expectedActiveSection, "2: st 2 in each around (8)");
 
-        pattern.nextStep();
-        pattern.nextStep();
-        pattern.prevStep();
+        pattern.nextPart();
+        pattern.nextPart();
+        pattern.prevPart();
         Section activeSection = pattern.getActiveSection();
         Step activeStep = pattern.getActiveStep();
 
@@ -183,7 +181,7 @@ public class PatternTest {
     }
 
     @Test
-    public void prevStepShouldSetLastStepFromPreviousSectionAsActive() throws Exception {
+    public void prevPartShouldSetLastStepFromPreviousSectionAsActive() throws Exception {
         Section expectedActiveSection = new Section(pattern, "LEGS (make 2)\n" +
                 "1: st 4 in magic ring (4)\n" +
                 "2: st 2 in each around (8)\n" +
@@ -191,7 +189,31 @@ public class PatternTest {
         Step expectedActiveStep = new Step(expectedActiveSection, "3-7: st in each (8) Finish. Leave tail for sewing");
 
         pattern.nextSection();
-        pattern.prevStep();
+        pattern.prevPart();
+        Section activeSection = pattern.getActiveSection();
+        Step activeStep = pattern.getActiveStep();
+
+        assertThat(activeSection, is(expectedActiveSection));
+        assertThat(activeStep, is(expectedActiveStep));
+    }
+
+    @Test
+    public void prevSectionShouldThrowExceptionWhenGoingBefore0() throws Exception {
+        expectedException.expect(SectionException.class);
+        expectedException.expectMessage("Prev section not found");
+        pattern.prevSection();
+    }
+
+    @Test
+    public void prevSectionShouldSetPrevSectionAsActiveAndStartIt() throws Exception {
+        Section expectedActiveSection = new Section(pattern, "LEGS (make 2)\n" +
+                "1: st 4 in magic ring (4)\n" +
+                "2: st 2 in each around (8)\n" +
+                "3-7: st in each (8) Finish. Leave tail for sewing");
+        Step expectedActiveStep = new Step(expectedActiveSection, "1: st 4 in magic ring (4)");
+
+        pattern.nextSection();
+        pattern.prevSection();
         Section activeSection = pattern.getActiveSection();
         Step activeStep = pattern.getActiveStep();
 

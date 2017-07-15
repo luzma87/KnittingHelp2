@@ -1,6 +1,9 @@
 package com.lzm.knittinghelp2;
 
 
+import com.lzm.knittinghelp2.exceptions.SectionException;
+import com.lzm.knittinghelp2.exceptions.StepException;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -57,7 +60,7 @@ public class Pattern {
         return getActiveSection().getActiveStep();
     }
 
-    public void nextStep() {
+    public void nextPart() {
         try {
             getActiveSection().next();
         } catch (StepException e) {
@@ -65,18 +68,26 @@ public class Pattern {
         }
     }
 
-    public void nextSection() {
-        if (activeSectionIndex < sections.size() - 1) {
-            activeSectionIndex += 1;
-        }
-    }
-
-    public void prevStep() {
+    public void prevPart() {
         try {
             getActiveSection().prev();
         } catch (StepException e) {
             activeSectionIndex -= 1;
             getActiveSection().last();
         }
+    }
+
+    public void nextSection() throws SectionException {
+        if (activeSectionIndex == sections.size() - 1) {
+            throw new SectionException("Next section not found");
+        }
+        activeSectionIndex += 1;
+    }
+
+    public void prevSection() throws SectionException {
+        if (activeSectionIndex == 0) {
+            throw new SectionException("Prev section not found");
+        }
+        activeSectionIndex -= 1;
     }
 }

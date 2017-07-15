@@ -1,5 +1,8 @@
 package com.lzm.knittinghelp2;
 
+
+import com.lzm.knittinghelp2.exceptions.StepException;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
