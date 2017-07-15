@@ -7,7 +7,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -28,9 +27,11 @@ public class StepTest {
     }
 
     @Test
-    public void shouldBeCreatedFromStringAsDefaultWithNoParts() throws Exception {
-        assertThat(step.getDescription(), is(description));
-        assertThat(step.getParts(), is(Collections.<Part>emptyList()));
+    public void shouldBeCreatedFromStringAsDefaultWithSinglePart() throws Exception {
+        assertThat(step.getContent(), is(description));
+        List<Part> parts = step.getParts();
+        assertThat(parts.size(), is(1));
+        assertThat(parts.get(0).getDescription(), is("3: st in first, st 3 in next, st in next 2, st 3 in next, st in next 2 (16)"));
     }
 
     @Test
@@ -67,13 +68,6 @@ public class StepTest {
         assertThat(parts.get(0).getStep(), is(step));
         assertThat(parts.get(1).getDescription(), is("Leave tail for sewing"));
         assertThat(parts.get(1).getStep(), is(step));
-    }
-
-    @Test
-    public void getActivePartShouldThrowErrorByDefault() throws Exception {
-        expectedException.expect(PartException.class);
-        expectedException.expectMessage("No parts found");
-        step.getActivePart();
     }
 
     @Test

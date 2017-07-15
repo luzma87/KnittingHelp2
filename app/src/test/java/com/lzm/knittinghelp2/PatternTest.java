@@ -54,11 +54,11 @@ public class PatternTest {
         assertThat(firstSection.getTitle(), is("LEGS (make 2)"));
         List<Step> firstSectionSteps = firstSection.getSteps();
         assertThat(firstSectionSteps.size(), is(3));
-        assertThat(firstSectionSteps.get(0).getDescription(), is("1: st 4 in magic ring (4)"));
+        assertThat(firstSectionSteps.get(0).getContent(), is("1: st 4 in magic ring (4)"));
         assertThat(firstSectionSteps.get(0).getSection(), is(firstSection));
-        assertThat(firstSectionSteps.get(1).getDescription(), is("2: st 2 in each around (8)"));
+        assertThat(firstSectionSteps.get(1).getContent(), is("2: st 2 in each around (8)"));
         assertThat(firstSectionSteps.get(1).getSection(), is(firstSection));
-        assertThat(firstSectionSteps.get(2).getDescription(), is("3-7: st in each (8) Finish. Leave tail for sewing"));
+        assertThat(firstSectionSteps.get(2).getContent(), is("3-7: st in each (8) Finish. Leave tail for sewing"));
         assertThat(firstSectionSteps.get(2).getSection(), is(firstSection));
 
         Section secondSection = sections.get(1);
@@ -66,13 +66,13 @@ public class PatternTest {
         assertThat(secondSection.getTitle(), is("ARMS (make 2, I used a smaller hook to make them slightly smaller than the legs)"));
         List<Step> secondSectionSteps = secondSection.getSteps();
         assertThat(secondSectionSteps.size(), is(4));
-        assertThat(secondSectionSteps.get(0).getDescription(), is("1: st 4 in magic ring (4)"));
+        assertThat(secondSectionSteps.get(0).getContent(), is("1: st 4 in magic ring (4)"));
         assertThat(secondSectionSteps.get(0).getSection(), is(secondSection));
-        assertThat(secondSectionSteps.get(1).getDescription(), is("2: st 2 in each (8)"));
+        assertThat(secondSectionSteps.get(1).getContent(), is("2: st 2 in each (8)"));
         assertThat(secondSectionSteps.get(1).getSection(), is(secondSection));
-        assertThat(secondSectionSteps.get(2).getDescription(), is("3-7: st in each (8)"));
+        assertThat(secondSectionSteps.get(2).getContent(), is("3-7: st in each (8)"));
         assertThat(secondSectionSteps.get(2).getSection(), is(secondSection));
-        assertThat(secondSectionSteps.get(3).getDescription(), is("8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing"));
+        assertThat(secondSectionSteps.get(3).getContent(), is("8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing"));
 
         Section activeSection = pattern.getActiveSection();
         Step activeStep = pattern.getActiveStep();
@@ -122,6 +122,30 @@ public class PatternTest {
         pattern.nextSection();
         pattern.nextSection();
         pattern.nextSection();
+    }
+
+    @Test
+    public void prevSectionShouldThrowExceptionWhenGoingBefore0() throws Exception {
+        expectedException.expect(SectionException.class);
+        expectedException.expectMessage("Prev section not found");
+        pattern.prevSection();
+    }
+
+    @Test
+    public void prevSectionShouldSetPrevSectionAsActiveAndStartIt() throws Exception {
+        Section expectedActiveSection = new Section(pattern, "LEGS (make 2)\n" +
+                "1: st 4 in magic ring (4)\n" +
+                "2: st 2 in each around (8)\n" +
+                "3-7: st in each (8) Finish. Leave tail for sewing");
+        Step expectedActiveStep = new Step(expectedActiveSection, "1: st 4 in magic ring (4)");
+
+        pattern.nextSection();
+        pattern.prevSection();
+        Section activeSection = pattern.getActiveSection();
+        Step activeStep = pattern.getActiveStep();
+
+        assertThat(activeSection, is(expectedActiveSection));
+        assertThat(activeStep, is(expectedActiveStep));
     }
 
     @Test
@@ -190,30 +214,6 @@ public class PatternTest {
 
         pattern.nextSection();
         pattern.prevPart();
-        Section activeSection = pattern.getActiveSection();
-        Step activeStep = pattern.getActiveStep();
-
-        assertThat(activeSection, is(expectedActiveSection));
-        assertThat(activeStep, is(expectedActiveStep));
-    }
-
-    @Test
-    public void prevSectionShouldThrowExceptionWhenGoingBefore0() throws Exception {
-        expectedException.expect(SectionException.class);
-        expectedException.expectMessage("Prev section not found");
-        pattern.prevSection();
-    }
-
-    @Test
-    public void prevSectionShouldSetPrevSectionAsActiveAndStartIt() throws Exception {
-        Section expectedActiveSection = new Section(pattern, "LEGS (make 2)\n" +
-                "1: st 4 in magic ring (4)\n" +
-                "2: st 2 in each around (8)\n" +
-                "3-7: st in each (8) Finish. Leave tail for sewing");
-        Step expectedActiveStep = new Step(expectedActiveSection, "1: st 4 in magic ring (4)");
-
-        pattern.nextSection();
-        pattern.prevSection();
         Section activeSection = pattern.getActiveSection();
         Step activeStep = pattern.getActiveStep();
 

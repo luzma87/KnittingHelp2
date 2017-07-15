@@ -6,23 +6,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Step {
-    private String description;
+    private String content;
     private Section section;
     private List<Part> parts;
     private String separator;
     private int activePartIndex;
 
-    public Step(Section section, String description) {
-        this.description = description;
+    public Step(Section section, String content) {
+        this.content = content;
         this.section = section;
 
         this.parts = new ArrayList<>();
+        Part part = new Part(this, content);
+        parts.add(part);
         this.separator = ",";
         this.activePartIndex = 0;
     }
 
-    public String getDescription() {
-        return description;
+    public String getContent() {
+        return content;
     }
 
     public Section getSection() {
@@ -30,7 +32,7 @@ public class Step {
     }
 
     public String toString() {
-        return description;
+        return content;
     }
 
     @Override
@@ -40,22 +42,23 @@ public class Step {
 
         Step step = (Step) o;
 
-        if (!description.equals(step.description)) return false;
+        if (!content.equals(step.content)) return false;
         return section != null ? section.equals(step.section) : step.section == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = description.hashCode();
+        int result = content.hashCode();
         result = 31 * result + (section != null ? section.hashCode() : 0);
         return result;
     }
 
     public void split() {
+        this.parts = new ArrayList<>();
         String separatorForSplit = getSeparatorForSplit();
 
-        String[] parts = description.split(separatorForSplit);
+        String[] parts = content.split(separatorForSplit);
         for (int i = 0; i < parts.length; i++) {
             String part = parts[i].trim();
             if (i < parts.length - 1) {
@@ -84,29 +87,26 @@ public class Step {
     }
 
     public void next() throws PartException {
-        if (parts.size() == 0) {
+        if (parts.size() == 1) {
             throw new PartException("No parts found");
         }
-        if(activePartIndex == parts.size() - 1) {
+        if (activePartIndex == parts.size() - 1) {
             throw new PartException("Next part not found");
         }
         activePartIndex += 1;
     }
 
     public void prev() throws PartException {
-        if (parts.size() == 0) {
+        if (parts.size() == 1) {
             throw new PartException("No parts found");
         }
-        if(activePartIndex == 0) {
+        if (activePartIndex == 0) {
             throw new PartException("Prev part not found");
         }
         activePartIndex -= 1;
     }
 
     public Part getActivePart() throws PartException {
-        if (parts.size() == 0) {
-            throw new PartException("No parts found");
-        }
         return parts.get(activePartIndex);
     }
 }

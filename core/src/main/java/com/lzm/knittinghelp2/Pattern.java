@@ -51,19 +51,19 @@ public class Pattern {
         return getActiveSection().getActiveStep();
     }
 
-    public void nextPart() {
+    public void nextPart() throws SectionException {
         try {
             getActiveSection().next();
         } catch (StepException e) {
-            activeSectionIndex += 1;
+            nextSection();
         }
     }
 
-    public void prevPart() {
+    public void prevPart() throws SectionException {
         try {
             getActiveSection().prev();
         } catch (StepException e) {
-            activeSectionIndex -= 1;
+            prevSection();
             getActiveSection().last();
         }
     }

@@ -23,26 +23,32 @@ public class SectionTest {
 
     @Before
     public void setUp() throws Exception {
-        description = "LEGS (make 2)\n" +
-                "1: st 4 in magic ring (4)\n" +
-                "2: st 2 in each around (8)\n" +
-                "3-7: st in each (8) Finish. Leave tail for sewing\n\n";
+        description = "BELLY PLATE\n" +
+                "1: ch 5\n" +
+                "2: st in 2nd from hook, st in next 2, st 3 in next. Continue on the other side of the ch, st in next 2, st 2 in next (10)\n" +
+                "3: st 2 in first, st in next 2, st 2 in next 3, st in next 2, st 2 in next 2 (16)\n" +
+                "4: st 2 in first, st in next 4, st 2 in next, st in next 2, st 2 in next, st in next 4, st 2 in next, st in next 2 (20)\n" +
+                "5: st 2 in first, st in next 6, st 3 in next, st in next 3, st 3 in next, st in next 7, st 3 in next, sl st, finish. Leave tail for sewing (27)\n\n";
         section = new Section(null, description);
     }
 
     @Test
     public void shouldBeCreatedFromStringAndSetFirstStepAsActive() throws Exception {
-        Step expectedActiveStep = new Step(section, "1: st 4 in magic ring (4)");
+        Step expectedActiveStep = new Step(section, "1: ch 5");
         assertThat(section.getContent(), is(description));
-        assertThat(section.getTitle(), is("LEGS (make 2)"));
+        assertThat(section.getTitle(), is("BELLY PLATE"));
         List<Step> steps = section.getSteps();
-        assertThat(steps.size(), is(3));
-        assertThat(steps.get(0).getDescription(), is("1: st 4 in magic ring (4)"));
+        assertThat(steps.size(), is(5));
+        assertThat(steps.get(0).getContent(), is("1: ch 5"));
         assertThat(steps.get(0).getSection(), is(section));
-        assertThat(steps.get(1).getDescription(), is("2: st 2 in each around (8)"));
+        assertThat(steps.get(1).getContent(), is("2: st in 2nd from hook, st in next 2, st 3 in next. Continue on the other side of the ch, st in next 2, st 2 in next (10)"));
         assertThat(steps.get(1).getSection(), is(section));
-        assertThat(steps.get(2).getDescription(), is("3-7: st in each (8) Finish. Leave tail for sewing"));
+        assertThat(steps.get(2).getContent(), is("3: st 2 in first, st in next 2, st 2 in next 3, st in next 2, st 2 in next 2 (16)"));
         assertThat(steps.get(2).getSection(), is(section));
+        assertThat(steps.get(3).getContent(), is("4: st 2 in first, st in next 4, st 2 in next, st in next 2, st 2 in next, st in next 4, st 2 in next, st in next 2 (20)"));
+        assertThat(steps.get(3).getSection(), is(section));
+        assertThat(steps.get(4).getContent(), is("5: st 2 in first, st in next 6, st 3 in next, st in next 3, st 3 in next, st in next 7, st 3 in next, sl st, finish. Leave tail for sewing (27)"));
+        assertThat(steps.get(4).getSection(), is(section));
 
         Step activeStep = section.getActiveStep();
         assertThat(activeStep, is(expectedActiveStep));
@@ -50,7 +56,7 @@ public class SectionTest {
 
     @Test
     public void firstShouldSetFirstStepAsActive() throws Exception {
-        Step expectedActiveStep = new Step(section, "1: st 4 in magic ring (4)");
+        Step expectedActiveStep = new Step(section, "1: ch 5");
         section.next();
         section.next();
         section.first();
@@ -61,7 +67,7 @@ public class SectionTest {
 
     @Test
     public void lastShouldSetLastStepAsActive() throws Exception {
-        Step expectedActiveStep = new Step(section, "3-7: st in each (8) Finish. Leave tail for sewing");
+        Step expectedActiveStep = new Step(section, "5: st 2 in first, st in next 6, st 3 in next, st in next 3, st 3 in next, st in next 7, st 3 in next, sl st, finish. Leave tail for sewing (27)");
         section.last();
 
         Step activeStep = section.getActiveStep();
@@ -70,14 +76,14 @@ public class SectionTest {
 
     @Test
     public void nextShouldSetNextStepAsActive() throws Exception {
-        Step expectedActiveStep = new Step(section, "2: st 2 in each around (8)");
+        Step expectedActiveStep = new Step(section, "2: st in 2nd from hook, st in next 2, st 3 in next. Continue on the other side of the ch, st in next 2, st 2 in next (10)");
         section.next();
 
         Step activeStep = section.getActiveStep();
         assertThat(activeStep, is(expectedActiveStep));
 
         section.next();
-        expectedActiveStep = new Step(section, "3-7: st in each (8) Finish. Leave tail for sewing");
+        expectedActiveStep = new Step(section, "3: st 2 in first, st in next 2, st 2 in next 3, st in next 2, st 2 in next 2 (16)");
 
         activeStep = section.getActiveStep();
         assertThat(activeStep, is(expectedActiveStep));
@@ -87,6 +93,8 @@ public class SectionTest {
     public void nextShouldThrowExceptionWhenPastNumberOfSteps() throws Exception {
         expectedException.expect(StepException.class);
         expectedException.expectMessage("Next step not found");
+        section.next();
+        section.next();
         section.next();
         section.next();
         section.next();
@@ -101,7 +109,7 @@ public class SectionTest {
 
     @Test
     public void prevShouldSetPreviousStepAsActive() throws Exception {
-        Step expectedActiveStep = new Step(section, "2: st 2 in each around (8)");
+        Step expectedActiveStep = new Step(section, "2: st in 2nd from hook, st in next 2, st 3 in next. Continue on the other side of the ch, st in next 2, st 2 in next (10)");
         section.next();
         section.next();
         section.prev();
@@ -110,7 +118,7 @@ public class SectionTest {
         assertThat(activeStep, is(expectedActiveStep));
 
         section.prev();
-        expectedActiveStep = new Step(section, "1: st 4 in magic ring (4)");
+        expectedActiveStep = new Step(section, "1: ch 5");
 
         activeStep = section.getActiveStep();
         assertThat(activeStep, is(expectedActiveStep));
