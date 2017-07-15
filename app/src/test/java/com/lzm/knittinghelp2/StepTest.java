@@ -121,4 +121,22 @@ public class StepTest {
         step.prev();
         assertThat(step.getActivePart(), is(expectedPart));
     }
+
+    @Test
+    public void firstShouldSetFirstPartAsActive() throws Exception {
+        Part expectedPart = new Part(step, "3: st in first,");
+        step.split();
+        step.next();
+        step.next();
+        step.first();
+        assertThat(step.getActivePart(), is(expectedPart));
+    }
+
+    @Test
+    public void lastShouldSetLastPartAsActive() throws Exception {
+        Part expectedPart = new Part(step, "st in next 2 (16)");
+        step.split();
+        step.last();
+        assertThat(step.getActivePart(), is(expectedPart));
+    }
 }

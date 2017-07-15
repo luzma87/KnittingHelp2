@@ -1,5 +1,6 @@
 package com.lzm.knittinghelp2;
 
+import com.lzm.knittinghelp2.exceptions.PartException;
 import com.lzm.knittinghelp2.exceptions.StepException;
 
 import java.util.ArrayList;
@@ -58,6 +59,7 @@ public class Section {
 
     public void last() {
         activeStepIndex = steps.size() - 1;
+        getActiveStep().last();
     }
 
     public void next() throws StepException {
@@ -98,5 +100,9 @@ public class Section {
         result = 31 * result + (pattern != null ? pattern.hashCode() : 0);
         result = 31 * result + (content != null ? content.hashCode() : 0);
         return result;
+    }
+
+    public Part getActivePart() throws PartException {
+        return getActiveStep().getActivePart();
     }
 }

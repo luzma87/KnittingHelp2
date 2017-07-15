@@ -35,25 +35,6 @@ public class Step {
         return content;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Step step = (Step) o;
-
-        if (!content.equals(step.content)) return false;
-        return section != null ? section.equals(step.section) : step.section == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = content.hashCode();
-        result = 31 * result + (section != null ? section.hashCode() : 0);
-        return result;
-    }
-
     public void split() {
         this.parts = new ArrayList<>();
         String separatorForSplit = getSeparatorForSplit();
@@ -108,5 +89,32 @@ public class Step {
 
     public Part getActivePart() throws PartException {
         return parts.get(activePartIndex);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Step step = (Step) o;
+
+        if (!content.equals(step.content)) return false;
+        return section != null ? section.equals(step.section) : step.section == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = content.hashCode();
+        result = 31 * result + (section != null ? section.hashCode() : 0);
+        return result;
+    }
+
+    public void first() {
+        activePartIndex = 0;
+    }
+
+    public void last() {
+        activePartIndex = parts.size() - 1;
     }
 }

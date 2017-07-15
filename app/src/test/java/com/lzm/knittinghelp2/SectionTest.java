@@ -24,7 +24,7 @@ public class SectionTest {
     @Before
     public void setUp() throws Exception {
         description = "BELLY PLATE\n" +
-                "1: ch 5\n" +
+                "1: ch 5, wait\n" +
                 "2: st in 2nd from hook, st in next 2, st 3 in next. Continue on the other side of the ch, st in next 2, st 2 in next (10)\n" +
                 "3: st 2 in first, st in next 2, st 2 in next 3, st in next 2, st 2 in next 2 (16)\n" +
                 "4: st 2 in first, st in next 4, st 2 in next, st in next 2, st 2 in next, st in next 4, st 2 in next, st in next 2 (20)\n" +
@@ -34,12 +34,12 @@ public class SectionTest {
 
     @Test
     public void shouldBeCreatedFromStringAndSetFirstStepAsActive() throws Exception {
-        Step expectedActiveStep = new Step(section, "1: ch 5");
+        Step expectedActiveStep = new Step(section, "1: ch 5, wait");
         assertThat(section.getContent(), is(description));
         assertThat(section.getTitle(), is("BELLY PLATE"));
         List<Step> steps = section.getSteps();
         assertThat(steps.size(), is(5));
-        assertThat(steps.get(0).getContent(), is("1: ch 5"));
+        assertThat(steps.get(0).getContent(), is("1: ch 5, wait"));
         assertThat(steps.get(0).getSection(), is(section));
         assertThat(steps.get(1).getContent(), is("2: st in 2nd from hook, st in next 2, st 3 in next. Continue on the other side of the ch, st in next 2, st 2 in next (10)"));
         assertThat(steps.get(1).getSection(), is(section));
@@ -56,7 +56,7 @@ public class SectionTest {
 
     @Test
     public void firstShouldSetFirstStepAsActive() throws Exception {
-        Step expectedActiveStep = new Step(section, "1: ch 5");
+        Step expectedActiveStep = new Step(section, "1: ch 5, wait");
         section.next();
         section.next();
         section.first();
@@ -66,12 +66,40 @@ public class SectionTest {
     }
 
     @Test
+    public void firstShouldSetFirstStepFirstPartAsActive() throws Exception {
+        Step expectedActiveStep = new Step(section, "1: ch 5, wait");
+        Part expectedActivePart = new Part(expectedActiveStep, "1: ch 5,");
+        section.getSteps().get(0).split();
+        section.next();
+        section.next();
+        section.first();
+
+        Step activeStep = section.getActiveStep();
+        Part activePart = section.getActivePart();
+        assertThat(activeStep, is(expectedActiveStep));
+        assertThat(activePart, is(expectedActivePart));
+    }
+
+    @Test
     public void lastShouldSetLastStepAsActive() throws Exception {
         Step expectedActiveStep = new Step(section, "5: st 2 in first, st in next 6, st 3 in next, st in next 3, st 3 in next, st in next 7, st 3 in next, sl st, finish. Leave tail for sewing (27)");
         section.last();
 
         Step activeStep = section.getActiveStep();
         assertThat(activeStep, is(expectedActiveStep));
+    }
+
+    @Test
+    public void lastShouldSetLastStepLastPartAsActive() throws Exception {
+        Step expectedActiveStep = new Step(section, "5: st 2 in first, st in next 6, st 3 in next, st in next 3, st 3 in next, st in next 7, st 3 in next, sl st, finish. Leave tail for sewing (27)");
+        Part expectedActivePart = new Part(expectedActiveStep, "finish. Leave tail for sewing (27)");
+        section.getSteps().get(section.getSteps().size() - 1).split();
+        section.last();
+
+        Step activeStep = section.getActiveStep();
+        Part activePart = section.getActivePart();
+        assertThat(activeStep, is(expectedActiveStep));
+        assertThat(activePart, is(expectedActivePart));
     }
 
     @Test
@@ -118,7 +146,7 @@ public class SectionTest {
         assertThat(activeStep, is(expectedActiveStep));
 
         section.prev();
-        expectedActiveStep = new Step(section, "1: ch 5");
+        expectedActiveStep = new Step(section, "1: ch 5, wait");
 
         activeStep = section.getActiveStep();
         assertThat(activeStep, is(expectedActiveStep));
