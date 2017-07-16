@@ -15,11 +15,14 @@ import android.view.MenuItem;
 import com.lzm.knittinghelp2.enums.KnittingFragment;
 import com.lzm.knittinghelp2.helpers.FragmentHelper;
 import com.lzm.knittinghelp2.notebook.NotebookFragment;
+import com.lzm.knittinghelp2.pattern.PatternFragment;
 
 import static com.lzm.knittinghelp2.enums.KnittingFragment.NOTEBOOK;
+import static com.lzm.knittinghelp2.enums.KnittingFragment.PATTERN;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        NotebookFragment.OnPatternClickedListener {
 
     public static final String SAAVED_ACTIVE_FRAGMENT = "activeFragment";
     public static final String SAVED_PATTERN_ID = "patternId";
@@ -129,5 +132,12 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onPatternClicked(long patternId) {
+        int titleRes = PATTERN.getTitleId();
+        PatternFragment patternFragment = PatternFragment.newInstance(patternId);
+        FragmentHelper.openFragment(this, patternFragment, getString(titleRes));
     }
 }

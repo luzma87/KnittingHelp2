@@ -8,13 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pattern implements Comparable<Pattern> {
+    private long id;
+
     private String name;
     private String content;
     private List<Section> sections;
 
     private int activeSectionIndex;
 
-    public Pattern(String name, String content) {
+    public Pattern(long id, String name, String content) {
+        this.id = id;
         this.name = name;
         this.content = content;
         this.activeSectionIndex = 0;
@@ -25,6 +28,10 @@ public class Pattern implements Comparable<Pattern> {
             Section section = new Section(this, part);
             sections.add(section);
         }
+    }
+
+    public Pattern(String name, String content) {
+        this(0, name, content);
     }
 
     public String getName() {
@@ -85,5 +92,9 @@ public class Pattern implements Comparable<Pattern> {
     @Override
     public int compareTo(Pattern pattern) {
         return this.getName().compareTo(pattern.getName());
+    }
+
+    public long getId() {
+        return id;
     }
 }

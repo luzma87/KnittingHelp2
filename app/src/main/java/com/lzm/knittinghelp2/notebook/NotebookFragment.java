@@ -1,14 +1,16 @@
 package com.lzm.knittinghelp2.notebook;
 
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.lzm.knittinghelp2.MainActivity;
 import com.lzm.knittinghelp2.Pattern;
@@ -25,6 +27,8 @@ public class NotebookFragment extends Fragment {
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
     MainActivity context;
+
+    private OnPatternClickedListener listener;
 
     public NotebookFragment() {
     }
@@ -66,26 +70,12 @@ public class NotebookFragment extends Fragment {
                 new PatternClickListener(context, new PatternClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Toast.makeText(context, "Clicked " + patterns.get(position).getName(), Toast.LENGTH_LONG).show();
+                        Pattern clickedPattern = patterns.get(position);
+                        if(listener!=null ){
+                            listener.onPatternClicked(clickedPattern.getId());
+                        }
                     }
                 }));
-
-//        ItemTouchHelper.SimpleCallback simpleItemTouchCallback =
-//                new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-//                    @Override
-//                    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder
-//                            target) {
-//                        return false;
-//                    }
-//                    @Override
-//                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-//                        patterns.remove(viewHolder.getAdapterPosition());
-//                        adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-//                    }
-//                };
-//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-//        itemTouchHelper.attachToRecyclerView(recyclerView);
-
         recyclerView.setVisibility((patterns.size() == 0) ? View.GONE : View.VISIBLE);
     }
 
@@ -201,8 +191,8 @@ public class NotebookFragment extends Fragment {
                 "Stitch the sleeves to the vest\n" +
                 "To make the belt simply chain some stitches to make it the length you want.";
 
-        Pattern tmntPattern = new Pattern(tmntPatternName, tmntPatternContent);
-        Pattern splinterPattern = new Pattern(splinterPatternName, splinterPatternContent);
+        Pattern tmntPattern = new Pattern(1L, tmntPatternName, tmntPatternContent);
+        Pattern splinterPattern = new Pattern(2L, splinterPatternName, splinterPatternContent);
 
         patterns.add(tmntPattern);
         patterns.add(splinterPattern);
@@ -215,19 +205,37 @@ public class NotebookFragment extends Fragment {
 //        Collections.sort(patterns);
     }
 
-//    String generateRandom(int length) {
-//        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-//        Random random = new SecureRandom();
-//        if (length <= 0) {
-//            throw new IllegalArgumentException("String length must be a positive integer");
-//        }
-//
-//        StringBuilder sb = new StringBuilder(length);
-//        for (int i = 0; i < length; i++) {
-//            sb.append(characters.charAt(random.nextInt(characters.length())));
-//        }
-//
-//        return sb.toString();
-//    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        onAttachAction(context);
+    }
 
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            onAttachAction(activity);
+        }
+    }
+
+    private void onAttachAction(Context context) {
+        if (context instanceof OnPatternClickedListener) {
+            listener = (OnPatternClickedListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnPatternClickedListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
+
+    public interface OnPatternClickedListener {
+        void onPatternClicked(long patternId);
+    }
 }
