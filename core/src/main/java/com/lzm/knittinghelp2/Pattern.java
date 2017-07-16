@@ -7,7 +7,7 @@ import com.lzm.knittinghelp2.exceptions.StepException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pattern {
+public class Pattern implements Comparable<Pattern> {
     private String name;
     private String content;
     private List<Section> sections;
@@ -80,5 +80,10 @@ public class Pattern {
             throw new SectionException("Prev section not found");
         }
         activeSectionIndex -= 1;
+    }
+
+    @Override
+    public int compareTo(Pattern pattern) {
+        return this.getName().compareTo(pattern.getName());
     }
 }
