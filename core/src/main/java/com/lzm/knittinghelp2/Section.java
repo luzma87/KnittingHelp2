@@ -55,6 +55,7 @@ public class Section {
 
     public void first() {
         activeStepIndex = 0;
+        getActiveStep().first();
     }
 
     public void last() {
@@ -63,17 +64,25 @@ public class Section {
     }
 
     public void next() throws StepException {
-        if (activeStepIndex == steps.size() - 1) {
-            throw new StepException("Next step not found");
+        try {
+            getActiveStep().next();
+        } catch (PartException e) {
+            if (activeStepIndex == steps.size() - 1) {
+                throw new StepException("Next step not found");
+            }
+            activeStepIndex += 1;
         }
-        activeStepIndex += 1;
     }
 
     public void prev() throws StepException {
-        if (activeStepIndex == 0) {
-            throw new StepException("Prev step not found");
+        try {
+            getActiveStep().prev();
+        } catch (PartException e) {
+            if (activeStepIndex == 0) {
+                throw new StepException("Prev step not found");
+            }
+            activeStepIndex -= 1;
         }
-        activeStepIndex -= 1;
     }
 
     public Step getActiveStep() {

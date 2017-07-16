@@ -118,6 +118,69 @@ public class SectionTest {
     }
 
     @Test
+    public void nextShouldSetNextPartAsActive() throws Exception {
+        Step expectedActiveStep = new Step(section, "1: ch 5, wait");
+        Part expectedActivePart = new Part(expectedActiveStep, "1: ch 5,");
+
+        section.getSteps().get(0).split();
+
+        Step activeStep = section.getActiveStep();
+        Part activePart = section.getActivePart();
+        assertThat(activeStep, is(expectedActiveStep));
+        assertThat(activePart, is(expectedActivePart));
+
+        section.next();
+
+        expectedActivePart = new Part(expectedActiveStep, "wait");
+        activeStep = section.getActiveStep();
+        activePart = section.getActivePart();
+        assertThat(activeStep, is(expectedActiveStep));
+        assertThat(activePart, is(expectedActivePart));
+    }
+
+    @Test
+    public void nextShouldSetFirstPartOfNextStepAsActive() throws Exception {
+        Step expectedActiveStep = new Step(section, "2: st in 2nd from hook, st in next 2, st 3 in next. Continue on the other side of the ch, st in next 2, st 2 in next (10)");
+        Part expectedActivePart = new Part(expectedActiveStep, "2: st in 2nd from hook,");
+
+        section.getSteps().get(0).split();
+        section.getSteps().get(1).split();
+
+        section.next();
+        section.next();
+
+        Step activeStep = section.getActiveStep();
+        Part activePart = section.getActivePart();
+        assertThat(activeStep, is(expectedActiveStep));
+        assertThat(activePart, is(expectedActivePart));
+
+        section.next();
+
+        expectedActivePart = new Part(expectedActiveStep, "st in next 2,");
+        activeStep = section.getActiveStep();
+        activePart = section.getActivePart();
+        assertThat(activeStep, is(expectedActiveStep));
+        assertThat(activePart, is(expectedActivePart));
+    }
+
+    @Test
+    public void prevShouldSetThePreviousPartAsActive() throws Exception {
+        Step expectedActiveStep = new Step(section, "1: ch 5, wait");
+        Part expectedActivePart = new Part(expectedActiveStep, "1: ch 5,");
+
+        section.getSteps().get(0).split();
+
+        section.next();
+        section.prev();
+
+        Step activeStep = section.getActiveStep();
+        Part activePart = section.getActivePart();
+        assertThat(activeStep, is(expectedActiveStep));
+        assertThat(activePart, is(expectedActivePart));
+
+    }
+
+    @Test
     public void nextShouldThrowExceptionWhenPastNumberOfSteps() throws Exception {
         expectedException.expect(StepException.class);
         expectedException.expectMessage("Next step not found");
