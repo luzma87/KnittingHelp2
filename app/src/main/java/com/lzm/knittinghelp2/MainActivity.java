@@ -18,7 +18,6 @@ import com.lzm.knittinghelp2.notebook.NotebookFragment;
 import com.lzm.knittinghelp2.pattern.PatternFragment;
 
 import static com.lzm.knittinghelp2.enums.KnittingFragment.NOTEBOOK;
-import static com.lzm.knittinghelp2.enums.KnittingFragment.PATTERN;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -135,9 +134,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onPatternClicked(long patternId) {
-        int titleRes = PATTERN.getTitleId();
+    public void onPatternClicked(Pattern pattern) {
+        long patternId = pattern.getId();
+        String title = pattern.getName();
         PatternFragment patternFragment = PatternFragment.newInstance(patternId);
-        FragmentHelper.openFragment(this, patternFragment, getString(titleRes));
+        FragmentHelper.openFragment(this, patternFragment, title);
     }
 }
