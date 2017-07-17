@@ -10,9 +10,10 @@
             style="@style/section_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#abcdef"
+            android:background="@color/primary_light"
             android:padding="10dp"
-            android:text="@string/placeholder" />
+            android:text="@string/placeholder"
+            android:textColor="@color/primary" />
 
         <TextView
             style="@style/section_content"
