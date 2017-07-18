@@ -15,13 +15,6 @@
             android:text="@string/placeholder"
             android:textColor="@color/primary" />
 
-        <TextView
-            style="@style/section_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/activity_horizontal_margin"
-            android:text="@string/placeholder" />
-
         <LinearLayout
             android:id="@+id/section_steps_layout"
             android:layout_width="match_parent"
