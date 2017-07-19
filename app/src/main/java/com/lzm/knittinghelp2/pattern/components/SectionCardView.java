@@ -40,6 +40,9 @@ public class SectionCardView extends CardView {
 
             int sectionBackgroundColor = ContextCompat.getColor(context, R.color.element_section_default_background);
             int sectionBorderColor = ContextCompat.getColor(context, R.color.element_section_default_border);
+
+            int headerBackgroundColor = ContextCompat.getColor(context, R.color.element_section_default_header_background);
+            int headerBorderColor = ContextCompat.getColor(context, R.color.element_section_default_header_border);
             int sectionPadding = context.getResources().getDimensionPixelSize(R.dimen.element_section_padding);
 
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -49,6 +52,8 @@ public class SectionCardView extends CardView {
 
             TextView title = (TextView) layout.getChildAt(0);
             title.setText(titleText);
+            title.setTextColor(headerBorderColor);
+            Utils.setBackgroundAndBorder(title, headerBackgroundColor, headerBorderColor);
 
             LinearLayout stepsLayout = (LinearLayout) layout.getChildAt(1);
             stepsLayout.setPadding(sectionPadding, sectionPadding, sectionPadding, sectionPadding);
