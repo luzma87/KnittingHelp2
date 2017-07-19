@@ -1,12 +1,19 @@
 package com.lzm.knittinghelp2;
 
 public class Step {
+    private long id;
+
     private String content;
     private Part part;
 
-    public Step(Part part, String content) {
+    public Step(long id, Part part, String content) {
+        this.id = id;
         this.part = part;
         this.content = content;
+    }
+
+    public Step(Part part, String content) {
+        this(0, part, content);
     }
 
     public String getContent() {
@@ -19,15 +26,19 @@ public class Step {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Step step = (Step) o;
 
-        if (content != null ? !content.equals(step.content) : step.content != null)
+        if (content != null ? !content.equals(step.content) : step.content != null) {
             return false;
+        }
         return part != null ? part.equals(step.part) : step.part == null;
-
     }
 
     @Override

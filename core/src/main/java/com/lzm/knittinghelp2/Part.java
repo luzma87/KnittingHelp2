@@ -6,13 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Part {
+    private long id;
+
     private String content;
     private Section section;
     private List<Step> steps;
     private String separator;
     private int activeStepIndex;
 
-    public Part(Section section, String content) {
+    public Part(long id, Section section, String content) {
+        this.id = id;
         this.content = content;
         this.section = section;
 
@@ -21,6 +24,10 @@ public class Part {
         steps.add(step);
         this.separator = ",";
         this.activeStepIndex = 0;
+    }
+
+    public Part(Section section, String content) {
+        this(0, section, content);
     }
 
     public String getContent() {
@@ -93,12 +100,18 @@ public class Part {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Part part = (Part) o;
 
-        if (!content.equals(part.content)) return false;
+        if (!content.equals(part.content)) {
+            return false;
+        }
         return section != null ? section.equals(part.section) : part.section == null;
 
     }

@@ -1,6 +1,5 @@
 package com.lzm.knittinghelp2;
 
-
 import com.lzm.knittinghelp2.exceptions.SectionException;
 import com.lzm.knittinghelp2.exceptions.StepException;
 

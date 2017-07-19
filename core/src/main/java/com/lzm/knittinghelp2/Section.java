@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Section {
+    private long id;
+
     private String title;
     private List<Part> parts;
     private Pattern pattern;
@@ -14,7 +16,8 @@ public class Section {
 
     private int activePartIndex;
 
-    public Section(Pattern pattern, String content) {
+    public Section(long id, Pattern pattern, String content) {
+        this.id = id;
         this.pattern = pattern;
         this.content = content;
         this.activePartIndex = 0;
@@ -31,6 +34,10 @@ public class Section {
                 this.parts.add(step);
             }
         }
+    }
+
+    public Section(Pattern pattern, String content) {
+        this(0, pattern, content);
     }
 
     public List<Part> getParts() {
@@ -91,14 +98,21 @@ public class Section {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Section section = (Section) o;
 
-        if (!title.equals(section.title)) return false;
-        if (pattern != null ? !pattern.equals(section.pattern) : section.pattern != null)
+        if (!title.equals(section.title)) {
             return false;
+        }
+        if (pattern != null ? !pattern.equals(section.pattern) : section.pattern != null) {
+            return false;
+        }
         return content != null ? content.equals(section.content) : section.content == null;
 
     }
