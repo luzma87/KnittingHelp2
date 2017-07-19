@@ -5,10 +5,10 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="element_part_margin">2dp</dimen>
-    <dimen name="element_part_padding">3dp</dimen>
+    <dimen name="element_part_padding">5dp</dimen>
     <dimen name="element_section_padding">5dp</dimen>
     <dimen name="element_step_margin">2dp</dimen>
-    <dimen name="element_step_padding">5dp</dimen>
+    <dimen name="element_step_padding">3dp</dimen>
 
     <dimen name="fab_margin">16dp</dimen>
 

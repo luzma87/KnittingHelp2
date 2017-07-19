@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.flexbox.FlexboxLayoutManager;
-import com.lzm.knittinghelp2.Part;
+import com.lzm.knittinghelp2.Step;
 import com.lzm.knittinghelp2.R;
 import com.lzm.knittinghelp2.helpers.Utils;
 
@@ -16,9 +16,9 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 public class PartTextView extends android.support.v7.widget.AppCompatTextView {
 
 
-    public PartTextView(Context context, Part part) {
+    public PartTextView(Context context, Step step) {
         super(context);
-        initialize(context, part);
+        initialize(context, step);
     }
 
     public PartTextView(Context context, AttributeSet attrs) {
@@ -31,16 +31,16 @@ public class PartTextView extends android.support.v7.widget.AppCompatTextView {
         initialize(context, null);
     }
 
-    private void initialize(Context context, Part part) {
+    private void initialize(Context context, Step step) {
         String contentText = "CONTENT";
 
-        int backgroundColor = ContextCompat.getColor(context, R.color.element_part_default_background);
-        int borderColor = ContextCompat.getColor(context, R.color.element_part_default_border);
-        int padding = context.getResources().getDimensionPixelSize(R.dimen.element_part_padding);
-        int margin = context.getResources().getDimensionPixelSize(R.dimen.element_part_margin);
+        int backgroundColor = ContextCompat.getColor(context, R.color.element_step_default_background);
+        int borderColor = ContextCompat.getColor(context, R.color.element_step_default_border);
+        int padding = context.getResources().getDimensionPixelSize(R.dimen.element_step_padding);
+        int margin = context.getResources().getDimensionPixelSize(R.dimen.element_step_margin);
 
-        if (part != null) {
-            contentText = part.getDescription();
+        if (step != null) {
+            contentText = step.getDescription();
         }
 
         this.setText(contentText);

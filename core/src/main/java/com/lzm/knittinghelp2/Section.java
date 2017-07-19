@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Section {
     private String title;
-    private List<Step> steps;
+    private List<Part> parts;
     private Pattern pattern;
     private String content;
 
@@ -18,7 +18,7 @@ public class Section {
         this.pattern = pattern;
         this.content = content;
         this.activeStepIndex = 0;
-        steps = new ArrayList<>();
+        parts = new ArrayList<>();
         String[] parts = content.split("\n");
         boolean isFirstLine = true;
         for (String part : parts) {
@@ -27,14 +27,14 @@ public class Section {
                 title = part;
                 isFirstLine = false;
             } else {
-                Step step = new Step(this, part);
-                steps.add(step);
+                Part step = new Part(this, part);
+                this.parts.add(step);
             }
         }
     }
 
-    public List<Step> getSteps() {
-        return steps;
+    public List<Part> getParts() {
+        return parts;
     }
 
     public String getTitle() {
@@ -59,7 +59,7 @@ public class Section {
     }
 
     public void last() {
-        activeStepIndex = steps.size() - 1;
+        activeStepIndex = parts.size() - 1;
         getActiveStep().last();
     }
 
@@ -67,7 +67,7 @@ public class Section {
         try {
             getActiveStep().next();
         } catch (PartException e) {
-            if (activeStepIndex == steps.size() - 1) {
+            if (activeStepIndex == parts.size() - 1) {
                 throw new StepException("Next step not found");
             }
             activeStepIndex += 1;
@@ -85,8 +85,8 @@ public class Section {
         }
     }
 
-    public Step getActiveStep() {
-        return steps.get(activeStepIndex);
+    public Part getActiveStep() {
+        return parts.get(activeStepIndex);
     }
 
     @Override
@@ -111,7 +111,7 @@ public class Section {
         return result;
     }
 
-    public Part getActivePart() throws PartException {
+    public Step getActivePart() throws PartException {
         return getActiveStep().getActivePart();
     }
 }

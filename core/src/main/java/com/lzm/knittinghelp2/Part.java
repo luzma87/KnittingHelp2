@@ -1,20 +1,94 @@
 package com.lzm.knittinghelp2;
 
+import com.lzm.knittinghelp2.exceptions.PartException;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Part {
-    private String description;
-    private Step step;
+    private String content;
+    private Section section;
+    private List<Step> steps;
+    private String separator;
+    private int activePartIndex;
 
-    public Part(Step step, String description) {
-        this.step = step;
-        this.description = description;
+    public Part(Section section, String content) {
+        this.content = content;
+        this.section = section;
+
+        this.steps = new ArrayList<>();
+        Step step = new Step(this, content);
+        steps.add(step);
+        this.separator = ",";
+        this.activePartIndex = 0;
     }
 
-    public String getDescription() {
-        return description;
+    public String getContent() {
+        return content;
     }
 
-    public Step getStep() {
-        return step;
+    public Section getSection() {
+        return section;
+    }
+
+    public String toString() {
+        return content;
+    }
+
+    public void split() {
+        this.steps = new ArrayList<>();
+        String separatorForSplit = getSeparatorForSplit();
+
+        String[] parts = content.split(separatorForSplit);
+        for (int i = 0; i < parts.length; i++) {
+            String part = parts[i].trim();
+            if (i < parts.length - 1) {
+                part = part + separator;
+            }
+            Step step1 = new Step(this, part);
+            this.steps.add(step1);
+        }
+
+    }
+
+    private String getSeparatorForSplit() {
+        String separatorForSplit = separator;
+        if (separator.equals(".")) {
+            separatorForSplit = "\\.";
+        }
+        return separatorForSplit;
+    }
+
+    public List<Step> getSteps() {
+        return steps;
+    }
+
+    public void setSeparator(String separator) {
+        this.separator = separator;
+    }
+
+    public void next() throws PartException {
+        if (steps.size() == 1) {
+            throw new PartException("No steps found");
+        }
+        if (activePartIndex == steps.size() - 1) {
+            throw new PartException("Next part not found");
+        }
+        activePartIndex += 1;
+    }
+
+    public void prev() throws PartException {
+        if (steps.size() == 1) {
+            throw new PartException("No steps found");
+        }
+        if (activePartIndex == 0) {
+            throw new PartException("Prev part not found");
+        }
+        activePartIndex -= 1;
+    }
+
+    public Step getActivePart() throws PartException {
+        return steps.get(activePartIndex);
     }
 
     @Override
@@ -24,20 +98,23 @@ public class Part {
 
         Part part = (Part) o;
 
-        if (description != null ? !description.equals(part.description) : part.description != null)
-            return false;
-        return step != null ? step.equals(part.step) : part.step == null;
+        if (!content.equals(part.content)) return false;
+        return section != null ? section.equals(part.section) : part.section == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = description != null ? description.hashCode() : 0;
-        result = 31 * result + (step != null ? step.hashCode() : 0);
+        int result = content.hashCode();
+        result = 31 * result + (section != null ? section.hashCode() : 0);
         return result;
     }
 
-    public String toString() {
-        return description;
+    public void first() {
+        activePartIndex = 0;
+    }
+
+    public void last() {
+        activePartIndex = steps.size() - 1;
     }
 }

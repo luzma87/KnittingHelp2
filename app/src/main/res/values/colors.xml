@@ -4,14 +4,14 @@
 
     <color name="divider">#BDBDBD</color>
 
-    <color name="element_part_default_background">#e9c4da</color>
-    <color name="element_part_default_border">#6b3b58</color>
+    <color name="element_part_default_background">#c4dae9</color>
+    <color name="element_part_default_border">#4d6576</color>
     <color name="element_section_default_background">#e9d8c4</color>
     <color name="element_section_default_border">#705230</color>
     <color name="element_section_default_header_background">#D1C4E9</color>
     <color name="element_section_default_header_border">#512DA8</color>
-    <color name="element_step_default_background">#c4dae9</color>
-    <color name="element_step_default_border">#4d6576</color>
+    <color name="element_step_default_background">#e9c4da</color>
+    <color name="element_step_default_border">#6b3b58</color>
 
     <color name="icons">#FFFFFF</color>
 

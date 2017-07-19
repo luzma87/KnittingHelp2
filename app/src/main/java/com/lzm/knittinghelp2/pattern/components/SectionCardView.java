@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.lzm.knittinghelp2.R;
 import com.lzm.knittinghelp2.Section;
-import com.lzm.knittinghelp2.Step;
+import com.lzm.knittinghelp2.Part;
 import com.lzm.knittinghelp2.helpers.Utils;
 
 import java.util.List;
@@ -60,10 +60,10 @@ public class SectionCardView extends CardView {
 
             Utils.setBackgroundAndBorder(stepsLayout, sectionBackgroundColor, sectionBorderColor);
 
-            List<Step> steps = section.getSteps();
+            List<Part> parts = section.getParts();
 
-            for (Step step : steps) {
-                StepFlexboxLayout stepFlexboxLayout = new StepFlexboxLayout(context, step);
+            for (Part part : parts) {
+                StepFlexboxLayout stepFlexboxLayout = new StepFlexboxLayout(context, part);
                 stepsLayout.addView(stepFlexboxLayout);
             }
         }

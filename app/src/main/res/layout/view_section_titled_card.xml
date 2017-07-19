@@ -14,7 +14,7 @@
             android:text="@string/placeholder" />
 
         <LinearLayout
-            android:id="@+id/section_steps_layout"
+            android:id="@+id/section_parts_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />

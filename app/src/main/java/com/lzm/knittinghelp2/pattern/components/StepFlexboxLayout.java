@@ -5,9 +5,9 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 
 import com.google.android.flexbox.FlexboxLayout;
-import com.lzm.knittinghelp2.Part;
-import com.lzm.knittinghelp2.R;
 import com.lzm.knittinghelp2.Step;
+import com.lzm.knittinghelp2.R;
+import com.lzm.knittinghelp2.Part;
 import com.lzm.knittinghelp2.helpers.Utils;
 
 import java.util.List;
@@ -18,9 +18,9 @@ import static com.google.android.flexbox.FlexWrap.WRAP;
 
 public class StepFlexboxLayout extends FlexboxLayout {
 
-    public StepFlexboxLayout(Context context, Step step) {
+    public StepFlexboxLayout(Context context, Part part) {
         super(context);
-        initialize(context, step);
+        initialize(context, part);
     }
 
     public StepFlexboxLayout(Context context, AttributeSet attrs) {
@@ -33,23 +33,23 @@ public class StepFlexboxLayout extends FlexboxLayout {
         initialize(context, null);
     }
 
-    private void initialize(Context context, Step step) {
-        int stepBackgroundColor = ContextCompat.getColor(context, R.color.element_step_default_background);
-        int stepBorderColor = ContextCompat.getColor(context, R.color.element_step_default_border);
-        int stepPadding = context.getResources().getDimensionPixelSize(R.dimen.element_step_padding);
-        int stepMargin = context.getResources().getDimensionPixelSize(R.dimen.element_step_margin);
+    private void initialize(Context context, Part part) {
+        int stepBackgroundColor = ContextCompat.getColor(context, R.color.element_part_default_background);
+        int stepBorderColor = ContextCompat.getColor(context, R.color.element_part_default_border);
+        int stepPadding = context.getResources().getDimensionPixelSize(R.dimen.element_part_padding);
+        int stepMargin = context.getResources().getDimensionPixelSize(R.dimen.element_part_margin);
 
-        step.split();
+        part.split();
 
         LayoutParams layoutParams = new LayoutParams(MATCH_PARENT, WRAP_CONTENT);
         layoutParams.setMargins(stepMargin, stepMargin, stepMargin, stepMargin);
         this.setLayoutParams(layoutParams);
         Utils.setBackgroundAndBorder(this, stepBackgroundColor, stepBorderColor);
 
-        List<Part> parts = step.getParts();
+        List<Step> steps = part.getSteps();
 
-        for (Part part : parts) {
-            PartTextView textView = new PartTextView(context, part);
+        for (Step step : steps) {
+            PartTextView textView = new PartTextView(context, step);
             this.addView(textView);
         }
         this.setFlexWrap(WRAP);
