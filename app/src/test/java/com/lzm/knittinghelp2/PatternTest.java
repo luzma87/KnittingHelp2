@@ -75,7 +75,7 @@ public class PatternTest {
         assertThat(secondSectionParts.get(3).getContent(), is("8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing"));
 
         Section activeSection = pattern.getActiveSection();
-        Part activePart = pattern.getActiveStep();
+        Part activePart = pattern.getActivePart();
 
         assertThat(activeSection, is(expectedActiveSection));
         assertThat(activePart, is(expectedActivePart));
@@ -92,7 +92,7 @@ public class PatternTest {
 
         pattern.nextPart();
         Section activeSection = pattern.getActiveSection();
-        Part activePart = pattern.getActiveStep();
+        Part activePart = pattern.getActivePart();
 
         assertThat(activeSection, is(expectedActiveSection));
         assertThat(activePart, is(expectedActivePart));
@@ -109,7 +109,7 @@ public class PatternTest {
 
         pattern.nextSection();
         Section activeSection = pattern.getActiveSection();
-        Part activePart = pattern.getActiveStep();
+        Part activePart = pattern.getActivePart();
 
         assertThat(activeSection, is(expectedActiveSection));
         assertThat(activePart, is(expectedActivePart));
@@ -142,7 +142,7 @@ public class PatternTest {
         pattern.nextSection();
         pattern.prevSection();
         Section activeSection = pattern.getActiveSection();
-        Part activePart = pattern.getActiveStep();
+        Part activePart = pattern.getActivePart();
 
         assertThat(activeSection, is(expectedActiveSection));
         assertThat(activePart, is(expectedActivePart));
@@ -161,7 +161,7 @@ public class PatternTest {
         pattern.nextPart();
         pattern.nextPart();
         Section activeSection = pattern.getActiveSection();
-        Part activePart = pattern.getActiveStep();
+        Part activePart = pattern.getActivePart();
 
         assertThat(activeSection, is(expectedActiveSection));
         assertThat(activePart, is(expectedActivePart));
@@ -180,7 +180,7 @@ public class PatternTest {
 
         pattern.first();
         Section activeSection = pattern.getActiveSection();
-        Part activePart = pattern.getActiveStep();
+        Part activePart = pattern.getActivePart();
 
         assertThat(activeSection, is(expectedActiveSection));
         assertThat(activePart, is(expectedActivePart));
@@ -198,7 +198,7 @@ public class PatternTest {
         pattern.nextPart();
         pattern.prevPart();
         Section activeSection = pattern.getActiveSection();
-        Part activePart = pattern.getActiveStep();
+        Part activePart = pattern.getActivePart();
 
         assertThat(activeSection, is(expectedActiveSection));
         assertThat(activePart, is(expectedActivePart));
@@ -215,7 +215,7 @@ public class PatternTest {
         pattern.nextSection();
         pattern.prevPart();
         Section activeSection = pattern.getActiveSection();
-        Part activePart = pattern.getActiveStep();
+        Part activePart = pattern.getActivePart();
 
         assertThat(activeSection, is(expectedActiveSection));
         assertThat(activePart, is(expectedActivePart));

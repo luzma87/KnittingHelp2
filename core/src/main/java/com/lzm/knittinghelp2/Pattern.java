@@ -54,8 +54,8 @@ public class Pattern implements Comparable<Pattern> {
         return sections.get(activeSectionIndex);
     }
 
-    public Part getActiveStep() {
-        return getActiveSection().getActiveStep();
+    public Part getActivePart() {
+        return getActiveSection().getActivePart();
     }
 
     public void nextPart() throws SectionException {

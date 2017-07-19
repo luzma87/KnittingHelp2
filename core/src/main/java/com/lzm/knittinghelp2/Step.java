@@ -1,16 +1,16 @@
 package com.lzm.knittinghelp2;
 
 public class Step {
-    private String description;
+    private String content;
     private Part part;
 
-    public Step(Part part, String description) {
+    public Step(Part part, String content) {
         this.part = part;
-        this.description = description;
+        this.content = content;
     }
 
-    public String getDescription() {
-        return description;
+    public String getContent() {
+        return content;
     }
 
     public Part getPart() {
@@ -24,7 +24,7 @@ public class Step {
 
         Step step = (Step) o;
 
-        if (description != null ? !description.equals(step.description) : step.description != null)
+        if (content != null ? !content.equals(step.content) : step.content != null)
             return false;
         return part != null ? part.equals(step.part) : step.part == null;
 
@@ -32,12 +32,12 @@ public class Step {
 
     @Override
     public int hashCode() {
-        int result = description != null ? description.hashCode() : 0;
+        int result = content != null ? content.hashCode() : 0;
         result = 31 * result + (part != null ? part.hashCode() : 0);
         return result;
     }
 
     public String toString() {
-        return description;
+        return content;
     }
 }

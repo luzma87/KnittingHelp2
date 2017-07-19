@@ -31,7 +31,7 @@ public class PartTest {
         assertThat(part.getContent(), is(description));
         List<Step> steps = part.getSteps();
         assertThat(steps.size(), is(1));
-        assertThat(steps.get(0).getDescription(), is("3: st in first, st 3 in next, st in next 2, st 3 in next, st in next 2 (16)"));
+        assertThat(steps.get(0).getContent(), is("3: st in first, st 3 in next, st in next 2, st 3 in next, st in next 2 (16)"));
     }
 
     @Test
@@ -41,17 +41,17 @@ public class PartTest {
 
         List<Step> steps = part.getSteps();
         assertThat(steps.size(), is(5));
-        assertThat(steps.get(0).getDescription(), is("3: st in first,"));
+        assertThat(steps.get(0).getContent(), is("3: st in first,"));
         assertThat(steps.get(0).getPart(), is(part));
-        assertThat(steps.get(1).getDescription(), is("st 3 in next,"));
+        assertThat(steps.get(1).getContent(), is("st 3 in next,"));
         assertThat(steps.get(1).getPart(), is(part));
-        assertThat(steps.get(2).getDescription(), is("st in next 2,"));
+        assertThat(steps.get(2).getContent(), is("st in next 2,"));
         assertThat(steps.get(2).getPart(), is(part));
-        assertThat(steps.get(3).getDescription(), is("st 3 in next,"));
+        assertThat(steps.get(3).getContent(), is("st 3 in next,"));
         assertThat(steps.get(3).getPart(), is(part));
-        assertThat(steps.get(4).getDescription(), is("st in next 2 (16)"));
+        assertThat(steps.get(4).getContent(), is("st in next 2 (16)"));
         assertThat(steps.get(4).getPart(), is(part));
-        assertThat(part.getActivePart(), is(expectedStep));
+        assertThat(part.getActiveStep(), is(expectedStep));
     }
 
     @Test
@@ -64,9 +64,9 @@ public class PartTest {
 
         List<Step> steps = part.getSteps();
         assertThat(steps.size(), is(2));
-        assertThat(steps.get(0).getDescription(), is("3-7: st in each (8) Finish."));
+        assertThat(steps.get(0).getContent(), is("3-7: st in each (8) Finish."));
         assertThat(steps.get(0).getPart(), is(part));
-        assertThat(steps.get(1).getDescription(), is("Leave tail for sewing"));
+        assertThat(steps.get(1).getContent(), is("Leave tail for sewing"));
         assertThat(steps.get(1).getPart(), is(part));
     }
 
@@ -82,7 +82,7 @@ public class PartTest {
         Step expectedStep = new Step(part, "st 3 in next,");
         part.split();
         part.next();
-        assertThat(part.getActivePart(), is(expectedStep));
+        assertThat(part.getActiveStep(), is(expectedStep));
     }
 
     @Test
@@ -119,7 +119,7 @@ public class PartTest {
         part.next();
         part.next();
         part.prev();
-        assertThat(part.getActivePart(), is(expectedStep));
+        assertThat(part.getActiveStep(), is(expectedStep));
     }
 
     @Test
@@ -129,7 +129,7 @@ public class PartTest {
         part.next();
         part.next();
         part.first();
-        assertThat(part.getActivePart(), is(expectedStep));
+        assertThat(part.getActiveStep(), is(expectedStep));
     }
 
     @Test
@@ -137,6 +137,6 @@ public class PartTest {
         Step expectedStep = new Step(part, "st in next 2 (16)");
         part.split();
         part.last();
-        assertThat(part.getActivePart(), is(expectedStep));
+        assertThat(part.getActiveStep(), is(expectedStep));
     }
 }

@@ -16,43 +16,43 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static com.google.android.flexbox.FlexWrap.WRAP;
 
-public class StepFlexboxLayout extends FlexboxLayout {
+public class PartFlexboxLayout extends FlexboxLayout {
 
-    public StepFlexboxLayout(Context context, Part part) {
+    public PartFlexboxLayout(Context context, Part part) {
         super(context);
         initialize(context, part);
     }
 
-    public StepFlexboxLayout(Context context, AttributeSet attrs) {
+    public PartFlexboxLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         initialize(context, null);
     }
 
-    public StepFlexboxLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PartFlexboxLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initialize(context, null);
     }
 
     private void initialize(Context context, Part part) {
-        int stepBackgroundColor = ContextCompat.getColor(context, R.color.element_part_default_background);
-        int stepBorderColor = ContextCompat.getColor(context, R.color.element_part_default_border);
-        int stepPadding = context.getResources().getDimensionPixelSize(R.dimen.element_part_padding);
-        int stepMargin = context.getResources().getDimensionPixelSize(R.dimen.element_part_margin);
+        int backgroundColor = ContextCompat.getColor(context, R.color.element_part_default_background);
+        int borderColor = ContextCompat.getColor(context, R.color.element_part_default_border);
+        int padding = context.getResources().getDimensionPixelSize(R.dimen.element_part_padding);
+        int margin = context.getResources().getDimensionPixelSize(R.dimen.element_part_margin);
 
         part.split();
 
         LayoutParams layoutParams = new LayoutParams(MATCH_PARENT, WRAP_CONTENT);
-        layoutParams.setMargins(stepMargin, stepMargin, stepMargin, stepMargin);
+        layoutParams.setMargins(margin, margin, margin, margin);
         this.setLayoutParams(layoutParams);
-        Utils.setBackgroundAndBorder(this, stepBackgroundColor, stepBorderColor);
+        Utils.setBackgroundAndBorder(this, backgroundColor, borderColor);
 
         List<Step> steps = part.getSteps();
 
         for (Step step : steps) {
-            PartTextView textView = new PartTextView(context, step);
+            StepTextView textView = new StepTextView(context, step);
             this.addView(textView);
         }
         this.setFlexWrap(WRAP);
-        this.setPadding(stepPadding, stepPadding, stepPadding, stepPadding);
+        this.setPadding(padding, padding, padding, padding);
     }
 }

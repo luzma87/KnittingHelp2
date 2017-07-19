@@ -63,8 +63,8 @@ public class SectionCardView extends CardView {
             List<Part> parts = section.getParts();
 
             for (Part part : parts) {
-                StepFlexboxLayout stepFlexboxLayout = new StepFlexboxLayout(context, part);
-                stepsLayout.addView(stepFlexboxLayout);
+                PartFlexboxLayout partFlexboxLayout = new PartFlexboxLayout(context, part);
+                stepsLayout.addView(partFlexboxLayout);
             }
         }
     }

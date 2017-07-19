@@ -12,12 +12,12 @@ public class Section {
     private Pattern pattern;
     private String content;
 
-    private int activeStepIndex;
+    private int activePartIndex;
 
     public Section(Pattern pattern, String content) {
         this.pattern = pattern;
         this.content = content;
-        this.activeStepIndex = 0;
+        this.activePartIndex = 0;
         parts = new ArrayList<>();
         String[] parts = content.split("\n");
         boolean isFirstLine = true;
@@ -54,39 +54,39 @@ public class Section {
     }
 
     public void first() {
-        activeStepIndex = 0;
-        getActiveStep().first();
+        activePartIndex = 0;
+        getActivePart().first();
     }
 
     public void last() {
-        activeStepIndex = parts.size() - 1;
-        getActiveStep().last();
+        activePartIndex = parts.size() - 1;
+        getActivePart().last();
     }
 
     public void next() throws StepException {
         try {
-            getActiveStep().next();
+            getActivePart().next();
         } catch (PartException e) {
-            if (activeStepIndex == parts.size() - 1) {
+            if (activePartIndex == parts.size() - 1) {
                 throw new StepException("Next step not found");
             }
-            activeStepIndex += 1;
+            activePartIndex += 1;
         }
     }
 
     public void prev() throws StepException {
         try {
-            getActiveStep().prev();
+            getActivePart().prev();
         } catch (PartException e) {
-            if (activeStepIndex == 0) {
+            if (activePartIndex == 0) {
                 throw new StepException("Prev step not found");
             }
-            activeStepIndex -= 1;
+            activePartIndex -= 1;
         }
     }
 
-    public Part getActiveStep() {
-        return parts.get(activeStepIndex);
+    public Part getActivePart() {
+        return parts.get(activePartIndex);
     }
 
     @Override
@@ -111,7 +111,7 @@ public class Section {
         return result;
     }
 
-    public Step getActivePart() throws PartException {
-        return getActiveStep().getActivePart();
+    public Step getActiveStep() throws PartException {
+        return getActivePart().getActiveStep();
     }
 }

@@ -50,7 +50,7 @@ public class SectionTest {
         assertThat(parts.get(4).getContent(), is("5: st 2 in first, st in next 6, st 3 in next, st in next 3, st 3 in next, st in next 7, st 3 in next, sl st, finish. Leave tail for sewing (27)"));
         assertThat(parts.get(4).getSection(), is(section));
 
-        Part activePart = section.getActiveStep();
+        Part activePart = section.getActivePart();
         assertThat(activePart, is(expectedActivePart));
     }
 
@@ -61,7 +61,7 @@ public class SectionTest {
         section.next();
         section.first();
 
-        Part activePart = section.getActiveStep();
+        Part activePart = section.getActivePart();
         assertThat(activePart, is(expectedActivePart));
     }
 
@@ -74,8 +74,8 @@ public class SectionTest {
         section.next();
         section.first();
 
-        Part activePart = section.getActiveStep();
-        Step activeStep = section.getActivePart();
+        Part activePart = section.getActivePart();
+        Step activeStep = section.getActiveStep();
         assertThat(activePart, is(expectedActivePart));
         assertThat(activeStep, is(expectedActiveStep));
     }
@@ -85,7 +85,7 @@ public class SectionTest {
         Part expectedActivePart = new Part(section, "5: st 2 in first, st in next 6, st 3 in next, st in next 3, st 3 in next, st in next 7, st 3 in next, sl st, finish. Leave tail for sewing (27)");
         section.last();
 
-        Part activePart = section.getActiveStep();
+        Part activePart = section.getActivePart();
         assertThat(activePart, is(expectedActivePart));
     }
 
@@ -96,8 +96,8 @@ public class SectionTest {
         section.getParts().get(section.getParts().size() - 1).split();
         section.last();
 
-        Part activePart = section.getActiveStep();
-        Step activeStep = section.getActivePart();
+        Part activePart = section.getActivePart();
+        Step activeStep = section.getActiveStep();
         assertThat(activePart, is(expectedActivePart));
         assertThat(activeStep, is(expectedActiveStep));
     }
@@ -107,13 +107,13 @@ public class SectionTest {
         Part expectedActivePart = new Part(section, "2: st in 2nd from hook, st in next 2, st 3 in next. Continue on the other side of the ch, st in next 2, st 2 in next (10)");
         section.next();
 
-        Part activePart = section.getActiveStep();
+        Part activePart = section.getActivePart();
         assertThat(activePart, is(expectedActivePart));
 
         section.next();
         expectedActivePart = new Part(section, "3: st 2 in first, st in next 2, st 2 in next 3, st in next 2, st 2 in next 2 (16)");
 
-        activePart = section.getActiveStep();
+        activePart = section.getActivePart();
         assertThat(activePart, is(expectedActivePart));
     }
 
@@ -124,16 +124,16 @@ public class SectionTest {
 
         section.getParts().get(0).split();
 
-        Part activePart = section.getActiveStep();
-        Step activeStep = section.getActivePart();
+        Part activePart = section.getActivePart();
+        Step activeStep = section.getActiveStep();
         assertThat(activePart, is(expectedActivePart));
         assertThat(activeStep, is(expectedActiveStep));
 
         section.next();
 
         expectedActiveStep = new Step(expectedActivePart, "wait");
-        activePart = section.getActiveStep();
-        activeStep = section.getActivePart();
+        activePart = section.getActivePart();
+        activeStep = section.getActiveStep();
         assertThat(activePart, is(expectedActivePart));
         assertThat(activeStep, is(expectedActiveStep));
     }
@@ -149,16 +149,16 @@ public class SectionTest {
         section.next();
         section.next();
 
-        Part activePart = section.getActiveStep();
-        Step activeStep = section.getActivePart();
+        Part activePart = section.getActivePart();
+        Step activeStep = section.getActiveStep();
         assertThat(activePart, is(expectedActivePart));
         assertThat(activeStep, is(expectedActiveStep));
 
         section.next();
 
         expectedActiveStep = new Step(expectedActivePart, "st in next 2,");
-        activePart = section.getActiveStep();
-        activeStep = section.getActivePart();
+        activePart = section.getActivePart();
+        activeStep = section.getActiveStep();
         assertThat(activePart, is(expectedActivePart));
         assertThat(activeStep, is(expectedActiveStep));
     }
@@ -173,8 +173,8 @@ public class SectionTest {
         section.next();
         section.prev();
 
-        Part activePart = section.getActiveStep();
-        Step activeStep = section.getActivePart();
+        Part activePart = section.getActivePart();
+        Step activeStep = section.getActiveStep();
         assertThat(activePart, is(expectedActivePart));
         assertThat(activeStep, is(expectedActiveStep));
 
@@ -205,13 +205,13 @@ public class SectionTest {
         section.next();
         section.prev();
 
-        Part activePart = section.getActiveStep();
+        Part activePart = section.getActivePart();
         assertThat(activePart, is(expectedActivePart));
 
         section.prev();
         expectedActivePart = new Part(section, "1: ch 5, wait");
 
-        activePart = section.getActiveStep();
+        activePart = section.getActivePart();
         assertThat(activePart, is(expectedActivePart));
     }
 }

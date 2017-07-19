@@ -13,20 +13,20 @@ import com.lzm.knittinghelp2.helpers.Utils;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
-public class PartTextView extends android.support.v7.widget.AppCompatTextView {
+public class StepTextView extends android.support.v7.widget.AppCompatTextView {
 
 
-    public PartTextView(Context context, Step step) {
+    public StepTextView(Context context, Step step) {
         super(context);
         initialize(context, step);
     }
 
-    public PartTextView(Context context, AttributeSet attrs) {
+    public StepTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initialize(context, null);
     }
 
-    public PartTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public StepTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initialize(context, null);
     }
@@ -40,7 +40,7 @@ public class PartTextView extends android.support.v7.widget.AppCompatTextView {
         int margin = context.getResources().getDimensionPixelSize(R.dimen.element_step_margin);
 
         if (step != null) {
-            contentText = step.getDescription();
+            contentText = step.getContent();
         }
 
         this.setText(contentText);

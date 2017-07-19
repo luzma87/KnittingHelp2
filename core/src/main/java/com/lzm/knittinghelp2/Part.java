@@ -10,7 +10,7 @@ public class Part {
     private Section section;
     private List<Step> steps;
     private String separator;
-    private int activePartIndex;
+    private int activeStepIndex;
 
     public Part(Section section, String content) {
         this.content = content;
@@ -20,7 +20,7 @@ public class Part {
         Step step = new Step(this, content);
         steps.add(step);
         this.separator = ",";
-        this.activePartIndex = 0;
+        this.activeStepIndex = 0;
     }
 
     public String getContent() {
@@ -69,26 +69,26 @@ public class Part {
 
     public void next() throws PartException {
         if (steps.size() == 1) {
-            throw new PartException("No steps found");
+            throw new PartException("No parts found");
         }
-        if (activePartIndex == steps.size() - 1) {
+        if (activeStepIndex == steps.size() - 1) {
             throw new PartException("Next part not found");
         }
-        activePartIndex += 1;
+        activeStepIndex += 1;
     }
 
     public void prev() throws PartException {
         if (steps.size() == 1) {
-            throw new PartException("No steps found");
+            throw new PartException("No parts found");
         }
-        if (activePartIndex == 0) {
+        if (activeStepIndex == 0) {
             throw new PartException("Prev part not found");
         }
-        activePartIndex -= 1;
+        activeStepIndex -= 1;
     }
 
-    public Step getActivePart() throws PartException {
-        return steps.get(activePartIndex);
+    public Step getActiveStep() throws PartException {
+        return steps.get(activeStepIndex);
     }
 
     @Override
@@ -111,10 +111,10 @@ public class Part {
     }
 
     public void first() {
-        activePartIndex = 0;
+        activeStepIndex = 0;
     }
 
     public void last() {
-        activePartIndex = steps.size() - 1;
+        activeStepIndex = steps.size() - 1;
     }
 }
