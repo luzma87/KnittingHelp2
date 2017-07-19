@@ -24,9 +24,12 @@ public class Pattern implements Comparable<Pattern> {
         sections = new ArrayList<>();
 
         String[] parts = content.split("\n\n");
+        int order = 1;
         for (String part : parts) {
             Section section = new Section(this, part);
+            section.setOrder(order);
             sections.add(section);
+            order += 1;
         }
     }
 

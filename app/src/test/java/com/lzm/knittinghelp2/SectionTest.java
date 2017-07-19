@@ -39,14 +39,19 @@ public class SectionTest {
         assertThat(section.getTitle(), is("BELLY PLATE"));
         List<Part> parts = section.getParts();
         assertThat(parts.size(), is(5));
+        assertThat(parts.get(0).getOrder(), is(1));
         assertThat(parts.get(0).getContent(), is("1: ch 5, wait"));
         assertThat(parts.get(0).getSection(), is(section));
+        assertThat(parts.get(1).getOrder(), is(2));
         assertThat(parts.get(1).getContent(), is("2: st in 2nd from hook, st in next 2, st 3 in next. Continue on the other side of the ch, st in next 2, st 2 in next (10)"));
         assertThat(parts.get(1).getSection(), is(section));
+        assertThat(parts.get(2).getOrder(), is(3));
         assertThat(parts.get(2).getContent(), is("3: st 2 in first, st in next 2, st 2 in next 3, st in next 2, st 2 in next 2 (16)"));
         assertThat(parts.get(2).getSection(), is(section));
+        assertThat(parts.get(3).getOrder(), is(4));
         assertThat(parts.get(3).getContent(), is("4: st 2 in first, st in next 4, st 2 in next, st in next 2, st 2 in next, st in next 4, st 2 in next, st in next 2 (20)"));
         assertThat(parts.get(3).getSection(), is(section));
+        assertThat(parts.get(4).getOrder(), is(5));
         assertThat(parts.get(4).getContent(), is("5: st 2 in first, st in next 6, st 3 in next, st in next 3, st 3 in next, st in next 7, st 3 in next, sl st, finish. Leave tail for sewing (27)"));
         assertThat(parts.get(4).getSection(), is(section));
 

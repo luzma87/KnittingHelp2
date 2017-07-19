@@ -12,6 +12,11 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+/**
+ * Example local unit test, which will execute on the development machine (host).
+ *
+ * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ */
 public class PatternTest {
 
     private String description;
@@ -53,6 +58,7 @@ public class PatternTest {
         Section firstSection = sections.get(0);
         assertThat(firstSection.getPattern(), is(pattern));
         assertThat(firstSection.getTitle(), is("LEGS (make 2)"));
+        assertThat(firstSection.getOrder(), is(1));
         List<Part> firstSectionParts = firstSection.getParts();
         assertThat(firstSectionParts.size(), is(3));
         assertThat(firstSectionParts.get(0).getContent(), is("1: st 4 in magic ring (4)"));
@@ -65,6 +71,7 @@ public class PatternTest {
         Section secondSection = sections.get(1);
         assertThat(secondSection.getPattern(), is(pattern));
         assertThat(secondSection.getTitle(), is("ARMS (make 2, I used a smaller hook to make them slightly smaller than the legs)"));
+        assertThat(secondSection.getOrder(), is(2));
         List<Part> secondSectionParts = secondSection.getParts();
         assertThat(secondSectionParts.size(), is(4));
         assertThat(secondSectionParts.get(0).getContent(), is("1: st 4 in magic ring (4)"));

@@ -31,6 +31,7 @@ public class PartTest {
         assertThat(part.getContent(), is(description));
         List<Step> steps = part.getSteps();
         assertThat(steps.size(), is(1));
+        assertThat(steps.get(0).getOrder(), is(1));
         assertThat(steps.get(0).getContent(), is("3: st in first, st 3 in next, st in next 2, st 3 in next, st in next 2 (16)"));
     }
 
@@ -41,14 +42,19 @@ public class PartTest {
 
         List<Step> steps = part.getSteps();
         assertThat(steps.size(), is(5));
+        assertThat(steps.get(0).getOrder(), is(1));
         assertThat(steps.get(0).getContent(), is("3: st in first,"));
         assertThat(steps.get(0).getPart(), is(part));
+        assertThat(steps.get(1).getOrder(), is(2));
         assertThat(steps.get(1).getContent(), is("st 3 in next,"));
         assertThat(steps.get(1).getPart(), is(part));
+        assertThat(steps.get(2).getOrder(), is(3));
         assertThat(steps.get(2).getContent(), is("st in next 2,"));
         assertThat(steps.get(2).getPart(), is(part));
+        assertThat(steps.get(3).getOrder(), is(4));
         assertThat(steps.get(3).getContent(), is("st 3 in next,"));
         assertThat(steps.get(3).getPart(), is(part));
+        assertThat(steps.get(4).getOrder(), is(5));
         assertThat(steps.get(4).getContent(), is("st in next 2 (16)"));
         assertThat(steps.get(4).getPart(), is(part));
         assertThat(part.getActiveStep(), is(expectedStep));

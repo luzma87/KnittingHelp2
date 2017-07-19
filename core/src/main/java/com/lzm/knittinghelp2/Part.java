@@ -13,6 +13,7 @@ public class Part {
     private List<Step> steps;
     private String separator;
     private int activeStepIndex;
+    private int order;
 
     public Part(long id, Section section, String content) {
         this.id = id;
@@ -21,6 +22,7 @@ public class Part {
 
         this.steps = new ArrayList<>();
         Step step = new Step(this, content);
+        step.setOrder(1);
         steps.add(step);
         this.separator = ",";
         this.activeStepIndex = 0;
@@ -52,8 +54,9 @@ public class Part {
             if (i < parts.length - 1) {
                 part = part + separator;
             }
-            Step step1 = new Step(this, part);
-            this.steps.add(step1);
+            Step step = new Step(this, part);
+            step.setOrder(i + 1);
+            this.steps.add(step);
         }
 
     }
@@ -129,5 +132,17 @@ public class Part {
 
     public void last() {
         activeStepIndex = steps.size() - 1;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public long getId() {
+        return id;
     }
 }

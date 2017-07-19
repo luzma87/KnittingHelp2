@@ -15,6 +15,7 @@ public class Section {
     private String content;
 
     private int activePartIndex;
+    private int order;
 
     public Section(long id, Pattern pattern, String content) {
         this.id = id;
@@ -24,14 +25,17 @@ public class Section {
         parts = new ArrayList<>();
         String[] parts = content.split("\n");
         boolean isFirstLine = true;
+        int order = 1;
         for (String part : parts) {
             part = part.trim();
             if (isFirstLine) {
                 title = part;
                 isFirstLine = false;
             } else {
-                Part step = new Part(this, part);
-                this.parts.add(step);
+                Part newPart = new Part(this, part);
+                newPart.setOrder(order);
+                this.parts.add(newPart);
+                order += 1;
             }
         }
     }
@@ -127,5 +131,17 @@ public class Section {
 
     public Step getActiveStep() throws PartException {
         return getActivePart().getActiveStep();
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public long getId() {
+        return id;
     }
 }

@@ -5,6 +5,7 @@ public class Step {
 
     private String content;
     private Part part;
+    private int order;
 
     public Step(long id, Part part, String content) {
         this.id = id;
@@ -50,5 +51,17 @@ public class Step {
 
     public String toString() {
         return content;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public long getId() {
+        return id;
     }
 }
