@@ -1,5 +1,6 @@
 package com.lzm.knittinghelp2;
 
+import com.lzm.knittinghelp2.exceptions.PartException;
 import com.lzm.knittinghelp2.exceptions.SectionException;
 import com.lzm.knittinghelp2.exceptions.StepException;
 
@@ -53,8 +54,8 @@ public class Pattern implements Comparable<Pattern> {
         return sections.get(activeSectionIndex);
     }
 
-    public Part getActivePart() {
-        return getActiveSection().getActivePart();
+    public Step getActiveStep() throws PartException {
+        return getActiveSection().getActiveStep();
     }
 
     public void nextPart() throws SectionException {

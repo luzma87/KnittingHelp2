@@ -42,6 +42,7 @@ public class PatternTest {
                 "2: st 2 in each around (8)\n" +
                 "3-7: st in each (8) Finish. Leave tail for sewing");
         Part expectedActivePart = new Part(expectedActiveSection, "1: st 4 in magic ring (4)");
+        Step expectedActiveStep = new Step(expectedActivePart, "1: st 4 in magic ring (4)");
 
         assertThat(pattern.getName(), is("TMNT"));
         assertThat(pattern.getContent(), is(description));
@@ -75,10 +76,10 @@ public class PatternTest {
         assertThat(secondSectionParts.get(3).getContent(), is("8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing"));
 
         Section activeSection = pattern.getActiveSection();
-        Part activePart = pattern.getActivePart();
+        Step activeStep = pattern.getActiveStep();
 
         assertThat(activeSection, is(expectedActiveSection));
-        assertThat(activePart, is(expectedActivePart));
+        assertThat(activeStep, is(expectedActiveStep));
         assertThat(secondSectionParts.get(3).getSection(), is(secondSection));
     }
 
@@ -89,13 +90,14 @@ public class PatternTest {
                 "2: st 2 in each around (8)\n" +
                 "3-7: st in each (8) Finish. Leave tail for sewing");
         Part expectedActivePart = new Part(expectedActiveSection, "2: st 2 in each around (8)");
+        Step expectedActiveStep = new Step(expectedActivePart, "2: st 2 in each around (8)");
 
         pattern.nextPart();
         Section activeSection = pattern.getActiveSection();
-        Part activePart = pattern.getActivePart();
+        Step activeStep = pattern.getActiveStep();
 
         assertThat(activeSection, is(expectedActiveSection));
-        assertThat(activePart, is(expectedActivePart));
+        assertThat(activeStep, is(expectedActiveStep));
     }
 
     @Test
@@ -106,13 +108,14 @@ public class PatternTest {
                 "3-7: st in each (8)\n" +
                 "8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing");
         Part expectedActivePart = new Part(expectedActiveSection, "1: st 4 in magic ring (4)");
+        Step expectedActiveStep = new Step(expectedActivePart, "1: st 4 in magic ring (4)");
 
         pattern.nextSection();
         Section activeSection = pattern.getActiveSection();
-        Part activePart = pattern.getActivePart();
+        Step activeStep = pattern.getActiveStep();
 
         assertThat(activeSection, is(expectedActiveSection));
-        assertThat(activePart, is(expectedActivePart));
+        assertThat(activeStep, is(expectedActiveStep));
     }
 
     @Test
@@ -138,14 +141,15 @@ public class PatternTest {
                 "2: st 2 in each around (8)\n" +
                 "3-7: st in each (8) Finish. Leave tail for sewing");
         Part expectedActivePart = new Part(expectedActiveSection, "1: st 4 in magic ring (4)");
+        Step expectedActiveStep = new Step(expectedActivePart, "1: st 4 in magic ring (4)");
 
         pattern.nextSection();
         pattern.prevSection();
         Section activeSection = pattern.getActiveSection();
-        Part activePart = pattern.getActivePart();
+        Step activeStep = pattern.getActiveStep();
 
         assertThat(activeSection, is(expectedActiveSection));
-        assertThat(activePart, is(expectedActivePart));
+        assertThat(activeStep, is(expectedActiveStep));
     }
 
     @Test
@@ -156,15 +160,16 @@ public class PatternTest {
                 "3-7: st in each (8)\n" +
                 "8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing");
         Part expectedActivePart = new Part(expectedActiveSection, "1: st 4 in magic ring (4)");
+        Step expectedActiveStep = new Step(expectedActivePart, "1: st 4 in magic ring (4)");
 
         pattern.nextPart();
         pattern.nextPart();
         pattern.nextPart();
         Section activeSection = pattern.getActiveSection();
-        Part activePart = pattern.getActivePart();
+        Step activeStep = pattern.getActiveStep();
 
         assertThat(activeSection, is(expectedActiveSection));
-        assertThat(activePart, is(expectedActivePart));
+        assertThat(activeStep, is(expectedActiveStep));
     }
 
     @Test
@@ -174,16 +179,17 @@ public class PatternTest {
                 "2: st 2 in each around (8)\n" +
                 "3-7: st in each (8) Finish. Leave tail for sewing");
         Part expectedActivePart = new Part(expectedActiveSection, "1: st 4 in magic ring (4)");
+        Step expectedActiveStep = new Step(expectedActivePart, "1: st 4 in magic ring (4)");
 
         pattern.nextSection();
         pattern.nextPart();
 
         pattern.first();
         Section activeSection = pattern.getActiveSection();
-        Part activePart = pattern.getActivePart();
+        Step activeStep = pattern.getActiveStep();
 
         assertThat(activeSection, is(expectedActiveSection));
-        assertThat(activePart, is(expectedActivePart));
+        assertThat(activeStep, is(expectedActiveStep));
     }
 
     @Test
@@ -193,15 +199,16 @@ public class PatternTest {
                 "2: st 2 in each around (8)\n" +
                 "3-7: st in each (8) Finish. Leave tail for sewing");
         Part expectedActivePart = new Part(expectedActiveSection, "2: st 2 in each around (8)");
+        Step expectedActiveStep = new Step(expectedActivePart, "2: st 2 in each around (8)");
 
         pattern.nextPart();
         pattern.nextPart();
         pattern.prevPart();
         Section activeSection = pattern.getActiveSection();
-        Part activePart = pattern.getActivePart();
+        Step activeStep = pattern.getActiveStep();
 
         assertThat(activeSection, is(expectedActiveSection));
-        assertThat(activePart, is(expectedActivePart));
+        assertThat(activeStep, is(expectedActiveStep));
     }
 
     @Test
@@ -211,13 +218,14 @@ public class PatternTest {
                 "2: st 2 in each around (8)\n" +
                 "3-7: st in each (8) Finish. Leave tail for sewing");
         Part expectedActivePart = new Part(expectedActiveSection, "3-7: st in each (8) Finish. Leave tail for sewing");
+        Step expectedActiveStep = new Step(expectedActivePart, "3-7: st in each (8) Finish. Leave tail for sewing");
 
         pattern.nextSection();
         pattern.prevPart();
         Section activeSection = pattern.getActiveSection();
-        Part activePart = pattern.getActivePart();
+        Step activeStep = pattern.getActiveStep();
 
         assertThat(activeSection, is(expectedActiveSection));
-        assertThat(activePart, is(expectedActivePart));
+        assertThat(activeStep, is(expectedActiveStep));
     }
 }
