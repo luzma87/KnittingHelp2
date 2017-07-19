@@ -50,6 +50,7 @@ public class SectionCardView extends CardView {
             int sectionBackgroundColor = ContextCompat.getColor(context, R.color.element_section_default_background);
             int sectionBorderColor = ContextCompat.getColor(context, R.color.element_section_default_border);
             int sectionPadding = context.getResources().getDimensionPixelSize(R.dimen.element_section_padding);
+            int stepMargin = context.getResources().getDimensionPixelSize(R.dimen.element_step_margin);
 
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             inflater.inflate(R.layout.view_section_titled_card, this, true);
@@ -73,7 +74,9 @@ public class SectionCardView extends CardView {
                 step.split();
 
                 FlexboxLayout stepLayout = new FlexboxLayout(context);
-                stepLayout.setLayoutParams(new LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+                LayoutParams layoutParams = new LayoutParams(MATCH_PARENT, WRAP_CONTENT);
+                layoutParams.setMargins(stepMargin, stepMargin, stepMargin, stepMargin);
+                stepLayout.setLayoutParams(layoutParams);
                 GradientDrawable gd = new GradientDrawable();
                 gd.setColor(stepBackgroundColor);
                 gd.setCornerRadius(5);
