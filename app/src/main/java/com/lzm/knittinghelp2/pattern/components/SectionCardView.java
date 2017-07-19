@@ -1,7 +1,6 @@
 package com.lzm.knittinghelp2.pattern.components;
 
 import android.content.Context;
-import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 import com.lzm.knittinghelp2.R;
 import com.lzm.knittinghelp2.Section;
 import com.lzm.knittinghelp2.Step;
+import com.lzm.knittinghelp2.helpers.Utils;
 
 import java.util.List;
 
@@ -52,16 +52,12 @@ public class SectionCardView extends CardView {
 
             LinearLayout stepsLayout = (LinearLayout) layout.getChildAt(1);
             stepsLayout.setPadding(sectionPadding, sectionPadding, sectionPadding, sectionPadding);
-            GradientDrawable gd1 = new GradientDrawable();
-            gd1.setColor(sectionBackgroundColor);
-            gd1.setCornerRadius(5);
-            gd1.setStroke(1, sectionBorderColor);
-            stepsLayout.setBackground(gd1);
+
+            Utils.setBackgroundAndBorder(stepsLayout, sectionBackgroundColor, sectionBorderColor);
 
             List<Step> steps = section.getSteps();
 
             for (Step step : steps) {
-
                 StepFlexboxLayout stepFlexboxLayout = new StepFlexboxLayout(context, step);
                 stepsLayout.addView(stepFlexboxLayout);
             }

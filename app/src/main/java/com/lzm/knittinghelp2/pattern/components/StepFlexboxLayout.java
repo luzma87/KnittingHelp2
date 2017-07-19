@@ -1,7 +1,6 @@
 package com.lzm.knittinghelp2.pattern.components;
 
 import android.content.Context;
-import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 
@@ -9,6 +8,7 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.lzm.knittinghelp2.Part;
 import com.lzm.knittinghelp2.R;
 import com.lzm.knittinghelp2.Step;
+import com.lzm.knittinghelp2.helpers.Utils;
 
 import java.util.List;
 
@@ -44,11 +44,7 @@ public class StepFlexboxLayout extends FlexboxLayout {
         LayoutParams layoutParams = new LayoutParams(MATCH_PARENT, WRAP_CONTENT);
         layoutParams.setMargins(stepMargin, stepMargin, stepMargin, stepMargin);
         this.setLayoutParams(layoutParams);
-        GradientDrawable gd = new GradientDrawable();
-        gd.setColor(stepBackgroundColor);
-        gd.setCornerRadius(5);
-        gd.setStroke(1, stepBorderColor);
-        this.setBackground(gd);
+        Utils.setBackgroundAndBorder(this, stepBackgroundColor, stepBorderColor);
 
         List<Part> parts = step.getParts();
 

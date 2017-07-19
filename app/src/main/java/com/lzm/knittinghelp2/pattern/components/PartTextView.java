@@ -1,7 +1,6 @@
 package com.lzm.knittinghelp2.pattern.components;
 
 import android.content.Context;
-import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.lzm.knittinghelp2.Part;
 import com.lzm.knittinghelp2.R;
+import com.lzm.knittinghelp2.helpers.Utils;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -50,10 +50,7 @@ public class PartTextView extends android.support.v7.widget.AppCompatTextView {
         this.setLayoutParams(layoutParams);
         this.setPadding(padding, padding, padding, padding);
 
-        GradientDrawable gd = new GradientDrawable();
-        gd.setColor(backgroundColor);
-        gd.setCornerRadius(5);
-        gd.setStroke(1, borderColor);
+        Utils.setBackgroundAndBorder(this, backgroundColor, borderColor);
 
         ViewGroup.LayoutParams lp = this.getLayoutParams();
         if (lp instanceof FlexboxLayoutManager.LayoutParams) {
@@ -62,6 +59,5 @@ public class PartTextView extends android.support.v7.widget.AppCompatTextView {
         }
 
         this.setLayoutParams(lp);
-        this.setBackgroundDrawable(gd);
     }
 }
