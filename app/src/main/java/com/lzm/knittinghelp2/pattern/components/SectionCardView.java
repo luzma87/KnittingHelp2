@@ -15,6 +15,9 @@ import com.lzm.knittinghelp2.helpers.Utils;
 
 import java.util.List;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 public class SectionCardView extends CardView {
 
     public SectionCardView(Context context, Section section) {
@@ -45,8 +48,15 @@ public class SectionCardView extends CardView {
             int headerBorderColor = ContextCompat.getColor(context, R.color.element_section_default_header_border);
             int sectionPadding = context.getResources().getDimensionPixelSize(R.dimen.element_section_padding);
 
+            int marginTop = context.getResources().getDimensionPixelSize(R.dimen.element_section_margin_top);
+            int marginLeft = context.getResources().getDimensionPixelSize(R.dimen.element_section_margin_left);
+
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             inflater.inflate(R.layout.view_section_titled_card, this, true);
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT);
+            params.setMargins(marginLeft, marginTop, marginLeft, marginTop);
+            this.setLayoutParams(params);
 
             LinearLayout layout = (LinearLayout) getChildAt(0);
 

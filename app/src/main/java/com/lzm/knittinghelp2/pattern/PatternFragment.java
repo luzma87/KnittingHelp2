@@ -12,7 +12,6 @@ import com.lzm.knittinghelp2.Pattern;
 import com.lzm.knittinghelp2.PatternInserter;
 import com.lzm.knittinghelp2.R;
 import com.lzm.knittinghelp2.Section;
-import com.lzm.knittinghelp2.helpers.Utils;
 import com.lzm.knittinghelp2.pattern.components.SectionCardView;
 
 import java.util.List;
@@ -21,7 +20,6 @@ public class PatternFragment extends Fragment {
     private static final String PATTERN_ID = "patternId";
 
     private Pattern pattern;
-    private MainActivity context;
 
     public PatternFragment() {
     }
@@ -52,25 +50,12 @@ public class PatternFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.pattern_fragment, container, false);
         LinearLayout layout = view.findViewById(R.id.pattern_linear_layout);
-        context = (MainActivity) getActivity();
+        MainActivity context = (MainActivity) getActivity();
 
         List<Section> sections = pattern.getSections();
 
         for (Section section : sections) {
             SectionCardView sectionCardView = new SectionCardView(context, section);
-
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-
-            int dp15 = Utils.dp2px(context, 15);
-            int dp5 = Utils.dp2px(context, 5);
-
-            params.setMargins(dp15, dp5, dp15, dp5);
-
-            sectionCardView.setLayoutParams(params);
-
             layout.addView(sectionCardView);
         }
 
