@@ -53,9 +53,13 @@ public class PatternFragment extends Fragment {
         MainActivity context = (MainActivity) getActivity();
 
         List<Section> sections = pattern.getSections();
+        Section activeSection = pattern.getActiveSection();
 
         for (Section section : sections) {
             SectionCardView sectionCardView = new SectionCardView(context, section);
+            if(activeSection.getOrder() == section.getOrder()) {
+                sectionCardView.setActive(true);
+            }
             layout.addView(sectionCardView);
         }
 

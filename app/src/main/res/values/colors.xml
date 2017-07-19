@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-    <color name="accent">#FE4080</color>
+    <color name="accent">#ff4081</color>
 
     <color name="divider">#BDBDBD</color>
 
@@ -12,6 +12,15 @@
     <color name="element_section_default_header_border">#512DA8</color>
     <color name="element_step_default_background">#FFFFFF</color>
     <color name="element_step_default_border">#6b3b58</color>
+
+    <color name="element_part_active_background">#bdbdbd</color>
+    <color name="element_part_active_border">#FFFFFF</color>
+    <color name="element_section_active_background">#EDE7F6</color>
+    <color name="element_section_active_border">#705230</color>
+    <color name="element_section_active_header_background">#F8BBD0</color>
+    <color name="element_section_active_header_border">#C2185B</color>
+    <color name="element_step_active_background">#757575</color>
+    <color name="element_step_active_border">#6b3b58</color>
 
     <color name="icons">#FFFFFF</color>
 

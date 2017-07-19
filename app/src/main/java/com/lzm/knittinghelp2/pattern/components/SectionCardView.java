@@ -20,32 +20,42 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class SectionCardView extends CardView {
 
+    boolean isActive = false;
+    Context context;
+
     public SectionCardView(Context context, Section section) {
         super(context);
-        initialize(context, section);
+        this.context = context;
+        initialize(section);
     }
 
     public SectionCardView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initialize(context, null);
+        this.context = context;
+        initialize(null);
     }
 
     public SectionCardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initialize(context, null);
+        this.context = context;
+        initialize(null);
     }
 
-    private void initialize(Context context, Section section) {
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    private void initialize(Section section) {
         String titleText;
 
         if (section != null) {
-            titleText = section.getTitle();
+            titleText = section.getTitle() + " [" + section.getOrder() + "]";
 
-            int sectionBackgroundColor = ContextCompat.getColor(context, R.color.element_section_default_background);
-            int sectionBorderColor = ContextCompat.getColor(context, R.color.element_section_default_border);
+            int sectionBackgroundColor = getSectionBackgroundColor();
+            int sectionBorderColor = getSectionBorderColor();
 
-            int headerBackgroundColor = ContextCompat.getColor(context, R.color.element_section_default_header_background);
-            int headerBorderColor = ContextCompat.getColor(context, R.color.element_section_default_header_border);
+            int headerBackgroundColor = getHeaderBackgroundColor();
+            int headerBorderColor = getHeaderBorderColor();
             int sectionPadding = context.getResources().getDimensionPixelSize(R.dimen.element_section_padding);
 
             int marginTop = context.getResources().getDimensionPixelSize(R.dimen.element_section_margin_top);
@@ -77,5 +87,33 @@ public class SectionCardView extends CardView {
                 stepsLayout.addView(partFlexboxLayout);
             }
         }
+    }
+
+    private int getSectionBackgroundColor() {
+        if (isActive) {
+            return ContextCompat.getColor(context, R.color.element_section_active_background);
+        }
+        return ContextCompat.getColor(context, R.color.element_section_default_background);
+    }
+
+    private int getSectionBorderColor() {
+        if (isActive) {
+            return ContextCompat.getColor(context, R.color.element_section_active_border);
+        }
+        return ContextCompat.getColor(context, R.color.element_section_default_border);
+    }
+
+    private int getHeaderBackgroundColor() {
+        if (isActive) {
+            return ContextCompat.getColor(context, R.color.element_section_active_header_background);
+        }
+        return ContextCompat.getColor(context, R.color.element_section_default_header_background);
+    }
+
+    private int getHeaderBorderColor() {
+        if (isActive) {
+            return ContextCompat.getColor(context, R.color.element_section_active_header_border);
+        }
+        return ContextCompat.getColor(context, R.color.element_section_default_header_border);
     }
 }
