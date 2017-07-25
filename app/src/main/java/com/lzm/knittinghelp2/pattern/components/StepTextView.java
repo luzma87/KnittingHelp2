@@ -36,8 +36,8 @@ public class StepTextView extends android.support.v7.widget.AppCompatTextView {
 
     public void setActive(boolean active) {
         isActive = active;
-        int backgroundColor = getBackgroundColor(context);
-        int borderColor = getBorderColor(context);
+        int backgroundColor = getBackgroundColor();
+        int borderColor = getBorderColor();
 
         Utils.setBackgroundAndBorder(this, backgroundColor, borderColor);
     }
@@ -48,8 +48,8 @@ public class StepTextView extends android.support.v7.widget.AppCompatTextView {
 
         String contentText = "CONTENT";
 
-        int backgroundColor = getBackgroundColor(context);
-        int borderColor = getBorderColor(context);
+        int backgroundColor = getBackgroundColor();
+        int borderColor = getBorderColor();
         int padding = context.getResources().getDimensionPixelSize(R.dimen.element_step_padding);
         int margin = context.getResources().getDimensionPixelSize(R.dimen.element_step_margin);
 
@@ -75,14 +75,14 @@ public class StepTextView extends android.support.v7.widget.AppCompatTextView {
         this.setLayoutParams(lp);
     }
 
-    private int getBorderColor(Context context) {
+    private int getBorderColor() {
         if (isActive) {
             return ContextCompat.getColor(context, R.color.element_step_active_border);
         }
         return ContextCompat.getColor(context, R.color.element_step_default_border);
     }
 
-    private int getBackgroundColor(Context context) {
+    private int getBackgroundColor() {
         if (isActive) {
             return ContextCompat.getColor(context, R.color.element_step_active_background);
         }
