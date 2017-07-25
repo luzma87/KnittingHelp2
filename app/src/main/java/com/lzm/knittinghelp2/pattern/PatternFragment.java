@@ -47,25 +47,26 @@ public class PatternFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.pattern_fragment, container, false);
         LinearLayout layout = view.findViewById(R.id.pattern_linear_layout);
         MainActivity context = (MainActivity) getActivity();
 
         List<Section> sections = pattern.getSections();
+        pattern.start();
+        Section activeSection = null;
 
         try {
-            Section activeSection = pattern.getActiveSection();
-            for (Section section : sections) {
-                SectionCardView sectionCardView = new SectionCardView(context, section);
-                if (activeSection.getOrder() == section.getOrder()) {
-                    sectionCardView.setActive(true);
-                }
-                layout.addView(sectionCardView);
-            }
+            activeSection = pattern.getActiveSection();
         } catch (PatternException e) {
             e.printStackTrace();
+        }
+        for (Section section : sections) {
+            SectionCardView sectionCardView = new SectionCardView(context, section);
+            if (activeSection != null && activeSection.getOrder() == section.getOrder()) {
+                sectionCardView.setActive(true);
+            }
+            layout.addView(sectionCardView);
         }
 
         return view;

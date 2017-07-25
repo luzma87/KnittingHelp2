@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.lzm.knittinghelp2.R;
 import com.lzm.knittinghelp2.Section;
 import com.lzm.knittinghelp2.Part;
+import com.lzm.knittinghelp2.exceptions.SectionException;
 import com.lzm.knittinghelp2.helpers.Utils;
 
 import java.util.List;
@@ -48,6 +49,7 @@ public class SectionCardView extends CardView {
         int sectionBorderColor = getSectionBorderColor();
 
         Utils.setBackgroundAndBorder(stepsLayout, sectionBackgroundColor, sectionBorderColor);
+        this.invalidate();
     }
 
     private void initialize(Section section) {
@@ -86,9 +88,18 @@ public class SectionCardView extends CardView {
             Utils.setBackgroundAndBorder(stepsLayout, sectionBackgroundColor, sectionBorderColor);
 
             List<Part> parts = section.getParts();
+            Part activePart = null;
+            try {
+                activePart = section.getActivePart();
+            } catch (SectionException e) {
+                e.printStackTrace();
+            }
 
             for (Part part : parts) {
                 PartFlexboxLayout partFlexboxLayout = new PartFlexboxLayout(context, part);
+                if (isActive && activePart != null && activePart.getOrder() == part.getOrder()) {
+                    partFlexboxLayout.setActive(true);
+                }
                 stepsLayout.addView(partFlexboxLayout);
             }
         }

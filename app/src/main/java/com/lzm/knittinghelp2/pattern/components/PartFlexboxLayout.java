@@ -18,24 +18,38 @@ import static com.google.android.flexbox.FlexWrap.WRAP;
 
 public class PartFlexboxLayout extends FlexboxLayout {
 
+    boolean isActive = false;
+    Context context;
+
     public PartFlexboxLayout(Context context, Part part) {
         super(context);
-        initialize(context, part);
+        this.context = context;
+        initialize(part);
     }
 
     public PartFlexboxLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initialize(context, null);
+        this.context = context;
+        initialize(null);
     }
 
     public PartFlexboxLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initialize(context, null);
+        this.context = context;
+        initialize(null);
     }
 
-    private void initialize(Context context, Part part) {
-        int backgroundColor = ContextCompat.getColor(context, R.color.element_part_default_background);
-        int borderColor = ContextCompat.getColor(context, R.color.element_part_default_border);
+    public void setActive(boolean active) {
+        isActive = active;
+        int backgroundColor = getBackgroundColor();
+        int borderColor = getBorderColor();
+
+        Utils.setBackgroundAndBorder(this, backgroundColor, borderColor);
+    }
+
+    private void initialize(Part part) {
+        int backgroundColor = getBackgroundColor();
+        int borderColor = getBorderColor();
         int padding = context.getResources().getDimensionPixelSize(R.dimen.element_part_padding);
         int margin = context.getResources().getDimensionPixelSize(R.dimen.element_part_margin);
 
@@ -54,5 +68,19 @@ public class PartFlexboxLayout extends FlexboxLayout {
         }
         this.setFlexWrap(WRAP);
         this.setPadding(padding, padding, padding, padding);
+    }
+
+    private int getBackgroundColor() {
+        if (isActive) {
+            return ContextCompat.getColor(context, R.color.element_part_active_background);
+        }
+        return ContextCompat.getColor(context, R.color.element_part_default_background);
+    }
+
+    private int getBorderColor() {
+        if (isActive) {
+            return ContextCompat.getColor(context, R.color.element_part_active_border);
+        }
+        return ContextCompat.getColor(context, R.color.element_part_default_border);
     }
 }
