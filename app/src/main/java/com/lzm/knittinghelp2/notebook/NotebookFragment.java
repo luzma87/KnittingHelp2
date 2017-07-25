@@ -85,13 +85,6 @@ public class NotebookFragment extends Fragment {
         patterns.add(tmntPattern);
         Pattern splinterPattern = PatternInserter.splinterPattern();
         patterns.add(splinterPattern);
-
-//        for (int i = 0; i < 100; i++) {
-//            Pattern pattern = new Pattern(generateRandom(10), "");
-//            patterns.add(pattern);
-//        }
-
-//        Collections.sort(patterns);
     }
 
     @Override

@@ -22,6 +22,7 @@ public class SectionCardView extends CardView {
 
     boolean isActive = false;
     Context context;
+    private LinearLayout stepsLayout;
 
     public SectionCardView(Context context, Section section) {
         super(context);
@@ -43,6 +44,10 @@ public class SectionCardView extends CardView {
 
     public void setActive(boolean active) {
         isActive = active;
+        int sectionBackgroundColor = getSectionBackgroundColor();
+        int sectionBorderColor = getSectionBorderColor();
+
+        Utils.setBackgroundAndBorder(stepsLayout, sectionBackgroundColor, sectionBorderColor);
     }
 
     private void initialize(Section section) {
@@ -75,7 +80,7 @@ public class SectionCardView extends CardView {
             title.setTextColor(headerBorderColor);
             Utils.setBackgroundAndBorder(title, headerBackgroundColor, headerBorderColor);
 
-            LinearLayout stepsLayout = (LinearLayout) layout.getChildAt(1);
+            stepsLayout = (LinearLayout) layout.getChildAt(1);
             stepsLayout.setPadding(sectionPadding, sectionPadding, sectionPadding, sectionPadding);
 
             Utils.setBackgroundAndBorder(stepsLayout, sectionBackgroundColor, sectionBorderColor);
