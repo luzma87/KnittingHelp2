@@ -8,8 +8,10 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.lzm.knittinghelp2.Step;
 import com.lzm.knittinghelp2.R;
 import com.lzm.knittinghelp2.Part;
+import com.lzm.knittinghelp2.exceptions.PartException;
 import com.lzm.knittinghelp2.helpers.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
@@ -20,23 +22,22 @@ public class PartFlexboxLayout extends FlexboxLayout {
 
     boolean isActive = false;
     Context context;
+    Part part;
+    List<StepTextView> stepTextViews;
 
     public PartFlexboxLayout(Context context, Part part) {
         super(context);
-        this.context = context;
-        initialize(part);
+        initialize(context, part);
     }
 
     public PartFlexboxLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
-        initialize(null);
+        initialize(context, null);
     }
 
     public PartFlexboxLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.context = context;
-        initialize(null);
+        initialize(context, null);
     }
 
     public void setActive(boolean active) {
@@ -45,9 +46,25 @@ public class PartFlexboxLayout extends FlexboxLayout {
         int borderColor = getBorderColor();
 
         Utils.setBackgroundAndBorder(this, backgroundColor, borderColor);
+        try {
+            setActiveStep();
+        } catch (PartException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void initialize(Part part) {
+    private void setActiveStep() throws PartException {
+        Step activeStep = part.getActiveStep();
+        int activeIndex = activeStep.getOrder() - 1;
+        StepTextView stepTextView = stepTextViews.get(activeIndex);
+        stepTextView.setActive(true);
+    }
+
+    private void initialize(Context context, Part part) {
+        this.context = context;
+        this.part = part;
+        stepTextViews = new ArrayList<>();
+
         int backgroundColor = getBackgroundColor();
         int borderColor = getBorderColor();
         int padding = context.getResources().getDimensionPixelSize(R.dimen.element_part_padding);
@@ -63,8 +80,9 @@ public class PartFlexboxLayout extends FlexboxLayout {
         List<Step> steps = part.getSteps();
 
         for (Step step : steps) {
-            StepTextView textView = new StepTextView(context, step);
-            this.addView(textView);
+            StepTextView stepTextView = new StepTextView(context, step);
+            stepTextViews.add(stepTextView);
+            this.addView(stepTextView);
         }
         this.setFlexWrap(WRAP);
         this.setPadding(padding, padding, padding, padding);

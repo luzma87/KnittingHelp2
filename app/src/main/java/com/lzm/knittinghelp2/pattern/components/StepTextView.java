@@ -15,6 +15,9 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class StepTextView extends android.support.v7.widget.AppCompatTextView {
 
+    boolean isActive = false;
+    Context context;
+    Step step;
 
     public StepTextView(Context context, Step step) {
         super(context);
@@ -31,11 +34,22 @@ public class StepTextView extends android.support.v7.widget.AppCompatTextView {
         initialize(context, null);
     }
 
+    public void setActive(boolean active) {
+        isActive = active;
+        int backgroundColor = getBackgroundColor(context);
+        int borderColor = getBorderColor(context);
+
+        Utils.setBackgroundAndBorder(this, backgroundColor, borderColor);
+    }
+
     private void initialize(Context context, Step step) {
+        this.context = context;
+        this.step = step;
+
         String contentText = "CONTENT";
 
-        int backgroundColor = ContextCompat.getColor(context, R.color.element_step_default_background);
-        int borderColor = ContextCompat.getColor(context, R.color.element_step_default_border);
+        int backgroundColor = getBackgroundColor(context);
+        int borderColor = getBorderColor(context);
         int padding = context.getResources().getDimensionPixelSize(R.dimen.element_step_padding);
         int margin = context.getResources().getDimensionPixelSize(R.dimen.element_step_margin);
 
@@ -59,5 +73,19 @@ public class StepTextView extends android.support.v7.widget.AppCompatTextView {
         }
 
         this.setLayoutParams(lp);
+    }
+
+    private int getBorderColor(Context context) {
+        if (isActive) {
+            return ContextCompat.getColor(context, R.color.element_step_active_border);
+        }
+        return ContextCompat.getColor(context, R.color.element_step_default_border);
+    }
+
+    private int getBackgroundColor(Context context) {
+        if (isActive) {
+            return ContextCompat.getColor(context, R.color.element_step_active_background);
+        }
+        return ContextCompat.getColor(context, R.color.element_step_default_background);
     }
 }

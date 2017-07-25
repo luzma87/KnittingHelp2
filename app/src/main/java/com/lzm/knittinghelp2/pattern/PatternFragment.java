@@ -80,7 +80,6 @@ public class PatternFragment extends Fragment {
 
     private void setActiveSection() throws PatternException {
         Section activeSection = pattern.getActiveSection();
-
         int activeIndex = activeSection.getOrder() - 1;
         SectionCardView activeSectionCardView = sectionCardViews.get(activeIndex);
         activeSectionCardView.setActive(true);
