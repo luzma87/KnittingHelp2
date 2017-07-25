@@ -14,6 +14,7 @@ import com.lzm.knittinghelp2.Part;
 import com.lzm.knittinghelp2.exceptions.SectionException;
 import com.lzm.knittinghelp2.helpers.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
@@ -24,23 +25,22 @@ public class SectionCardView extends CardView {
     boolean isActive = false;
     Context context;
     private LinearLayout stepsLayout;
+    private Section section;
+    List<PartFlexboxLayout> partFlexboxLayouts;
 
     public SectionCardView(Context context, Section section) {
         super(context);
-        this.context = context;
-        initialize(section);
+        initialize(context, section);
     }
 
     public SectionCardView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
-        initialize(null);
+        initialize(context, null);
     }
 
     public SectionCardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.context = context;
-        initialize(null);
+        initialize(context, null);
     }
 
     public void setActive(boolean active) {
@@ -49,10 +49,26 @@ public class SectionCardView extends CardView {
         int sectionBorderColor = getSectionBorderColor();
 
         Utils.setBackgroundAndBorder(stepsLayout, sectionBackgroundColor, sectionBorderColor);
-        this.invalidate();
+        try {
+            setActivePart();
+        } catch (SectionException e) {
+             e.printStackTrace();
+        }
     }
 
-    private void initialize(Section section) {
+    private void setActivePart() throws SectionException {
+        Part activePart = section.getActivePart();
+        int activeIndex = activePart.getOrder() - 1;
+        PartFlexboxLayout partFlexboxLayout = partFlexboxLayouts.get(activeIndex);
+        partFlexboxLayout.setActive(true);
+    }
+
+    private void initialize(Context context, Section section) {
+        this.context = context;
+        this.section = section;
+
+        partFlexboxLayouts = new ArrayList<>();
+
         String titleText;
 
         if (section != null) {
@@ -88,18 +104,10 @@ public class SectionCardView extends CardView {
             Utils.setBackgroundAndBorder(stepsLayout, sectionBackgroundColor, sectionBorderColor);
 
             List<Part> parts = section.getParts();
-            Part activePart = null;
-            try {
-                activePart = section.getActivePart();
-            } catch (SectionException e) {
-                e.printStackTrace();
-            }
 
             for (Part part : parts) {
                 PartFlexboxLayout partFlexboxLayout = new PartFlexboxLayout(context, part);
-                if (isActive && activePart != null && activePart.getOrder() == part.getOrder()) {
-                    partFlexboxLayout.setActive(true);
-                }
+                partFlexboxLayouts.add(partFlexboxLayout);
                 stepsLayout.addView(partFlexboxLayout);
             }
         }

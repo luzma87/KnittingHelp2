@@ -15,12 +15,15 @@ import com.lzm.knittinghelp2.Section;
 import com.lzm.knittinghelp2.exceptions.PatternException;
 import com.lzm.knittinghelp2.pattern.components.SectionCardView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PatternFragment extends Fragment {
     private static final String PATTERN_ID = "patternId";
 
     private Pattern pattern;
+
+    List<SectionCardView> sectionCardViews;
 
     public PatternFragment() {
     }
@@ -38,6 +41,7 @@ public class PatternFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             long patternId = getArguments().getLong(PATTERN_ID);
+            sectionCardViews = new ArrayList<>();
             if (patternId == 1) {
                 pattern = PatternInserter.tmntPattern();
             } else if (patternId == 2) {
@@ -53,22 +57,33 @@ public class PatternFragment extends Fragment {
         MainActivity context = (MainActivity) getActivity();
 
         List<Section> sections = pattern.getSections();
-        pattern.start();
-        Section activeSection = null;
 
-        try {
-            activeSection = pattern.getActiveSection();
-        } catch (PatternException e) {
-            e.printStackTrace();
-        }
         for (Section section : sections) {
             SectionCardView sectionCardView = new SectionCardView(context, section);
-            if (activeSection != null && activeSection.getOrder() == section.getOrder()) {
-                sectionCardView.setActive(true);
-            }
+            sectionCardViews.add(sectionCardView);
             layout.addView(sectionCardView);
         }
 
+        start();
+
         return view;
     }
+
+    private void start() {
+        pattern.start();
+        try {
+            setActiveSection();
+        } catch (PatternException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setActiveSection() throws PatternException {
+        Section activeSection = pattern.getActiveSection();
+
+        int activeIndex = activeSection.getOrder() - 1;
+        SectionCardView activeSectionCardView = sectionCardViews.get(activeIndex);
+        activeSectionCardView.setActive(true);
+    }
+
 }
