@@ -1,5 +1,6 @@
 package com.lzm.knittinghelp2;
 
+import com.lzm.knittinghelp2.exceptions.PatternException;
 import com.lzm.knittinghelp2.exceptions.SectionException;
 
 import org.junit.Before;
@@ -10,6 +11,7 @@ import org.junit.rules.ExpectedException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -41,6 +43,34 @@ public class PatternTest {
     }
 
     @Test
+    public void getActiveSectionShouldThrowExceptionWhenNotInitialized() throws Exception {
+        assertThat(pattern.getName(), is("TMNT"));
+        assertThat(pattern.getContent(), is(description));
+
+        List<Section> sections = pattern.getSections();
+        assertThat(sections.size(), is(2));
+
+        expectedException.expect(PatternException.class);
+        expectedException.expectMessage("Pattern not initialized!");
+
+        pattern.getActiveSection();
+    }
+
+    @Test
+    public void getActiveStepShouldThrowExceptionWhenNotInitialized() throws Exception {
+        assertThat(pattern.getName(), is("TMNT"));
+        assertThat(pattern.getContent(), is(description));
+
+        List<Section> sections = pattern.getSections();
+        assertThat(sections.size(), is(2));
+
+        expectedException.expect(PatternException.class);
+        expectedException.expectMessage("Pattern not initialized!");
+
+        pattern.getActiveStep();
+    }
+
+    @Test
     public void shouldCreatePatternWithTitleAndSectionsAndSetFirstStepFromFirstSectionActive() throws Exception {
         Section expectedActiveSection = new Section(pattern, "LEGS (make 2)\n" +
                 "1: st 4 in magic ring (4)\n" +
@@ -51,6 +81,8 @@ public class PatternTest {
 
         assertThat(pattern.getName(), is("TMNT"));
         assertThat(pattern.getContent(), is(description));
+
+        pattern.start();
 
         List<Section> sections = pattern.getSections();
         assertThat(sections.size(), is(2));
@@ -91,6 +123,14 @@ public class PatternTest {
     }
 
     @Test
+    public void nextPartShouldthrowExceptionWhenNotInitialized() throws Exception {
+        expectedException.expect(PatternException.class);
+        expectedException.expectMessage("Pattern not initialized!");
+
+        pattern.nextPart();
+    }
+
+    @Test
     public void nextPartShouldSetNextPartFromActiveSectionAsActive() throws Exception {
         Section expectedActiveSection = new Section(pattern, "LEGS (make 2)\n" +
                 "1: st 4 in magic ring (4)\n" +
@@ -98,6 +138,8 @@ public class PatternTest {
                 "3-7: st in each (8) Finish. Leave tail for sewing");
         Part expectedActivePart = new Part(expectedActiveSection, "2: st 2 in each around (8)");
         Step expectedActiveStep = new Step(expectedActivePart, "2: st 2 in each around (8)");
+
+        pattern.start();
 
         pattern.nextPart();
         Section activeSection = pattern.getActiveSection();
@@ -117,6 +159,7 @@ public class PatternTest {
         Part expectedActivePart = new Part(expectedActiveSection, "1: st 4 in magic ring (4)");
         Step expectedActiveStep = new Step(expectedActivePart, "1: st 4 in magic ring (4)");
 
+        pattern.start();
         pattern.nextSection();
         Section activeSection = pattern.getActiveSection();
         Step activeStep = pattern.getActiveStep();
@@ -135,7 +178,15 @@ public class PatternTest {
     }
 
     @Test
+    public void prevSectionShouldThrowExceptionWhenNotInitialized() throws Exception {
+        expectedException.expect(PatternException.class);
+        expectedException.expectMessage("Pattern not initialized!");
+        pattern.prevSection();
+    }
+
+    @Test
     public void prevSectionShouldThrowExceptionWhenGoingBefore0() throws Exception {
+        pattern.start();
         expectedException.expect(SectionException.class);
         expectedException.expectMessage("Prev section not found");
         pattern.prevSection();
@@ -143,6 +194,7 @@ public class PatternTest {
 
     @Test
     public void prevSectionShouldSetPrevSectionAsActiveAndStartIt() throws Exception {
+        pattern.start();
         Section expectedActiveSection = new Section(pattern, "LEGS (make 2)\n" +
                 "1: st 4 in magic ring (4)\n" +
                 "2: st 2 in each around (8)\n" +
@@ -169,6 +221,7 @@ public class PatternTest {
         Part expectedActivePart = new Part(expectedActiveSection, "1: st 4 in magic ring (4)");
         Step expectedActiveStep = new Step(expectedActivePart, "1: st 4 in magic ring (4)");
 
+        pattern.start();
         pattern.nextPart();
         pattern.nextPart();
         pattern.nextPart();
@@ -208,6 +261,7 @@ public class PatternTest {
         Part expectedActivePart = new Part(expectedActiveSection, "2: st 2 in each around (8)");
         Step expectedActiveStep = new Step(expectedActivePart, "2: st 2 in each around (8)");
 
+        pattern.start();
         pattern.nextPart();
         pattern.nextPart();
         pattern.prevPart();
@@ -227,6 +281,7 @@ public class PatternTest {
         Part expectedActivePart = new Part(expectedActiveSection, "3-7: st in each (8) Finish. Leave tail for sewing");
         Step expectedActiveStep = new Step(expectedActivePart, "3-7: st in each (8) Finish. Leave tail for sewing");
 
+        pattern.start();
         pattern.nextSection();
         pattern.prevPart();
         Section activeSection = pattern.getActiveSection();

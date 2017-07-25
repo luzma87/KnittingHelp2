@@ -25,6 +25,22 @@ public class Step {
         return part;
     }
 
+    public String toString() {
+        return content;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public long getId() {
+        return id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -47,21 +63,5 @@ public class Step {
         int result = content != null ? content.hashCode() : 0;
         result = 31 * result + (part != null ? part.hashCode() : 0);
         return result;
-    }
-
-    public String toString() {
-        return content;
-    }
-
-    public int getOrder() {
-        return order;
-    }
-
-    public void setOrder(int order) {
-        this.order = order;
-    }
-
-    public long getId() {
-        return id;
     }
 }

@@ -1,6 +1,7 @@
 package com.lzm.knittinghelp2;
 
 import com.lzm.knittinghelp2.exceptions.PartException;
+import com.lzm.knittinghelp2.exceptions.PatternException;
 import com.lzm.knittinghelp2.exceptions.SectionException;
 import com.lzm.knittinghelp2.exceptions.StepException;
 
@@ -20,7 +21,7 @@ public class Pattern implements Comparable<Pattern> {
         this.id = id;
         this.name = name;
         this.content = content;
-        this.activeSectionIndex = 0;
+        this.activeSectionIndex = -1;
         sections = new ArrayList<>();
 
         String[] parts = content.split("\n\n");
@@ -49,19 +50,31 @@ public class Pattern implements Comparable<Pattern> {
         return content;
     }
 
-    public void first() {
-        activeSectionIndex = 0;
+    public void start() {
+        first();
     }
 
-    public Section getActiveSection() {
+    public void first()  {
+        activeSectionIndex = 0;
+        try {
+            getActiveSection().start();
+        } catch (PatternException ignored) {
+        }
+    }
+
+    public Section getActiveSection() throws PatternException {
+        checkInitialized();
         return sections.get(activeSectionIndex);
     }
 
-    public Step getActiveStep() throws PartException {
+    public Step getActiveStep() throws PartException, SectionException, PatternException {
+        checkInitialized();
         return getActiveSection().getActiveStep();
     }
 
-    public void nextPart() throws SectionException {
+    public void nextPart() throws SectionException, PatternException {
+        checkInitialized();
+
         try {
             getActiveSection().next();
         } catch (StepException e) {
@@ -69,7 +82,9 @@ public class Pattern implements Comparable<Pattern> {
         }
     }
 
-    public void prevPart() throws SectionException {
+    public void prevPart() throws SectionException, PatternException {
+        checkInitialized();
+
         try {
             getActiveSection().prev();
         } catch (StepException e) {
@@ -78,26 +93,35 @@ public class Pattern implements Comparable<Pattern> {
         }
     }
 
-    public void nextSection() throws SectionException {
+    public void nextSection() throws SectionException, PatternException {
         if (activeSectionIndex == sections.size() - 1) {
             throw new SectionException("Next section not found");
         }
         activeSectionIndex += 1;
+        getActiveSection().start();
     }
 
-    public void prevSection() throws SectionException {
+    public void prevSection() throws SectionException, PatternException {
+        checkInitialized();
+
         if (activeSectionIndex == 0) {
             throw new SectionException("Prev section not found");
         }
         activeSectionIndex -= 1;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    private void checkInitialized() throws PatternException {
+        if (activeSectionIndex == -1) {
+            throw new PatternException("Pattern not initialized!");
+        }
+    }
+
     @Override
     public int compareTo(Pattern pattern) {
         return this.getName().compareTo(pattern.getName());
-    }
-
-    public long getId() {
-        return id;
     }
 }

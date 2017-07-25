@@ -12,6 +12,7 @@ import com.lzm.knittinghelp2.Pattern;
 import com.lzm.knittinghelp2.PatternInserter;
 import com.lzm.knittinghelp2.R;
 import com.lzm.knittinghelp2.Section;
+import com.lzm.knittinghelp2.exceptions.PatternException;
 import com.lzm.knittinghelp2.pattern.components.SectionCardView;
 
 import java.util.List;
@@ -53,14 +54,18 @@ public class PatternFragment extends Fragment {
         MainActivity context = (MainActivity) getActivity();
 
         List<Section> sections = pattern.getSections();
-        Section activeSection = pattern.getActiveSection();
 
-        for (Section section : sections) {
-            SectionCardView sectionCardView = new SectionCardView(context, section);
-            if(activeSection.getOrder() == section.getOrder()) {
-                sectionCardView.setActive(true);
+        try {
+            Section activeSection = pattern.getActiveSection();
+            for (Section section : sections) {
+                SectionCardView sectionCardView = new SectionCardView(context, section);
+                if (activeSection.getOrder() == section.getOrder()) {
+                    sectionCardView.setActive(true);
+                }
+                layout.addView(sectionCardView);
             }
-            layout.addView(sectionCardView);
+        } catch (PatternException e) {
+            e.printStackTrace();
         }
 
         return view;

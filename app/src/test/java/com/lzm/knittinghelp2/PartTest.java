@@ -1,6 +1,7 @@
 package com.lzm.knittinghelp2;
 
 import com.lzm.knittinghelp2.exceptions.PartException;
+import com.lzm.knittinghelp2.exceptions.StepException;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -10,6 +11,7 @@ import org.junit.rules.ExpectedException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class PartTest {
@@ -36,9 +38,38 @@ public class PartTest {
     }
 
     @Test
-    public void splitShouldSplitOnCommaByDefaultAndSetFirstPartAsActive() throws Exception {
+    public void splitShouldSplitOnCommaByDefaultAndNotSetFirstPartAsActive() throws Exception {
+        part.split();
+
+        List<Step> steps = part.getSteps();
+        assertThat(steps.size(), is(5));
+        assertThat(steps.get(0).getOrder(), is(1));
+        assertThat(steps.get(0).getContent(), is("3: st in first,"));
+        assertThat(steps.get(0).getPart(), is(part));
+        assertThat(steps.get(1).getOrder(), is(2));
+        assertThat(steps.get(1).getContent(), is("st 3 in next,"));
+        assertThat(steps.get(1).getPart(), is(part));
+        assertThat(steps.get(2).getOrder(), is(3));
+        assertThat(steps.get(2).getContent(), is("st in next 2,"));
+        assertThat(steps.get(2).getPart(), is(part));
+        assertThat(steps.get(3).getOrder(), is(4));
+        assertThat(steps.get(3).getContent(), is("st 3 in next,"));
+        assertThat(steps.get(3).getPart(), is(part));
+        assertThat(steps.get(4).getOrder(), is(5));
+        assertThat(steps.get(4).getContent(), is("st in next 2 (16)"));
+        assertThat(steps.get(4).getPart(), is(part));
+
+        expectedException.expect(PartException.class);
+        expectedException.expectMessage("Part not initialized!");
+
+        part.getActiveStep();
+    }
+
+    @Test
+    public void startShouldSetFirstPartAsActive() throws Exception {
         Step expectedStep = new Step(part, "3: st in first,");
         part.split();
+        part.start();
 
         List<Step> steps = part.getSteps();
         assertThat(steps.size(), is(5));
@@ -78,13 +109,15 @@ public class PartTest {
 
     @Test
     public void nextShouldThrowExceptionByDefault() throws Exception {
-        expectedException.expect(PartException.class);
-        expectedException.expectMessage("No parts found");
+        part.start();
+        expectedException.expect(StepException.class);
+        expectedException.expectMessage("No steps found");
         part.next();
     }
 
     @Test
     public void nextShouldSetNextPartAsActiveWhenSplit() throws Exception {
+        part.start();
         Step expectedStep = new Step(part, "st 3 in next,");
         part.split();
         part.next();
@@ -92,9 +125,17 @@ public class PartTest {
     }
 
     @Test
-    public void nextShouldThrowExceptionWhenPastNumberOfParts() throws Exception {
+    public void nextShouldThrowExceptionWhenNotInitialized() throws Exception {
         expectedException.expect(PartException.class);
-        expectedException.expectMessage("Next part not found");
+        expectedException.expectMessage("Part not initialized!");
+        part.next();
+    }
+
+    @Test
+    public void nextShouldThrowExceptionWhenPastNumberOfParts() throws Exception {
+        part.start();
+        expectedException.expect(StepException.class);
+        expectedException.expectMessage("Next step not found");
         part.split();
         part.next();
         part.next();
@@ -104,22 +145,32 @@ public class PartTest {
     }
 
     @Test
-    public void prevShouldThrowExceptionByDefault() throws Exception {
+    public void prevShouldThrowExceptionWhenNotInitialized() throws Exception {
         expectedException.expect(PartException.class);
-        expectedException.expectMessage("No parts found");
+        expectedException.expectMessage("Part not initialized!");
+        part.prev();
+    }
+
+    @Test
+    public void prevShouldThrowExceptionByDefault() throws Exception {
+        part.start();
+        expectedException.expect(StepException.class);
+        expectedException.expectMessage("No steps found");
         part.prev();
     }
 
     @Test
     public void prevShouldThrowExceptionWhenGoingBefore0() throws Exception {
-        expectedException.expect(PartException.class);
-        expectedException.expectMessage("Prev part not found");
+        part.start();
+        expectedException.expect(StepException.class);
+        expectedException.expectMessage("Prev step not found");
         part.split();
         part.prev();
     }
 
     @Test
     public void prevShouldSetPreviousPartAsActive() throws Exception {
+        part.start();
         Step expectedStep = new Step(part, "st 3 in next,");
         part.split();
         part.next();
@@ -130,6 +181,7 @@ public class PartTest {
 
     @Test
     public void firstShouldSetFirstPartAsActive() throws Exception {
+        part.start();
         Step expectedStep = new Step(part, "3: st in first,");
         part.split();
         part.next();

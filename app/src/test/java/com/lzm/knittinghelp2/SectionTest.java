@@ -1,6 +1,7 @@
 package com.lzm.knittinghelp2;
 
 
+import com.lzm.knittinghelp2.exceptions.SectionException;
 import com.lzm.knittinghelp2.exceptions.StepException;
 
 import org.junit.Before;
@@ -11,6 +12,7 @@ import org.junit.rules.ExpectedException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class SectionTest {
@@ -33,7 +35,36 @@ public class SectionTest {
     }
 
     @Test
+    public void shouldBeCreatedFromStringAndNotSetFirstStepAsActive() throws Exception {
+        assertThat(section.getContent(), is(description));
+        assertThat(section.getTitle(), is("BELLY PLATE"));
+        List<Part> parts = section.getParts();
+        assertThat(parts.size(), is(5));
+        assertThat(parts.get(0).getOrder(), is(1));
+        assertThat(parts.get(0).getContent(), is("1: ch 5, wait"));
+        assertThat(parts.get(0).getSection(), is(section));
+        assertThat(parts.get(1).getOrder(), is(2));
+        assertThat(parts.get(1).getContent(), is("2: st in 2nd from hook, st in next 2, st 3 in next. Continue on the other side of the ch, st in next 2, st 2 in next (10)"));
+        assertThat(parts.get(1).getSection(), is(section));
+        assertThat(parts.get(2).getOrder(), is(3));
+        assertThat(parts.get(2).getContent(), is("3: st 2 in first, st in next 2, st 2 in next 3, st in next 2, st 2 in next 2 (16)"));
+        assertThat(parts.get(2).getSection(), is(section));
+        assertThat(parts.get(3).getOrder(), is(4));
+        assertThat(parts.get(3).getContent(), is("4: st 2 in first, st in next 4, st 2 in next, st in next 2, st 2 in next, st in next 4, st 2 in next, st in next 2 (20)"));
+        assertThat(parts.get(3).getSection(), is(section));
+        assertThat(parts.get(4).getOrder(), is(5));
+        assertThat(parts.get(4).getContent(), is("5: st 2 in first, st in next 6, st 3 in next, st in next 3, st 3 in next, st in next 7, st 3 in next, sl st, finish. Leave tail for sewing (27)"));
+        assertThat(parts.get(4).getSection(), is(section));
+
+        expectedException.expect(SectionException.class);
+        expectedException.expectMessage("Section not initialized!");
+
+        section.getActivePart();
+    }
+
+    @Test
     public void shouldBeCreatedFromStringAndSetFirstStepAsActive() throws Exception {
+        section.start();
         Part expectedActivePart = new Part(section, "1: ch 5, wait");
         assertThat(section.getContent(), is(description));
         assertThat(section.getTitle(), is("BELLY PLATE"));
@@ -62,6 +93,7 @@ public class SectionTest {
     @Test
     public void firstShouldSetFirstStepAsActive() throws Exception {
         Part expectedActivePart = new Part(section, "1: ch 5, wait");
+        section.start();
         section.next();
         section.next();
         section.first();
@@ -75,6 +107,7 @@ public class SectionTest {
         Part expectedActivePart = new Part(section, "1: ch 5, wait");
         Step expectedActiveStep = new Step(expectedActivePart, "1: ch 5,");
         section.getParts().get(0).split();
+        section.start();
         section.next();
         section.next();
         section.first();
@@ -110,6 +143,7 @@ public class SectionTest {
     @Test
     public void nextShouldSetNextStepAsActive() throws Exception {
         Part expectedActivePart = new Part(section, "2: st in 2nd from hook, st in next 2, st 3 in next. Continue on the other side of the ch, st in next 2, st 2 in next (10)");
+        section.start();
         section.next();
 
         Part activePart = section.getActivePart();
@@ -128,6 +162,8 @@ public class SectionTest {
         Step expectedActiveStep = new Step(expectedActivePart, "1: ch 5,");
 
         section.getParts().get(0).split();
+
+        section.start();
 
         Part activePart = section.getActivePart();
         Step activeStep = section.getActiveStep();
@@ -151,6 +187,7 @@ public class SectionTest {
         section.getParts().get(0).split();
         section.getParts().get(1).split();
 
+        section.start();
         section.next();
         section.next();
 
@@ -175,6 +212,7 @@ public class SectionTest {
 
         section.getParts().get(0).split();
 
+        section.start();
         section.next();
         section.prev();
 
@@ -186,7 +224,15 @@ public class SectionTest {
     }
 
     @Test
+    public void nextShouldThrowExceptionWhenNotInitialized() throws Exception {
+        expectedException.expect(SectionException.class);
+        expectedException.expectMessage("Section not initialized!");
+        section.next();
+    }
+
+    @Test
     public void nextShouldThrowExceptionWhenPastNumberOfSteps() throws Exception {
+        section.start();
         expectedException.expect(StepException.class);
         expectedException.expectMessage("Next step not found");
         section.next();
@@ -197,7 +243,15 @@ public class SectionTest {
     }
 
     @Test
+    public void prevShouldThrowExceptionWhenNotInitialized() throws Exception {
+        expectedException.expect(SectionException.class);
+        expectedException.expectMessage("Section not initialized!");
+        section.prev();
+    }
+
+    @Test
     public void prevShouldThrowExceptionWhenGoingBefore0() throws Exception {
+        section.start();
         expectedException.expect(StepException.class);
         expectedException.expectMessage("Prev step not found");
         section.prev();
@@ -206,6 +260,7 @@ public class SectionTest {
     @Test
     public void prevShouldSetPreviousStepAsActive() throws Exception {
         Part expectedActivePart = new Part(section, "2: st in 2nd from hook, st in next 2, st 3 in next. Continue on the other side of the ch, st in next 2, st 2 in next (10)");
+        section.start();
         section.next();
         section.next();
         section.prev();

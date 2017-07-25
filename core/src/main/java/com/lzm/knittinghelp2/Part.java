@@ -1,6 +1,7 @@
 package com.lzm.knittinghelp2;
 
 import com.lzm.knittinghelp2.exceptions.PartException;
+import com.lzm.knittinghelp2.exceptions.StepException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class Part {
         step.setOrder(1);
         steps.add(step);
         this.separator = ",";
-        this.activeStepIndex = 0;
+        this.activeStepIndex = -1;
     }
 
     public Part(Section section, String content) {
@@ -77,28 +78,64 @@ public class Part {
         this.separator = separator;
     }
 
-    public void next() throws PartException {
+    public void next() throws PartException, StepException {
+        checkInitialized();
+
         if (steps.size() == 1) {
-            throw new PartException("No parts found");
+            throw new StepException("No steps found");
         }
         if (activeStepIndex == steps.size() - 1) {
-            throw new PartException("Next part not found");
+            throw new StepException("Next step not found");
         }
         activeStepIndex += 1;
     }
 
-    public void prev() throws PartException {
+    public void prev() throws PartException, StepException {
+        checkInitialized();
+
         if (steps.size() == 1) {
-            throw new PartException("No parts found");
+            throw new StepException("No steps found");
         }
         if (activeStepIndex == 0) {
-            throw new PartException("Prev part not found");
+            throw new StepException("Prev step not found");
         }
         activeStepIndex -= 1;
     }
 
     public Step getActiveStep() throws PartException {
+        checkInitialized();
+
         return steps.get(activeStepIndex);
+    }
+
+    private void checkInitialized() throws PartException {
+        if (activeStepIndex == -1) {
+            throw new PartException("Part not initialized!");
+        }
+    }
+
+    public void start() {
+        first();
+    }
+
+    public void first() {
+        activeStepIndex = 0;
+    }
+
+    public void last() {
+        activeStepIndex = steps.size() - 1;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public long getId() {
+        return id;
     }
 
     @Override
@@ -124,25 +161,5 @@ public class Part {
         int result = content.hashCode();
         result = 31 * result + (section != null ? section.hashCode() : 0);
         return result;
-    }
-
-    public void first() {
-        activeStepIndex = 0;
-    }
-
-    public void last() {
-        activeStepIndex = steps.size() - 1;
-    }
-
-    public int getOrder() {
-        return order;
-    }
-
-    public void setOrder(int order) {
-        this.order = order;
-    }
-
-    public long getId() {
-        return id;
     }
 }

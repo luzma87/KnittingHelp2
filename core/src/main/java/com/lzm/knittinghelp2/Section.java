@@ -1,6 +1,7 @@
 package com.lzm.knittinghelp2;
 
 import com.lzm.knittinghelp2.exceptions.PartException;
+import com.lzm.knittinghelp2.exceptions.SectionException;
 import com.lzm.knittinghelp2.exceptions.StepException;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class Section {
         this.id = id;
         this.pattern = pattern;
         this.content = content;
-        this.activePartIndex = 0;
+        this.activePartIndex = -1;
         parts = new ArrayList<>();
         String[] parts = content.split("\n");
         boolean isFirstLine = true;
@@ -64,31 +65,44 @@ public class Section {
         return title;
     }
 
-    public void first() {
-        activePartIndex = 0;
-        getActivePart().first();
+    public void start() {
+        first();
     }
 
-    public void last() {
+    public void first() {
+        activePartIndex = 0;
+        try {
+            getActivePart().start();
+        } catch (SectionException ignored) {
+
+        }
+    }
+
+    public void last() throws SectionException {
         activePartIndex = parts.size() - 1;
         getActivePart().last();
     }
 
-    public void next() throws StepException {
+    public void next() throws SectionException, StepException {
+        checkInitialized();
+
         try {
             getActivePart().next();
-        } catch (PartException e) {
+        } catch (PartException | StepException e) {
             if (activePartIndex == parts.size() - 1) {
                 throw new StepException("Next step not found");
             }
             activePartIndex += 1;
+            getActivePart().start();
         }
     }
 
-    public void prev() throws StepException {
+    public void prev() throws StepException, SectionException {
+        checkInitialized();
+
         try {
             getActivePart().prev();
-        } catch (PartException e) {
+        } catch (PartException | StepException e) {
             if (activePartIndex == 0) {
                 throw new StepException("Prev step not found");
             }
@@ -96,8 +110,16 @@ public class Section {
         }
     }
 
-    public Part getActivePart() {
+    public Part getActivePart() throws SectionException {
+        checkInitialized();
+
         return parts.get(activePartIndex);
+    }
+
+    private void checkInitialized() throws SectionException {
+        if (activePartIndex == -1) {
+            throw new SectionException("Section not initialized!");
+        }
     }
 
     @Override
@@ -129,7 +151,7 @@ public class Section {
         return result;
     }
 
-    public Step getActiveStep() throws PartException {
+    public Step getActiveStep() throws PartException, SectionException {
         return getActivePart().getActiveStep();
     }
 
