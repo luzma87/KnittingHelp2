@@ -15,9 +15,9 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class StepTextView extends android.support.v7.widget.AppCompatTextView {
 
-    boolean isActive = false;
-    Context context;
-    Step step;
+    private boolean isActive = false;
+    private Context context;
+    private Step step;
 
     public StepTextView(Context context, Step step) {
         super(context);
@@ -38,7 +38,6 @@ public class StepTextView extends android.support.v7.widget.AppCompatTextView {
         isActive = active;
         int backgroundColor = getBackgroundColor();
         int borderColor = getBorderColor();
-
         Utils.setBackgroundAndBorder(this, backgroundColor, borderColor);
     }
 

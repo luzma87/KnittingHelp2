@@ -22,11 +22,11 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class SectionCardView extends CardView {
 
-    boolean isActive = false;
-    Context context;
+    private boolean isActive = false;
+    private Context context;
     private LinearLayout stepsLayout;
     private Section section;
-    List<PartFlexboxLayout> partFlexboxLayouts;
+    private List<PartFlexboxLayout> partFlexboxLayouts;
 
     public SectionCardView(Context context, Section section) {
         super(context);
@@ -49,14 +49,21 @@ public class SectionCardView extends CardView {
         int sectionBorderColor = getSectionBorderColor();
 
         Utils.setBackgroundAndBorder(stepsLayout, sectionBackgroundColor, sectionBorderColor);
+        for (PartFlexboxLayout partFlexboxLayout : partFlexboxLayouts) {
+            partFlexboxLayout.setActive(false);
+        }
         try {
             setActivePart();
         } catch (SectionException e) {
-             e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
     private void setActivePart() throws SectionException {
+        for (PartFlexboxLayout partFlexboxLayout : partFlexboxLayouts) {
+            partFlexboxLayout.setActive(false);
+        }
+
         Part activePart = section.getActivePart();
         int activeIndex = activePart.getOrder() - 1;
         PartFlexboxLayout partFlexboxLayout = partFlexboxLayouts.get(activeIndex);
@@ -72,7 +79,7 @@ public class SectionCardView extends CardView {
         String titleText;
 
         if (section != null) {
-            titleText = section.getTitle() + " [" + section.getOrder() + "]";
+            titleText = "[" + section.getOrder() + "] " + section.getTitle();
 
             int sectionBackgroundColor = getSectionBackgroundColor();
             int sectionBorderColor = getSectionBorderColor();

@@ -20,10 +20,10 @@ import static com.google.android.flexbox.FlexWrap.WRAP;
 
 public class PartFlexboxLayout extends FlexboxLayout {
 
-    boolean isActive = false;
-    Context context;
-    Part part;
-    List<StepTextView> stepTextViews;
+    private boolean isActive = false;
+    private Context context;
+    private Part part;
+    private List<StepTextView> stepTextViews;
 
     public PartFlexboxLayout(Context context, Part part) {
         super(context);
@@ -46,6 +46,9 @@ public class PartFlexboxLayout extends FlexboxLayout {
         int borderColor = getBorderColor();
 
         Utils.setBackgroundAndBorder(this, backgroundColor, borderColor);
+        for (StepTextView stepTextView : stepTextViews) {
+            stepTextView.setActive(false);
+        }
         try {
             setActiveStep();
         } catch (PartException e) {
@@ -54,6 +57,10 @@ public class PartFlexboxLayout extends FlexboxLayout {
     }
 
     private void setActiveStep() throws PartException {
+        for (StepTextView stepTextView : stepTextViews) {
+            stepTextView.setActive(false);
+        }
+
         Step activeStep = part.getActiveStep();
         int activeIndex = activeStep.getOrder() - 1;
         StepTextView stepTextView = stepTextViews.get(activeIndex);

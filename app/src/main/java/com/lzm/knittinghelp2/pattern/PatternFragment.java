@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.lzm.knittinghelp2.MainActivity;
@@ -13,6 +14,7 @@ import com.lzm.knittinghelp2.PatternInserter;
 import com.lzm.knittinghelp2.R;
 import com.lzm.knittinghelp2.Section;
 import com.lzm.knittinghelp2.exceptions.PatternException;
+import com.lzm.knittinghelp2.exceptions.SectionException;
 import com.lzm.knittinghelp2.pattern.components.SectionCardView;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ public class PatternFragment extends Fragment {
 
     private Pattern pattern;
 
-    List<SectionCardView> sectionCardViews;
+    private List<SectionCardView> sectionCardViews;
 
     public PatternFragment() {
     }
@@ -66,6 +68,32 @@ public class PatternFragment extends Fragment {
 
         start();
 
+        Button prevButton = view.findViewById(R.id.buttonPrev);
+        Button nextButton = view.findViewById(R.id.buttonNext);
+
+        prevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    pattern.prevPart();
+                    setActiveSection();
+                } catch (PatternException | SectionException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    pattern.nextPart();
+                    setActiveSection();
+                } catch (PatternException | SectionException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         return view;
     }
 
@@ -79,6 +107,10 @@ public class PatternFragment extends Fragment {
     }
 
     private void setActiveSection() throws PatternException {
+        for (SectionCardView sectionCardView : sectionCardViews) {
+            sectionCardView.setActive(false);
+        }
+
         Section activeSection = pattern.getActiveSection();
         int activeIndex = activeSection.getOrder() - 1;
         SectionCardView activeSectionCardView = sectionCardViews.get(activeIndex);
