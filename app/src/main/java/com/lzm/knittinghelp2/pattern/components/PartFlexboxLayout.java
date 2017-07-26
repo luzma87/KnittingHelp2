@@ -56,8 +56,7 @@ public class PartFlexboxLayout extends FlexboxLayout {
             if (activeIndex < part.getSteps().size() - 1) {
                 stepTextViews.get(activeIndex + 1).setInactive();
             }
-        } catch (PartException e) {
-            e.printStackTrace();
+        } catch (PartException ignored) {
         }
     }
 

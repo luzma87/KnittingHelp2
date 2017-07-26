@@ -69,8 +69,7 @@ public class SectionCardView extends CardView {
             if (activeIndex < section.getParts().size() - 1) {
                 partFlexboxLayouts.get(activeIndex + 1).setInactive();
             }
-        } catch (SectionException e) {
-            e.printStackTrace();
+        } catch (SectionException ignored) {
         }
     }
 

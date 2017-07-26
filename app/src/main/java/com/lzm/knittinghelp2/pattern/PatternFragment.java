@@ -85,8 +85,7 @@ public class PatternFragment extends Fragment {
                     }
                     activeSectionIndex = prevSectionIndex;
                     setActiveSection();
-                } catch (PatternException | SectionException e) {
-                    e.printStackTrace();
+                } catch (PatternException | SectionException ignored) {
                 }
             }
         });
@@ -102,8 +101,7 @@ public class PatternFragment extends Fragment {
                     }
                     activeSectionIndex = nextSectionIndex;
                     setActiveSection();
-                } catch (PatternException | SectionException e) {
-                    e.printStackTrace();
+                } catch (PatternException | SectionException ignored) {
                 }
             }
         });
@@ -116,8 +114,7 @@ public class PatternFragment extends Fragment {
         try {
             activeSectionIndex = pattern.getActiveSection().getOrder();
             setActiveSection();
-        } catch (PatternException e) {
-            e.printStackTrace();
+        } catch (PatternException ignored) {
         }
     }
 
