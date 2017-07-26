@@ -4,23 +4,22 @@
 
     <color name="divider">#BDBDBD</color>
 
-    <color name="element_part_default_background">#FFFFFF</color>
-    <color name="element_part_default_border">#FFFFFF</color>
-    <color name="element_section_default_background">#FFFFFF</color>
-    <color name="element_section_default_border">#705230</color>
-    <color name="element_section_default_header_background">#D1C4E9</color>
-    <color name="element_section_default_header_border">#512DA8</color>
-    <color name="element_step_default_background">#FFFFFF</color>
-    <color name="element_step_default_border">#6b3b58</color>
-
     <color name="element_part_active_background">#bdbdbd</color>
     <color name="element_part_active_border">#FFFFFF</color>
-    <color name="element_section_active_background">#EDE7F6</color>
-    <color name="element_section_active_border">#705230</color>
+    <color name="element_part_default_background">#FFFFFF</color>
+    <color name="element_part_default_border">#FFFFFF</color>
+    <color name="element_section_active_background">#fce4ec</color>
+    <color name="element_section_active_border">#ec407a</color>
     <color name="element_section_active_header_background">#F8BBD0</color>
     <color name="element_section_active_header_border">#C2185B</color>
+    <color name="element_section_default_background">#EDE7F6</color>
+    <color name="element_section_default_border">#7E57C2</color>
+    <color name="element_section_default_header_background">#D1C4E9</color>
+    <color name="element_section_default_header_border">#512DA8</color>
     <color name="element_step_active_background">#757575</color>
     <color name="element_step_active_border">#6b3b58</color>
+    <color name="element_step_default_background">#FFFFFF</color>
+    <color name="element_step_default_border">#6b3b58</color>
 
     <color name="icons">#FFFFFF</color>
 

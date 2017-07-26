@@ -27,6 +27,8 @@ public class PatternFragment extends Fragment {
 
     private List<SectionCardView> sectionCardViews;
 
+    private int activeSectionIndex;
+
     public PatternFragment() {
     }
 
@@ -76,6 +78,12 @@ public class PatternFragment extends Fragment {
             public void onClick(View view) {
                 try {
                     pattern.prevPart();
+                    int prevSectionIndex = pattern.getActiveSection().getOrder();
+
+                    if (prevSectionIndex > 0) {
+                        setInactiveSection();
+                    }
+                    activeSectionIndex = prevSectionIndex;
                     setActiveSection();
                 } catch (PatternException | SectionException e) {
                     e.printStackTrace();
@@ -87,6 +95,12 @@ public class PatternFragment extends Fragment {
             public void onClick(View view) {
                 try {
                     pattern.nextPart();
+                    int nextSectionIndex = pattern.getActiveSection().getOrder();
+
+                    if (nextSectionIndex != activeSectionIndex) {
+                        setInactiveSection();
+                    }
+                    activeSectionIndex = nextSectionIndex;
                     setActiveSection();
                 } catch (PatternException | SectionException e) {
                     e.printStackTrace();
@@ -100,6 +114,7 @@ public class PatternFragment extends Fragment {
     private void start() {
         pattern.start();
         try {
+            activeSectionIndex = pattern.getActiveSection().getOrder();
             setActiveSection();
         } catch (PatternException e) {
             e.printStackTrace();
@@ -107,14 +122,13 @@ public class PatternFragment extends Fragment {
     }
 
     private void setActiveSection() throws PatternException {
-        for (SectionCardView sectionCardView : sectionCardViews) {
-            sectionCardView.setActive(false);
-        }
+        SectionCardView activeSectionCardView = sectionCardViews.get(activeSectionIndex - 1);
+        activeSectionCardView.setActive();
+    }
 
-        Section activeSection = pattern.getActiveSection();
-        int activeIndex = activeSection.getOrder() - 1;
-        SectionCardView activeSectionCardView = sectionCardViews.get(activeIndex);
-        activeSectionCardView.setActive(true);
+    private void setInactiveSection() throws PatternException {
+        SectionCardView activeSectionCardView = sectionCardViews.get(activeSectionIndex - 1);
+        activeSectionCardView.setInactive();
     }
 
 }

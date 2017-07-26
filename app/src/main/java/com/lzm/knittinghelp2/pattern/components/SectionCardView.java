@@ -22,11 +22,21 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class SectionCardView extends CardView {
 
-    private boolean isActive = false;
     private Context context;
     private LinearLayout stepsLayout;
+    private TextView title;
     private Section section;
     private List<PartFlexboxLayout> partFlexboxLayouts;
+
+    private int defaultSectionBackgroundColor;
+    private int activeSectionBackgroundColor;
+    private int defaultSectionBorderColor;
+    private int activeSectionBorderColor;
+
+    private int defaultHeaderBackgroundColor;
+    private int activeHeaderBackgroundColor;
+    private int defaultHeaderBorderColor;
+    private int activeHeaderBorderColor;
 
     public SectionCardView(Context context, Section section) {
         super(context);
@@ -43,108 +53,90 @@ public class SectionCardView extends CardView {
         initialize(context, null);
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
-        int sectionBackgroundColor = getSectionBackgroundColor();
-        int sectionBorderColor = getSectionBorderColor();
+    public void setActive() {
+        Utils.setBackgroundAndBorder(stepsLayout, activeSectionBackgroundColor, activeSectionBorderColor);
+        title.setTextColor(activeHeaderBorderColor);
+        Utils.setBackgroundAndBorder(title, activeHeaderBackgroundColor, activeHeaderBorderColor);
 
-        Utils.setBackgroundAndBorder(stepsLayout, sectionBackgroundColor, sectionBorderColor);
-        for (PartFlexboxLayout partFlexboxLayout : partFlexboxLayouts) {
-            partFlexboxLayout.setActive(false);
-        }
         try {
-            setActivePart();
+            Part activePart = section.getActivePart();
+            int activeIndex = activePart.getOrder() - 1;
+            partFlexboxLayouts.get(activeIndex).setActive();
+
+            if (activeIndex > 0) {
+                partFlexboxLayouts.get(activeIndex - 1).setInactive();
+            }
+            if (activeIndex < section.getParts().size() - 1) {
+                partFlexboxLayouts.get(activeIndex + 1).setInactive();
+            }
         } catch (SectionException e) {
             e.printStackTrace();
         }
     }
 
-    private void setActivePart() throws SectionException {
-        for (PartFlexboxLayout partFlexboxLayout : partFlexboxLayouts) {
-            partFlexboxLayout.setActive(false);
-        }
+    public void setInactive() {
+        Utils.setBackgroundAndBorder(stepsLayout, defaultSectionBackgroundColor, defaultSectionBorderColor);
+        title.setTextColor(defaultHeaderBorderColor);
+        Utils.setBackgroundAndBorder(title, defaultHeaderBackgroundColor, defaultHeaderBorderColor);
 
-        Part activePart = section.getActivePart();
-        int activeIndex = activePart.getOrder() - 1;
-        PartFlexboxLayout partFlexboxLayout = partFlexboxLayouts.get(activeIndex);
-        partFlexboxLayout.setActive(true);
+        partFlexboxLayouts.get(0).setInactive();
+        partFlexboxLayouts.get(section.getParts().size() - 1).setInactive();
     }
 
     private void initialize(Context context, Section section) {
         this.context = context;
         this.section = section;
 
+        initializeColors();
+
         partFlexboxLayouts = new ArrayList<>();
 
         String titleText;
 
-        if (section != null) {
-            titleText = "[" + section.getOrder() + "] " + section.getTitle();
+        titleText = "[" + section.getOrder() + "] " + section.getTitle();
 
-            int sectionBackgroundColor = getSectionBackgroundColor();
-            int sectionBorderColor = getSectionBorderColor();
+        int sectionPadding = context.getResources().getDimensionPixelSize(R.dimen.element_section_padding);
 
-            int headerBackgroundColor = getHeaderBackgroundColor();
-            int headerBorderColor = getHeaderBorderColor();
-            int sectionPadding = context.getResources().getDimensionPixelSize(R.dimen.element_section_padding);
+        int marginTop = context.getResources().getDimensionPixelSize(R.dimen.element_section_margin_top);
+        int marginLeft = context.getResources().getDimensionPixelSize(R.dimen.element_section_margin_left);
 
-            int marginTop = context.getResources().getDimensionPixelSize(R.dimen.element_section_margin_top);
-            int marginLeft = context.getResources().getDimensionPixelSize(R.dimen.element_section_margin_left);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.view_section_titled_card, this, true);
 
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            inflater.inflate(R.layout.view_section_titled_card, this, true);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT);
+        params.setMargins(marginLeft, marginTop, marginLeft, marginTop);
+        this.setLayoutParams(params);
 
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT);
-            params.setMargins(marginLeft, marginTop, marginLeft, marginTop);
-            this.setLayoutParams(params);
+        LinearLayout layout = (LinearLayout) getChildAt(0);
 
-            LinearLayout layout = (LinearLayout) getChildAt(0);
+        title = (TextView) layout.getChildAt(0);
+        title.setText(titleText);
+        title.setTextColor(defaultHeaderBorderColor);
+        Utils.setBackgroundAndBorder(title, defaultHeaderBackgroundColor, defaultHeaderBorderColor);
 
-            TextView title = (TextView) layout.getChildAt(0);
-            title.setText(titleText);
-            title.setTextColor(headerBorderColor);
-            Utils.setBackgroundAndBorder(title, headerBackgroundColor, headerBorderColor);
+        stepsLayout = (LinearLayout) layout.getChildAt(1);
+        stepsLayout.setPadding(sectionPadding, sectionPadding, sectionPadding, sectionPadding);
 
-            stepsLayout = (LinearLayout) layout.getChildAt(1);
-            stepsLayout.setPadding(sectionPadding, sectionPadding, sectionPadding, sectionPadding);
+        Utils.setBackgroundAndBorder(stepsLayout, defaultSectionBackgroundColor, defaultSectionBorderColor);
 
-            Utils.setBackgroundAndBorder(stepsLayout, sectionBackgroundColor, sectionBorderColor);
+        List<Part> parts = section.getParts();
 
-            List<Part> parts = section.getParts();
-
-            for (Part part : parts) {
-                PartFlexboxLayout partFlexboxLayout = new PartFlexboxLayout(context, part);
-                partFlexboxLayouts.add(partFlexboxLayout);
-                stepsLayout.addView(partFlexboxLayout);
-            }
+        for (Part part : parts) {
+            PartFlexboxLayout partFlexboxLayout = new PartFlexboxLayout(context, part);
+            partFlexboxLayouts.add(partFlexboxLayout);
+            stepsLayout.addView(partFlexboxLayout);
         }
     }
 
-    private int getSectionBackgroundColor() {
-        if (isActive) {
-            return ContextCompat.getColor(context, R.color.element_section_active_background);
-        }
-        return ContextCompat.getColor(context, R.color.element_section_default_background);
-    }
+    private void initializeColors() {
+        activeSectionBackgroundColor = ContextCompat.getColor(context, R.color.element_section_active_background);
+        defaultSectionBackgroundColor = ContextCompat.getColor(context, R.color.element_section_default_background);
+        activeSectionBorderColor = ContextCompat.getColor(context, R.color.element_section_active_border);
+        defaultSectionBorderColor = ContextCompat.getColor(context, R.color.element_section_default_border);
 
-    private int getSectionBorderColor() {
-        if (isActive) {
-            return ContextCompat.getColor(context, R.color.element_section_active_border);
-        }
-        return ContextCompat.getColor(context, R.color.element_section_default_border);
-    }
-
-    private int getHeaderBackgroundColor() {
-        if (isActive) {
-            return ContextCompat.getColor(context, R.color.element_section_active_header_background);
-        }
-        return ContextCompat.getColor(context, R.color.element_section_default_header_background);
-    }
-
-    private int getHeaderBorderColor() {
-        if (isActive) {
-            return ContextCompat.getColor(context, R.color.element_section_active_header_border);
-        }
-        return ContextCompat.getColor(context, R.color.element_section_default_header_border);
+        activeHeaderBackgroundColor = ContextCompat.getColor(context, R.color.element_section_active_header_background);
+        defaultHeaderBackgroundColor = ContextCompat.getColor(context, R.color.element_section_default_header_background);
+        activeHeaderBorderColor = ContextCompat.getColor(context, R.color.element_section_active_header_border);
+        defaultHeaderBorderColor = ContextCompat.getColor(context, R.color.element_section_default_header_border);
     }
 }

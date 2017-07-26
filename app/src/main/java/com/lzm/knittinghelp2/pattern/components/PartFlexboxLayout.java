@@ -20,10 +20,13 @@ import static com.google.android.flexbox.FlexWrap.WRAP;
 
 public class PartFlexboxLayout extends FlexboxLayout {
 
-    private boolean isActive = false;
     private Context context;
     private Part part;
     private List<StepTextView> stepTextViews;
+    private int activeBackgroundColor;
+    private int defaultBackgroundColor;
+    private int activeBorderColor;
+    private int defaultBorderColor;
 
     public PartFlexboxLayout(Context context, Part part) {
         super(context);
@@ -40,40 +43,38 @@ public class PartFlexboxLayout extends FlexboxLayout {
         initialize(context, null);
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
-        int backgroundColor = getBackgroundColor();
-        int borderColor = getBorderColor();
-
-        Utils.setBackgroundAndBorder(this, backgroundColor, borderColor);
-        for (StepTextView stepTextView : stepTextViews) {
-            stepTextView.setActive(false);
-        }
+    public void setActive() {
+        Utils.setBackgroundAndBorder(this, activeBackgroundColor, activeBorderColor);
         try {
-            setActiveStep();
+            Step activeStep = part.getActiveStep();
+            int activeIndex = activeStep.getOrder() - 1;
+            stepTextViews.get(activeIndex).setActive();
+
+            if (activeIndex > 0) {
+                stepTextViews.get(activeIndex - 1).setInactive();
+            }
+            if (activeIndex < part.getSteps().size() - 1) {
+                stepTextViews.get(activeIndex + 1).setInactive();
+            }
         } catch (PartException e) {
             e.printStackTrace();
         }
     }
 
-    private void setActiveStep() throws PartException {
-        for (StepTextView stepTextView : stepTextViews) {
-            stepTextView.setActive(false);
-        }
-
-        Step activeStep = part.getActiveStep();
-        int activeIndex = activeStep.getOrder() - 1;
-        StepTextView stepTextView = stepTextViews.get(activeIndex);
-        stepTextView.setActive(true);
+    public void setInactive() {
+        Utils.setBackgroundAndBorder(this, defaultBackgroundColor, defaultBorderColor);
+        stepTextViews.get(0).setInactive();
+        stepTextViews.get(part.getSteps().size() - 1).setInactive();
     }
 
     private void initialize(Context context, Part part) {
         this.context = context;
         this.part = part;
+
+        initializeColors();
+
         stepTextViews = new ArrayList<>();
 
-        int backgroundColor = getBackgroundColor();
-        int borderColor = getBorderColor();
         int padding = context.getResources().getDimensionPixelSize(R.dimen.element_part_padding);
         int margin = context.getResources().getDimensionPixelSize(R.dimen.element_part_margin);
 
@@ -82,7 +83,7 @@ public class PartFlexboxLayout extends FlexboxLayout {
         LayoutParams layoutParams = new LayoutParams(MATCH_PARENT, WRAP_CONTENT);
         layoutParams.setMargins(margin, margin, margin, margin);
         this.setLayoutParams(layoutParams);
-        Utils.setBackgroundAndBorder(this, backgroundColor, borderColor);
+        Utils.setBackgroundAndBorder(this, defaultBackgroundColor, defaultBorderColor);
 
         List<Step> steps = part.getSteps();
 
@@ -95,17 +96,10 @@ public class PartFlexboxLayout extends FlexboxLayout {
         this.setPadding(padding, padding, padding, padding);
     }
 
-    private int getBackgroundColor() {
-        if (isActive) {
-            return ContextCompat.getColor(context, R.color.element_part_active_background);
-        }
-        return ContextCompat.getColor(context, R.color.element_part_default_background);
-    }
-
-    private int getBorderColor() {
-        if (isActive) {
-            return ContextCompat.getColor(context, R.color.element_part_active_border);
-        }
-        return ContextCompat.getColor(context, R.color.element_part_default_border);
+    private void initializeColors() {
+        activeBackgroundColor = ContextCompat.getColor(context, R.color.element_part_active_background);
+        activeBorderColor = ContextCompat.getColor(context, R.color.element_part_active_border);
+        defaultBackgroundColor = ContextCompat.getColor(context, R.color.element_part_default_background);
+        defaultBorderColor = ContextCompat.getColor(context, R.color.element_part_default_border);
     }
 }
