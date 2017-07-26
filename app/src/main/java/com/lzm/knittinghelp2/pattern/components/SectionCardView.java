@@ -78,8 +78,9 @@ public class SectionCardView extends CardView {
         title.setTextColor(defaultHeaderBorderColor);
         Utils.setBackgroundAndBorder(title, defaultHeaderBackgroundColor, defaultHeaderBorderColor);
 
-        partFlexboxLayouts.get(0).setInactive();
-        partFlexboxLayouts.get(section.getParts().size() - 1).setInactive();
+        for (PartFlexboxLayout partFlexboxLayout : partFlexboxLayouts) {
+            partFlexboxLayout.setInactive();
+        }
     }
 
     private void initialize(Context context, Section section) {

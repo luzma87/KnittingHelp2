@@ -80,6 +80,7 @@ public class PatternFragment extends Fragment {
             public void onClick(View view) {
                 try {
                     pattern.prevSection();
+                    pattern.getActiveSection().start();
                     int prevSectionIndex = pattern.getActiveSection().getOrder();
 
                     if (prevSectionIndex > 0) {

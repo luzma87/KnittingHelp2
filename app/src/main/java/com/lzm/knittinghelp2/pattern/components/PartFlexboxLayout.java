@@ -62,8 +62,9 @@ public class PartFlexboxLayout extends FlexboxLayout {
 
     public void setInactive() {
         Utils.setBackgroundAndBorder(this, defaultBackgroundColor, defaultBorderColor);
-        stepTextViews.get(0).setInactive();
-        stepTextViews.get(part.getSteps().size() - 1).setInactive();
+        for (StepTextView stepTextView : stepTextViews) {
+            stepTextView.setInactive();
+        }
     }
 
     private void initialize(Context context, Part part) {
