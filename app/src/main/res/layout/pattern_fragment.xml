@@ -48,6 +48,11 @@
         app:layout_constraintRight_toRightOf="parent">
 
         <Button
+            android:id="@+id/buttonPrevSection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="p section" />
+        <Button
             android:id="@+id/buttonPrev"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,5 +62,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="next" />
+        <Button
+            android:id="@+id/buttonNextSection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="n section" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

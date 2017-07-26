@@ -71,8 +71,26 @@ public class PatternFragment extends Fragment {
         start();
 
         Button prevButton = view.findViewById(R.id.buttonPrev);
+        Button prevSectionButton = view.findViewById(R.id.buttonPrevSection);
         Button nextButton = view.findViewById(R.id.buttonNext);
+        Button nextSectionButton = view.findViewById(R.id.buttonNextSection);
 
+        prevSectionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    pattern.prevSection();
+                    int prevSectionIndex = pattern.getActiveSection().getOrder();
+
+                    if (prevSectionIndex > 0) {
+                        setInactiveSection();
+                    }
+                    activeSectionIndex = prevSectionIndex;
+                    setActiveSection();
+                } catch (PatternException | SectionException ignored) {
+                }
+            }
+        });
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,6 +112,22 @@ public class PatternFragment extends Fragment {
             public void onClick(View view) {
                 try {
                     pattern.nextPart();
+                    int nextSectionIndex = pattern.getActiveSection().getOrder();
+
+                    if (nextSectionIndex != activeSectionIndex) {
+                        setInactiveSection();
+                    }
+                    activeSectionIndex = nextSectionIndex;
+                    setActiveSection();
+                } catch (PatternException | SectionException ignored) {
+                }
+            }
+        });
+        nextSectionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    pattern.nextSection();
                     int nextSectionIndex = pattern.getActiveSection().getOrder();
 
                     if (nextSectionIndex != activeSectionIndex) {
