@@ -81,13 +81,7 @@ public class PatternFragment extends Fragment {
                 try {
                     pattern.prevSection();
                     pattern.getActiveSection().start();
-                    int prevSectionIndex = pattern.getActiveSection().getOrder();
-
-                    if (prevSectionIndex > 0) {
-                        setInactiveSection();
-                    }
-                    activeSectionIndex = prevSectionIndex;
-                    setActiveSection();
+                    previous();
                 } catch (PatternException | SectionException ignored) {
                 }
             }
@@ -97,13 +91,7 @@ public class PatternFragment extends Fragment {
             public void onClick(View view) {
                 try {
                     pattern.prevPart();
-                    int prevSectionIndex = pattern.getActiveSection().getOrder();
-
-                    if (prevSectionIndex > 0) {
-                        setInactiveSection();
-                    }
-                    activeSectionIndex = prevSectionIndex;
-                    setActiveSection();
+                    previous();
                 } catch (PatternException | SectionException ignored) {
                 }
             }
@@ -113,13 +101,7 @@ public class PatternFragment extends Fragment {
             public void onClick(View view) {
                 try {
                     pattern.nextPart();
-                    int nextSectionIndex = pattern.getActiveSection().getOrder();
-
-                    if (nextSectionIndex != activeSectionIndex) {
-                        setInactiveSection();
-                    }
-                    activeSectionIndex = nextSectionIndex;
-                    setActiveSection();
+                    next();
                 } catch (PatternException | SectionException ignored) {
                 }
             }
@@ -129,19 +111,33 @@ public class PatternFragment extends Fragment {
             public void onClick(View view) {
                 try {
                     pattern.nextSection();
-                    int nextSectionIndex = pattern.getActiveSection().getOrder();
-
-                    if (nextSectionIndex != activeSectionIndex) {
-                        setInactiveSection();
-                    }
-                    activeSectionIndex = nextSectionIndex;
-                    setActiveSection();
+                    next();
                 } catch (PatternException | SectionException ignored) {
                 }
             }
         });
 
         return view;
+    }
+
+    private void previous() throws PatternException {
+        int prevSectionIndex = pattern.getActiveSection().getOrder();
+
+        if (prevSectionIndex > 0) {
+            setInactiveSection();
+        }
+        activeSectionIndex = prevSectionIndex;
+        setActiveSection();
+    }
+
+    private void next() throws PatternException {
+        int nextSectionIndex = pattern.getActiveSection().getOrder();
+
+        if (nextSectionIndex != activeSectionIndex) {
+            setInactiveSection();
+        }
+        activeSectionIndex = nextSectionIndex;
+        setActiveSection();
     }
 
     private void start() {
