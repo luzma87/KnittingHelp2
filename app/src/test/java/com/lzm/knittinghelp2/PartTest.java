@@ -11,7 +11,6 @@ import org.junit.rules.ExpectedException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class PartTest {
@@ -195,6 +194,16 @@ public class PartTest {
         Step expectedStep = new Step(part, "st in next 2 (16)");
         part.split();
         part.last();
+        assertThat(part.getActiveStep(), is(expectedStep));
+    }
+
+    @Test
+    public void shouldSetAnyStepAsActive() throws Exception {
+        part.split();
+        part.start();
+        part.setSelected(3);
+
+        Step expectedStep = new Step(part, "st in next 2,");
         assertThat(part.getActiveStep(), is(expectedStep));
     }
 }

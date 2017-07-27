@@ -166,4 +166,13 @@ public class Section {
     public long getId() {
         return id;
     }
+
+    public void setSelected(int partOrder, int stepOrder) {
+        try {
+            activePartIndex = partOrder - 1;
+            getActivePart().setSelected(stepOrder);
+        } catch (SectionException e) {
+            e.printStackTrace();
+        }
+    }
 }

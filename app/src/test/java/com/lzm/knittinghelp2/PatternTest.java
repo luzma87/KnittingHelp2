@@ -11,7 +11,6 @@ import org.junit.rules.ExpectedException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -284,6 +283,29 @@ public class PatternTest {
         pattern.start();
         pattern.nextSection();
         pattern.prevPart();
+        Section activeSection = pattern.getActiveSection();
+        Step activeStep = pattern.getActiveStep();
+
+        assertThat(activeSection, is(expectedActiveSection));
+        assertThat(activeStep, is(expectedActiveStep));
+    }
+
+    @Test
+    public void shouldSetAsActiveAnyStep() throws Exception {
+        Section expectedActiveSection = new Section(pattern, "ARMS (make 2, I used a smaller hook to make them slightly smaller than the legs)\n" +
+                "1: st 4 in magic ring (4)\n" +
+                "2: st 2 in each (8)\n" +
+                "3-7: st in each (8)\n" +
+                "8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing");
+        Part expectedActivePart = new Part(expectedActiveSection, "8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing");
+        Step expectedActiveStep = new Step(expectedActivePart, "8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing");
+
+        assertThat(pattern.getName(), is("TMNT"));
+        assertThat(pattern.getContent(), is(description));
+
+        pattern.start();
+        pattern.setSelected(2, 4, 1);
+
         Section activeSection = pattern.getActiveSection();
         Step activeStep = pattern.getActiveStep();
 

@@ -12,7 +12,6 @@ import org.junit.rules.ExpectedException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class SectionTest {
@@ -272,6 +271,17 @@ public class SectionTest {
         expectedActivePart = new Part(section, "1: ch 5, wait");
 
         activePart = section.getActivePart();
+        assertThat(activePart, is(expectedActivePart));
+    }
+
+    @Test
+    public void shouldSetAnyStepAsActive() throws Exception {
+        Part expectedActivePart = new Part(section, "3: st 2 in first, st in next 2, st 2 in next 3, st in next 2, st 2 in next 2 (16)");
+
+        section.start();
+        section.setSelected(3, 1);
+
+        Part activePart = section.getActivePart();
         assertThat(activePart, is(expectedActivePart));
     }
 }

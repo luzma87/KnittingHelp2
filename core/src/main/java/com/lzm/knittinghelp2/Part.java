@@ -138,6 +138,10 @@ public class Part {
         return id;
     }
 
+    public void setSelected(int partOrder) {
+        activeStepIndex = partOrder - 1;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

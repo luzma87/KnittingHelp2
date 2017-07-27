@@ -54,7 +54,7 @@ public class Pattern implements Comparable<Pattern> {
         first();
     }
 
-    public void first()  {
+    public void first() {
         activeSectionIndex = 0;
         try {
             getActiveSection().start();
@@ -112,6 +112,15 @@ public class Pattern implements Comparable<Pattern> {
 
     public long getId() {
         return id;
+    }
+
+    public void setSelected(int sectionOrder, int partOrder, int stepOrder) {
+        try {
+            activeSectionIndex = sectionOrder - 1;
+            getActiveSection().setSelected(partOrder, stepOrder);
+        } catch (PatternException e) {
+            e.printStackTrace();
+        }
     }
 
     private void checkInitialized() throws PatternException {
