@@ -19,6 +19,7 @@
     <color name="element_step_active_background">#757575</color>
     <color name="element_step_active_border">#6b3b58</color>
     <color name="element_step_default_background">#FFFFFF</color>
+    <color name="element_step_selected_background">#5a4770</color>
     <color name="element_step_default_border">#6b3b58</color>
 
     <color name="icons">#FFFFFF</color>

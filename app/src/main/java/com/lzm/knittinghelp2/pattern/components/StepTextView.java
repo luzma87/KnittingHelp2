@@ -3,26 +3,31 @@ package com.lzm.knittinghelp2.pattern.components;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.flexbox.FlexboxLayoutManager;
-import com.lzm.knittinghelp2.Step;
 import com.lzm.knittinghelp2.R;
+import com.lzm.knittinghelp2.Step;
 import com.lzm.knittinghelp2.helpers.Utils;
+import com.lzm.knittinghelp2.pattern.PatternFragment;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class StepTextView extends android.support.v7.widget.AppCompatTextView {
 
+    private PatternFragment patternFragment;
     private Context context;
     private int activeBorderColor;
     private int defaultBorderColor;
     private int activeBackgroundColor;
     private int defaultBackgroundColor;
+    private int selectedBackgroundColor;
 
-    public StepTextView(Context context, Step step) {
+    public StepTextView(Context context, PatternFragment patternFragment, Step step) {
         super(context);
+        this.patternFragment = patternFragment;
         initialize(context, step);
     }
 
@@ -44,7 +49,7 @@ public class StepTextView extends android.support.v7.widget.AppCompatTextView {
         Utils.setBackgroundAndBorder(this, defaultBackgroundColor, defaultBorderColor);
     }
 
-    private void initialize(Context context, Step step) {
+    private void initialize(Context context, final Step step) {
         this.context = context;
 
         initializeColors();
@@ -74,6 +79,15 @@ public class StepTextView extends android.support.v7.widget.AppCompatTextView {
         }
 
         this.setLayoutParams(lp);
+
+        this.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Utils.setBackgroundAndBorder(view, selectedBackgroundColor, activeBorderColor);
+                patternFragment.onStepLongClicked(step);
+                return false;
+            }
+        });
     }
 
     private void initializeColors() {
@@ -81,5 +95,6 @@ public class StepTextView extends android.support.v7.widget.AppCompatTextView {
         activeBackgroundColor = ContextCompat.getColor(context, R.color.element_step_active_background);
         defaultBorderColor = ContextCompat.getColor(context, R.color.element_step_default_border);
         defaultBackgroundColor = ContextCompat.getColor(context, R.color.element_step_default_background);
+        selectedBackgroundColor = ContextCompat.getColor(context, R.color.element_step_selected_background);
     }
 }

@@ -10,6 +10,7 @@ import com.lzm.knittinghelp2.R;
 import com.lzm.knittinghelp2.Part;
 import com.lzm.knittinghelp2.exceptions.PartException;
 import com.lzm.knittinghelp2.helpers.Utils;
+import com.lzm.knittinghelp2.pattern.PatternFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +29,11 @@ public class PartFlexboxLayout extends FlexboxLayout {
     private int activeBorderColor;
     private int defaultBorderColor;
 
-    public PartFlexboxLayout(Context context, Part part) {
+    private PatternFragment patternFragment;
+
+    public PartFlexboxLayout(Context context, PatternFragment patternFragment, Part part) {
         super(context);
+        this.patternFragment = patternFragment;
         initialize(context, part);
     }
 
@@ -88,7 +92,7 @@ public class PartFlexboxLayout extends FlexboxLayout {
         List<Step> steps = part.getSteps();
 
         for (Step step : steps) {
-            StepTextView stepTextView = new StepTextView(context, step);
+            StepTextView stepTextView = new StepTextView(context, patternFragment, step);
             stepTextViews.add(stepTextView);
             this.addView(stepTextView);
         }

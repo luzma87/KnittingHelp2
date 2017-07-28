@@ -9,10 +9,12 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.lzm.knittinghelp2.MainActivity;
+import com.lzm.knittinghelp2.Part;
 import com.lzm.knittinghelp2.Pattern;
 import com.lzm.knittinghelp2.PatternInserter;
 import com.lzm.knittinghelp2.R;
 import com.lzm.knittinghelp2.Section;
+import com.lzm.knittinghelp2.Step;
 import com.lzm.knittinghelp2.exceptions.PatternException;
 import com.lzm.knittinghelp2.exceptions.SectionException;
 import com.lzm.knittinghelp2.pattern.components.SectionCardView;
@@ -40,6 +42,17 @@ public class PatternFragment extends Fragment {
         return fragment;
     }
 
+    public void onStepLongClicked(Step step) {
+        try {
+            Part part = step.getPart();
+            Section section = part.getSection();
+            pattern.setSelected(section.getOrder(), part.getOrder(), step.getOrder());
+            changeActiveSection();
+        } catch (PatternException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +76,7 @@ public class PatternFragment extends Fragment {
         List<Section> sections = pattern.getSections();
 
         for (Section section : sections) {
-            SectionCardView sectionCardView = new SectionCardView(context, section);
+            SectionCardView sectionCardView = new SectionCardView(context, this, section);
             sectionCardViews.add(sectionCardView);
             layout.addView(sectionCardView);
         }
@@ -81,7 +94,7 @@ public class PatternFragment extends Fragment {
                 try {
                     pattern.prevSection();
                     pattern.getActiveSection().start();
-                    previous();
+                    changeActiveSection();
                 } catch (PatternException | SectionException ignored) {
                 }
             }
@@ -91,7 +104,7 @@ public class PatternFragment extends Fragment {
             public void onClick(View view) {
                 try {
                     pattern.prevPart();
-                    previous();
+                    changeActiveSection();
                 } catch (PatternException | SectionException ignored) {
                 }
             }
@@ -101,7 +114,7 @@ public class PatternFragment extends Fragment {
             public void onClick(View view) {
                 try {
                     pattern.nextPart();
-                    next();
+                    changeActiveSection();
                 } catch (PatternException | SectionException ignored) {
                 }
             }
@@ -111,7 +124,7 @@ public class PatternFragment extends Fragment {
             public void onClick(View view) {
                 try {
                     pattern.nextSection();
-                    next();
+                    changeActiveSection();
                 } catch (PatternException | SectionException ignored) {
                 }
             }
@@ -120,23 +133,13 @@ public class PatternFragment extends Fragment {
         return view;
     }
 
-    private void previous() throws PatternException {
-        int prevSectionIndex = pattern.getActiveSection().getOrder();
+    private void changeActiveSection() throws PatternException {
+        int newSectionIndex = pattern.getActiveSection().getOrder();
 
-        if (prevSectionIndex > 0) {
+        if (newSectionIndex > 0 || newSectionIndex != activeSectionIndex) {
             setInactiveSection();
         }
-        activeSectionIndex = prevSectionIndex;
-        setActiveSection();
-    }
-
-    private void next() throws PatternException {
-        int nextSectionIndex = pattern.getActiveSection().getOrder();
-
-        if (nextSectionIndex != activeSectionIndex) {
-            setInactiveSection();
-        }
-        activeSectionIndex = nextSectionIndex;
+        activeSectionIndex = newSectionIndex;
         setActiveSection();
     }
 

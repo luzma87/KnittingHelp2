@@ -8,11 +8,12 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.lzm.knittinghelp2.Part;
 import com.lzm.knittinghelp2.R;
 import com.lzm.knittinghelp2.Section;
-import com.lzm.knittinghelp2.Part;
 import com.lzm.knittinghelp2.exceptions.SectionException;
 import com.lzm.knittinghelp2.helpers.Utils;
+import com.lzm.knittinghelp2.pattern.PatternFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +39,11 @@ public class SectionCardView extends CardView {
     private int defaultHeaderBorderColor;
     private int activeHeaderBorderColor;
 
-    public SectionCardView(Context context, Section section) {
+    private PatternFragment patternFragment;
+
+    public SectionCardView(Context context, PatternFragment patternFragment, Section section) {
         super(context);
+        this.patternFragment = patternFragment;
         initialize(context, section);
     }
 
@@ -122,7 +126,7 @@ public class SectionCardView extends CardView {
         List<Part> parts = section.getParts();
 
         for (Part part : parts) {
-            PartFlexboxLayout partFlexboxLayout = new PartFlexboxLayout(context, part);
+            PartFlexboxLayout partFlexboxLayout = new PartFlexboxLayout(context, patternFragment, part);
             partFlexboxLayouts.add(partFlexboxLayout);
             stepsLayout.addView(partFlexboxLayout);
         }
