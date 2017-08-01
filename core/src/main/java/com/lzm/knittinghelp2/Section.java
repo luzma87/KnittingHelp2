@@ -107,6 +107,7 @@ public class Section {
                 throw new StepException("Prev step not found");
             }
             activePartIndex -= 1;
+            getActivePart().last();
         }
     }
 
