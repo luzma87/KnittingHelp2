@@ -38,25 +38,35 @@ public class PartTest {
 
     @Test
     public void splitShouldSplitOnCommaByDefaultAndNotSetFirstPartAsActive() throws Exception {
-        part.split();
+        description = "8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing";
+        part = new Part(null, description);
+
+        part.split(0, ",");
 
         List<Step> steps = part.getSteps();
-        assertThat(steps.size(), is(5));
+
+        assertThat(steps.size(), is(7));
         assertThat(steps.get(0).getOrder(), is(1));
-        assertThat(steps.get(0).getContent(), is("3: st in first,"));
+        assertThat(steps.get(0).getContent(), is("8: hdc,"));
         assertThat(steps.get(0).getPart(), is(part));
         assertThat(steps.get(1).getOrder(), is(2));
-        assertThat(steps.get(1).getContent(), is("st 3 in next,"));
+        assertThat(steps.get(1).getContent(), is("dc,"));
         assertThat(steps.get(1).getPart(), is(part));
         assertThat(steps.get(2).getOrder(), is(3));
-        assertThat(steps.get(2).getContent(), is("st in next 2,"));
+        assertThat(steps.get(2).getContent(), is("dc,"));
         assertThat(steps.get(2).getPart(), is(part));
         assertThat(steps.get(3).getOrder(), is(4));
-        assertThat(steps.get(3).getContent(), is("st 3 in next,"));
+        assertThat(steps.get(3).getContent(), is("hdc,"));
         assertThat(steps.get(3).getPart(), is(part));
         assertThat(steps.get(4).getOrder(), is(5));
-        assertThat(steps.get(4).getContent(), is("st in next 2 (16)"));
+        assertThat(steps.get(4).getContent(), is("st,"));
         assertThat(steps.get(4).getPart(), is(part));
+        assertThat(steps.get(5).getOrder(), is(6));
+        assertThat(steps.get(5).getContent(), is("sl st,"));
+        assertThat(steps.get(5).getPart(), is(part));
+        assertThat(steps.get(6).getOrder(), is(7));
+        assertThat(steps.get(6).getContent(), is("finish. Leave tail for sewing"));
+        assertThat(steps.get(6).getPart(), is(part));
 
         expectedException.expect(PartException.class);
         expectedException.expectMessage("Part not initialized!");
@@ -65,9 +75,86 @@ public class PartTest {
     }
 
     @Test
+    public void settingSeparatorShouldSplitOnSeparatorInstead() throws Exception {
+        description = "8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing";
+        part = new Part(null, description);
+
+        part.split(0, ".");
+
+        List<Step> steps = part.getSteps();
+        assertThat(steps.size(), is(2));
+        assertThat(steps.get(0).getContent(), is("8: hdc, dc, dc, hdc, st, sl st, finish."));
+        assertThat(steps.get(0).getPart(), is(part));
+        assertThat(steps.get(1).getContent(), is("Leave tail for sewing"));
+        assertThat(steps.get(1).getPart(), is(part));
+    }
+
+    @Test
+    public void splittingOnPeriodAndCommaShouldSplitCorrectly() throws Exception {
+        description = "8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing";
+        part = new Part(null, description);
+
+        part.split(0, ",");
+
+        List<Step> steps = part.getSteps();
+        assertThat(steps.size(), is(7));
+        assertThat(steps.get(0).getOrder(), is(1));
+        assertThat(steps.get(0).getContent(), is("8: hdc,"));
+        assertThat(steps.get(0).getPart(), is(part));
+        assertThat(steps.get(1).getOrder(), is(2));
+        assertThat(steps.get(1).getContent(), is("dc,"));
+        assertThat(steps.get(1).getPart(), is(part));
+        assertThat(steps.get(2).getOrder(), is(3));
+        assertThat(steps.get(2).getContent(), is("dc,"));
+        assertThat(steps.get(2).getPart(), is(part));
+        assertThat(steps.get(3).getOrder(), is(4));
+        assertThat(steps.get(3).getContent(), is("hdc,"));
+        assertThat(steps.get(3).getPart(), is(part));
+        assertThat(steps.get(4).getOrder(), is(5));
+        assertThat(steps.get(4).getContent(), is("st,"));
+        assertThat(steps.get(4).getPart(), is(part));
+        assertThat(steps.get(5).getOrder(), is(6));
+        assertThat(steps.get(5).getContent(), is("sl st,"));
+        assertThat(steps.get(5).getPart(), is(part));
+        assertThat(steps.get(6).getOrder(), is(7));
+        assertThat(steps.get(6).getContent(), is("finish. Leave tail for sewing"));
+        assertThat(steps.get(6).getPart(), is(part));
+
+        part.split(6, ".");
+
+        steps = part.getSteps();
+        assertThat(steps.size(), is(8));
+        assertThat(steps.get(0).getOrder(), is(1));
+        assertThat(steps.get(0).getContent(), is("8: hdc,"));
+        assertThat(steps.get(0).getPart(), is(part));
+        assertThat(steps.get(1).getOrder(), is(2));
+        assertThat(steps.get(1).getContent(), is("dc,"));
+        assertThat(steps.get(1).getPart(), is(part));
+        assertThat(steps.get(2).getOrder(), is(3));
+        assertThat(steps.get(2).getContent(), is("dc,"));
+        assertThat(steps.get(2).getPart(), is(part));
+        assertThat(steps.get(3).getOrder(), is(4));
+        assertThat(steps.get(3).getContent(), is("hdc,"));
+        assertThat(steps.get(3).getPart(), is(part));
+        assertThat(steps.get(4).getOrder(), is(5));
+        assertThat(steps.get(4).getContent(), is("st,"));
+        assertThat(steps.get(4).getPart(), is(part));
+        assertThat(steps.get(5).getOrder(), is(6));
+        assertThat(steps.get(5).getContent(), is("sl st,"));
+        assertThat(steps.get(5).getPart(), is(part));
+        assertThat(steps.get(6).getOrder(), is(7));
+        assertThat(steps.get(6).getContent(), is("finish."));
+        assertThat(steps.get(6).getPart(), is(part));
+        assertThat(steps.get(7).getOrder(), is(8));
+        assertThat(steps.get(7).getContent(), is("Leave tail for sewing"));
+        assertThat(steps.get(7).getPart(), is(part));
+
+    }
+
+    @Test
     public void startShouldSetFirstPartAsActive() throws Exception {
         Step expectedStep = new Step(part, "3: st in first,");
-        part.split();
+        part.split(0, ",");
         part.start();
 
         List<Step> steps = part.getSteps();
@@ -91,22 +178,6 @@ public class PartTest {
     }
 
     @Test
-    public void settingSeparatorShouldSplitOnSeparatorInstead() throws Exception {
-        description = "3-7: st in each (8) Finish. Leave tail for sewing";
-        part = new Part(null, description);
-
-        part.setSeparator(".");
-        part.split();
-
-        List<Step> steps = part.getSteps();
-        assertThat(steps.size(), is(2));
-        assertThat(steps.get(0).getContent(), is("3-7: st in each (8) Finish."));
-        assertThat(steps.get(0).getPart(), is(part));
-        assertThat(steps.get(1).getContent(), is("Leave tail for sewing"));
-        assertThat(steps.get(1).getPart(), is(part));
-    }
-
-    @Test
     public void nextShouldThrowExceptionByDefault() throws Exception {
         part.start();
         expectedException.expect(StepException.class);
@@ -118,7 +189,7 @@ public class PartTest {
     public void nextShouldSetNextPartAsActiveWhenSplit() throws Exception {
         part.start();
         Step expectedStep = new Step(part, "st 3 in next,");
-        part.split();
+        part.split(0, ",");
         part.next();
         assertThat(part.getActiveStep(), is(expectedStep));
     }
@@ -135,7 +206,7 @@ public class PartTest {
         part.start();
         expectedException.expect(StepException.class);
         expectedException.expectMessage("Next step not found");
-        part.split();
+        part.split(0, ",");
         part.next();
         part.next();
         part.next();
@@ -163,7 +234,7 @@ public class PartTest {
         part.start();
         expectedException.expect(StepException.class);
         expectedException.expectMessage("Prev step not found");
-        part.split();
+        part.split(0, ",");
         part.prev();
     }
 
@@ -171,7 +242,7 @@ public class PartTest {
     public void prevShouldSetPreviousPartAsActive() throws Exception {
         part.start();
         Step expectedStep = new Step(part, "st 3 in next,");
-        part.split();
+        part.split(0, ",");
         part.next();
         part.next();
         part.prev();
@@ -182,7 +253,7 @@ public class PartTest {
     public void firstShouldSetFirstPartAsActive() throws Exception {
         part.start();
         Step expectedStep = new Step(part, "3: st in first,");
-        part.split();
+        part.split(0, ",");
         part.next();
         part.next();
         part.first();
@@ -192,14 +263,14 @@ public class PartTest {
     @Test
     public void lastShouldSetLastPartAsActive() throws Exception {
         Step expectedStep = new Step(part, "st in next 2 (16)");
-        part.split();
+        part.split(0, ",");
         part.last();
         assertThat(part.getActiveStep(), is(expectedStep));
     }
 
     @Test
     public void shouldSetAnyStepAsActive() throws Exception {
-        part.split();
+        part.split(0, ",");
         part.start();
         part.setSelected(3);
 

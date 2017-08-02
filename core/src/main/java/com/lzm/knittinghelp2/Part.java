@@ -12,7 +12,6 @@ public class Part {
     private String content;
     private Section section;
     private List<Step> steps;
-    private String separator;
     private int activeStepIndex;
     private int order;
 
@@ -25,7 +24,6 @@ public class Part {
         Step step = new Step(this, content);
         step.setOrder(1);
         steps.add(step);
-        this.separator = ",";
         this.activeStepIndex = -1;
     }
 
@@ -45,37 +43,17 @@ public class Part {
         return content;
     }
 
-    public void split() {
-        this.steps = new ArrayList<>();
-        String separatorForSplit = getSeparatorForSplit();
-
-        String[] parts = content.split(separatorForSplit);
-        for (int i = 0; i < parts.length; i++) {
-            String part = parts[i].trim();
-            if (i < parts.length - 1) {
-                part = part + separator;
-            }
-            Step step = new Step(this, part);
-            step.setOrder(i + 1);
-            this.steps.add(step);
+    public void split(int position, String separator) {
+        Step step = steps.remove(position);
+        step.setSeparator(separator);
+        steps.addAll(position, step.split());
+        for (int i = 0; i < steps.size(); i++) {
+            steps.get(i).setOrder(i + 1);
         }
-
-    }
-
-    private String getSeparatorForSplit() {
-        String separatorForSplit = separator;
-        if (separator.equals(".")) {
-            separatorForSplit = "\\.";
-        }
-        return separatorForSplit;
     }
 
     public List<Step> getSteps() {
         return steps;
-    }
-
-    public void setSeparator(String separator) {
-        this.separator = separator;
     }
 
     public void next() throws PartException, StepException {

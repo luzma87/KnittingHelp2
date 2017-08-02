@@ -105,7 +105,7 @@ public class SectionTest {
     public void firstShouldSetFirstStepFirstPartAsActive() throws Exception {
         Part expectedActivePart = new Part(section, "1: ch 5, wait");
         Step expectedActiveStep = new Step(expectedActivePart, "1: ch 5,");
-        section.getParts().get(0).split();
+        section.getParts().get(0).split(0, ",");
         section.start();
         section.next();
         section.next();
@@ -130,7 +130,7 @@ public class SectionTest {
     public void lastShouldSetLastStepLastPartAsActive() throws Exception {
         Part expectedActivePart = new Part(section, "5: st 2 in first, st in next 6, st 3 in next, st in next 3, st 3 in next, st in next 7, st 3 in next, sl st, finish. Leave tail for sewing (27)");
         Step expectedActiveStep = new Step(expectedActivePart, "finish. Leave tail for sewing (27)");
-        section.getParts().get(section.getParts().size() - 1).split();
+        section.getParts().get(section.getParts().size() - 1).split(0, ",");
         section.last();
 
         Part activePart = section.getActivePart();
@@ -160,7 +160,7 @@ public class SectionTest {
         Part expectedActivePart = new Part(section, "1: ch 5, wait");
         Step expectedActiveStep = new Step(expectedActivePart, "1: ch 5,");
 
-        section.getParts().get(0).split();
+        section.getParts().get(0).split(0, ",");
 
         section.start();
 
@@ -183,8 +183,8 @@ public class SectionTest {
         Part expectedActivePart = new Part(section, "2: st in 2nd from hook, st in next 2, st 3 in next. Continue on the other side of the ch, st in next 2, st 2 in next (10)");
         Step expectedActiveStep = new Step(expectedActivePart, "2: st in 2nd from hook,");
 
-        section.getParts().get(0).split();
-        section.getParts().get(1).split();
+        section.getParts().get(0).split(0, ",");
+        section.getParts().get(1).split(0, ",");
 
         section.start();
         section.next();
@@ -209,7 +209,7 @@ public class SectionTest {
         Part expectedActivePart = new Part(section, "1: ch 5, wait");
         Step expectedActiveStep = new Step(expectedActivePart, "1: ch 5,");
 
-        section.getParts().get(0).split();
+        section.getParts().get(0).split(0, ",");
 
         section.start();
         section.next();

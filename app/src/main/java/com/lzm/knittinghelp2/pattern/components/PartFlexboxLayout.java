@@ -82,7 +82,7 @@ public class PartFlexboxLayout extends FlexboxLayout {
         int padding = context.getResources().getDimensionPixelSize(R.dimen.element_part_padding);
         int margin = context.getResources().getDimensionPixelSize(R.dimen.element_part_margin);
 
-        part.split();
+        part.split(0, ",");
 
         LayoutParams layoutParams = new LayoutParams(MATCH_PARENT, WRAP_CONTENT);
         layoutParams.setMargins(margin, margin, margin, margin);
