@@ -2,8 +2,11 @@ package com.lzm.knittinghelp2;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,12 +21,13 @@ import com.lzm.knittinghelp2.notebook.NotebookFragment;
 import com.lzm.knittinghelp2.pattern.PatternFragment;
 
 import static com.lzm.knittinghelp2.enums.KnittingFragment.NOTEBOOK;
+import static com.lzm.knittinghelp2.enums.KnittingFragment.PATTERN;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         NotebookFragment.OnPatternClickedListener {
 
-    public static final String SAAVED_ACTIVE_FRAGMENT = "activeFragment";
+    public static final String SAVED_ACTIVE_FRAGMENT = "activeFragment";
     public static final String SAVED_PATTERN_ID = "patternId";
 
     KnittingFragment activeFragment = NOTEBOOK;
@@ -76,6 +80,11 @@ public class MainActivity extends AppCompatActivity
         return "";
     }
 
+    public void setActiveFragment(KnittingFragment activeFragment) {
+        this.activeFragment = activeFragment;
+        invalidateOptionsMenu();
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -88,9 +97,29 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        makeToolbarIconsWhite(menu);
+
+        MenuItem itemPatternEdit = menu.findItem(R.id.action_pattern_edit);
+
+        if(activeFragment == PATTERN) {
+            itemPatternEdit.setVisible(true);
+        } else {
+            itemPatternEdit.setVisible(false);
+        }
+
         return true;
+    }
+
+    private void makeToolbarIconsWhite(Menu menu) {
+        int white = ContextCompat.getColor(this, R.color.white);
+        for(int i = 0; i < menu.size(); i++){
+            Drawable drawable = menu.getItem(i).getIcon();
+            if(drawable != null) {
+                drawable.mutate();
+                drawable.setColorFilter(white, PorterDuff.Mode.SRC_ATOP);
+            }
+        }
     }
 
     @Override
@@ -101,9 +130,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }

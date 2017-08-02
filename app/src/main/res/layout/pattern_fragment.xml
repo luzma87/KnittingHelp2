@@ -36,7 +36,7 @@
         android:id="@+id/pattern_buttons_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="7dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -47,25 +47,28 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-        <Button
+        <ImageButton
             android:id="@+id/buttonPrevSection"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="p section" />
-        <Button
+            style="@style/primary_button"
+            android:contentDescription="@string/pattern_previous_section"
+            android:src="@drawable/ic_pattern_prev_section_24dp" />
+
+        <ImageButton
             android:id="@+id/buttonPrev"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="prev" />
-        <Button
+            style="@style/secondary_button"
+            android:contentDescription="@string/pattern_previous_step"
+            android:src="@drawable/ic_pattern_prev_step_24dp" />
+
+        <ImageButton
             android:id="@+id/buttonNext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="next" />
-        <Button
+            style="@style/secondary_button"
+            android:contentDescription="@string/pattern_next_step"
+            android:src="@drawable/ic_pattern_next_step_24dp" />
+
+        <ImageButton
             android:id="@+id/buttonNextSection"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="n section" />
+            style="@style/primary_button"
+            android:contentDescription="@string/pattern_next_section"
+            android:src="@drawable/ic_pattern_next_section_24dp" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

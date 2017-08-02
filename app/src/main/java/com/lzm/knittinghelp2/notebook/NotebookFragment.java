@@ -16,6 +16,7 @@ import com.lzm.knittinghelp2.MainActivity;
 import com.lzm.knittinghelp2.Pattern;
 import com.lzm.knittinghelp2.PatternInserter;
 import com.lzm.knittinghelp2.R;
+import com.lzm.knittinghelp2.enums.KnittingFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,7 @@ public class NotebookFragment extends Fragment {
         recyclerView = view.findViewById(R.id.listView);
 
         context = (MainActivity) getActivity();
+        context.setActiveFragment(KnittingFragment.NOTEBOOK);
 
         loadData();
 

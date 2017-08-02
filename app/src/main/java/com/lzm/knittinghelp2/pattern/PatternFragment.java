@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.lzm.knittinghelp2.MainActivity;
@@ -15,6 +15,7 @@ import com.lzm.knittinghelp2.PatternInserter;
 import com.lzm.knittinghelp2.R;
 import com.lzm.knittinghelp2.Section;
 import com.lzm.knittinghelp2.Step;
+import com.lzm.knittinghelp2.enums.KnittingFragment;
 import com.lzm.knittinghelp2.exceptions.PatternException;
 import com.lzm.knittinghelp2.exceptions.SectionException;
 import com.lzm.knittinghelp2.pattern.components.SectionCardView;
@@ -72,6 +73,7 @@ public class PatternFragment extends Fragment {
         View view = inflater.inflate(R.layout.pattern_fragment, container, false);
         LinearLayout layout = view.findViewById(R.id.pattern_linear_layout);
         MainActivity context = (MainActivity) getActivity();
+        context.setActiveFragment(KnittingFragment.PATTERN);
 
         List<Section> sections = pattern.getSections();
 
@@ -83,10 +85,10 @@ public class PatternFragment extends Fragment {
 
         start();
 
-        Button prevButton = view.findViewById(R.id.buttonPrev);
-        Button prevSectionButton = view.findViewById(R.id.buttonPrevSection);
-        Button nextButton = view.findViewById(R.id.buttonNext);
-        Button nextSectionButton = view.findViewById(R.id.buttonNextSection);
+        ImageButton prevButton = view.findViewById(R.id.buttonPrev);
+        ImageButton prevSectionButton = view.findViewById(R.id.buttonPrevSection);
+        ImageButton nextButton = view.findViewById(R.id.buttonNext);
+        ImageButton nextSectionButton = view.findViewById(R.id.buttonNextSection);
 
         prevSectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
