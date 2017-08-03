@@ -1,4 +1,4 @@
-package com.lzm.knittinghelp2;
+package com.lzm.knittinghelp2.domain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +10,13 @@ public class Step {
     private Part part;
     private int order;
 
-    private String separator;
+    private Separator separator;
 
     public Step(long id, Part part, String content) {
         this.id = id;
         this.part = part;
         this.content = content;
-        this.separator = ",";
+        this.separator = Separator.COMMA;
     }
 
     public Step(Part part, String content) {
@@ -73,39 +73,27 @@ public class Step {
 
     public List<Step> split() {
         List<Step> steps = new ArrayList<>();
-        List<String> separatorsForSplit = getSeparatorsForSplit();
 
-        for (String separatorForSplit : separatorsForSplit) {
-            String[] parts = content.split(separatorForSplit);
-            for (int i = 0; i < parts.length; i++) {
-                String stepContent = parts[i].trim();
-                if (i < parts.length - 1) {
-                    stepContent = stepContent + separator;
-                }
-                if (i == 0) {
-                    this.content = stepContent;
-                }
-                Step step = new Step(this.part, stepContent);
-                step.setOrder(i + 1);
-                steps.add(step);
+        String[] parts = content.split(separator.getForSplit());
+        for (int i = 0; i < parts.length; i++) {
+            String stepContent = parts[i].trim();
+            if (separator.isAfter() && i < parts.length - 1) {
+                stepContent = stepContent + separator.getSeparator();
             }
+            if (i == 0 && !separator.isAfter()) {
+                stepContent = separator.getSeparator() + stepContent;
+            }
+            if (i == 0) {
+                this.content = stepContent;
+            }
+            Step step = new Step(this.part, stepContent);
+            step.setOrder(i + 1);
+            steps.add(step);
         }
         return steps;
     }
 
-    private List<String> getSeparatorsForSplit() {
-        List<String> separatorForSplit = new ArrayList<>();
-        separatorForSplit.add(separator);
-        if (separator.equals(".")) {
-            separatorForSplit.add("\\.");
-        } else if (separator.equals("(")) {
-            separatorForSplit.add("\\(");
-            separatorForSplit.add("\\)");
-        }
-        return separatorForSplit;
-    }
-
-    public void setSeparator(String separator) {
+    public void setSeparator(Separator separator) {
         this.separator = separator;
     }
 }

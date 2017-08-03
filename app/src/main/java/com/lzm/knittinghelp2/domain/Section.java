@@ -1,8 +1,8 @@
-package com.lzm.knittinghelp2;
+package com.lzm.knittinghelp2.domain;
 
-import com.lzm.knittinghelp2.exceptions.PartException;
-import com.lzm.knittinghelp2.exceptions.SectionException;
-import com.lzm.knittinghelp2.exceptions.StepException;
+import com.lzm.knittinghelp2.domain.exceptions.PartException;
+import com.lzm.knittinghelp2.domain.exceptions.SectionException;
+import com.lzm.knittinghelp2.domain.exceptions.StepException;
 
 import java.util.ArrayList;
 import java.util.List;

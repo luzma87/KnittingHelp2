@@ -1,5 +1,7 @@
 package com.lzm.knittinghelp2;
 
+import com.lzm.knittinghelp2.domain.Pattern;
+
 public class PatternInserter {
 
     public static Pattern tmntPattern() {

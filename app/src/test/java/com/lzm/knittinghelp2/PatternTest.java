@@ -1,7 +1,11 @@
 package com.lzm.knittinghelp2;
 
-import com.lzm.knittinghelp2.exceptions.PatternException;
-import com.lzm.knittinghelp2.exceptions.SectionException;
+import com.lzm.knittinghelp2.domain.Part;
+import com.lzm.knittinghelp2.domain.Pattern;
+import com.lzm.knittinghelp2.domain.Section;
+import com.lzm.knittinghelp2.domain.Step;
+import com.lzm.knittinghelp2.domain.exceptions.PatternException;
+import com.lzm.knittinghelp2.domain.exceptions.SectionException;
 
 import org.junit.Before;
 import org.junit.Rule;

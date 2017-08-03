@@ -1,6 +1,11 @@
 package com.lzm.knittinghelp2;
 
+import com.lzm.knittinghelp2.domain.Part;
+import com.lzm.knittinghelp2.domain.Separator;
+import com.lzm.knittinghelp2.domain.Step;
+
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -51,7 +56,7 @@ public class StepTest {
 
     @Test
     public void settingSeparatorShouldSplitOnSeparatorInstead() throws Exception {
-        step.setSeparator(".");
+        step.setSeparator(Separator.PERIOD);
         List<Step> steps = step.split();
 
         assertThat(steps.size(), is(2));
@@ -59,5 +64,28 @@ public class StepTest {
         assertThat(steps.get(0).getPart(), is(part));
         assertThat(steps.get(1).getContent(), is("Leave tail for sewing"));
         assertThat(steps.get(1).getPart(), is(part));
+    }
+
+    @Test
+    @Ignore
+    public void splittingOnParenthesis() throws Exception {
+        String description = "6: (St in next 2, st 2 in next) around (20)";
+        part = new Part(null, description);
+        step = new Step(part, description);
+
+        step.setSeparator(Separator.PARENTHESIS_OPEN);
+        List<Step> steps = step.split();
+
+        System.out.println(steps);
+
+        assertThat(steps.size(), is(4));
+        assertThat(steps.get(0).getContent(), is("6:"));
+        assertThat(steps.get(0).getPart(), is(part));
+        assertThat(steps.get(1).getContent(), is("(St in next 2, st 2 in next)"));
+        assertThat(steps.get(1).getPart(), is(part));
+        assertThat(steps.get(2).getContent(), is("around"));
+        assertThat(steps.get(2).getPart(), is(part));
+        assertThat(steps.get(3).getContent(), is("(20)"));
+        assertThat(steps.get(3).getPart(), is(part));
     }
 }

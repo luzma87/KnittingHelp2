@@ -1,7 +1,10 @@
 package com.lzm.knittinghelp2;
 
-import com.lzm.knittinghelp2.exceptions.PartException;
-import com.lzm.knittinghelp2.exceptions.StepException;
+import com.lzm.knittinghelp2.domain.Part;
+import com.lzm.knittinghelp2.domain.Separator;
+import com.lzm.knittinghelp2.domain.Step;
+import com.lzm.knittinghelp2.domain.exceptions.PartException;
+import com.lzm.knittinghelp2.domain.exceptions.StepException;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -41,7 +44,7 @@ public class PartTest {
         description = "8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing";
         part = new Part(null, description);
 
-        part.split(0, ",");
+        part.split(0, Separator.COMMA);
 
         List<Step> steps = part.getSteps();
 
@@ -79,7 +82,7 @@ public class PartTest {
         description = "8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing";
         part = new Part(null, description);
 
-        part.split(0, ".");
+        part.split(0, Separator.PERIOD);
 
         List<Step> steps = part.getSteps();
         assertThat(steps.size(), is(2));
@@ -94,7 +97,7 @@ public class PartTest {
         description = "8: hdc, dc, dc, hdc, st, sl st, finish. Leave tail for sewing";
         part = new Part(null, description);
 
-        part.split(0, ",");
+        part.split(0, Separator.COMMA);
 
         List<Step> steps = part.getSteps();
         assertThat(steps.size(), is(7));
@@ -120,7 +123,7 @@ public class PartTest {
         assertThat(steps.get(6).getContent(), is("finish. Leave tail for sewing"));
         assertThat(steps.get(6).getPart(), is(part));
 
-        part.split(6, ".");
+        part.split(6, Separator.PERIOD);
 
         steps = part.getSteps();
         assertThat(steps.size(), is(8));
@@ -154,7 +157,7 @@ public class PartTest {
     @Test
     public void startShouldSetFirstPartAsActive() throws Exception {
         Step expectedStep = new Step(part, "3: st in first,");
-        part.split(0, ",");
+        part.split(0, Separator.COMMA);
         part.start();
 
         List<Step> steps = part.getSteps();
@@ -189,7 +192,7 @@ public class PartTest {
     public void nextShouldSetNextPartAsActiveWhenSplit() throws Exception {
         part.start();
         Step expectedStep = new Step(part, "st 3 in next,");
-        part.split(0, ",");
+        part.split(0, Separator.COMMA);
         part.next();
         assertThat(part.getActiveStep(), is(expectedStep));
     }
@@ -206,7 +209,7 @@ public class PartTest {
         part.start();
         expectedException.expect(StepException.class);
         expectedException.expectMessage("Next step not found");
-        part.split(0, ",");
+        part.split(0, Separator.COMMA);
         part.next();
         part.next();
         part.next();
@@ -234,7 +237,7 @@ public class PartTest {
         part.start();
         expectedException.expect(StepException.class);
         expectedException.expectMessage("Prev step not found");
-        part.split(0, ",");
+        part.split(0, Separator.COMMA);
         part.prev();
     }
 
@@ -242,7 +245,7 @@ public class PartTest {
     public void prevShouldSetPreviousPartAsActive() throws Exception {
         part.start();
         Step expectedStep = new Step(part, "st 3 in next,");
-        part.split(0, ",");
+        part.split(0, Separator.COMMA);
         part.next();
         part.next();
         part.prev();
@@ -253,7 +256,7 @@ public class PartTest {
     public void firstShouldSetFirstPartAsActive() throws Exception {
         part.start();
         Step expectedStep = new Step(part, "3: st in first,");
-        part.split(0, ",");
+        part.split(0, Separator.COMMA);
         part.next();
         part.next();
         part.first();
@@ -263,14 +266,14 @@ public class PartTest {
     @Test
     public void lastShouldSetLastPartAsActive() throws Exception {
         Step expectedStep = new Step(part, "st in next 2 (16)");
-        part.split(0, ",");
+        part.split(0, Separator.COMMA);
         part.last();
         assertThat(part.getActiveStep(), is(expectedStep));
     }
 
     @Test
     public void shouldSetAnyStepAsActive() throws Exception {
-        part.split(0, ",");
+        part.split(0, Separator.COMMA);
         part.start();
         part.setSelected(3);
 

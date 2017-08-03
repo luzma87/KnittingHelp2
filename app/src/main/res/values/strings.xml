@@ -18,6 +18,10 @@
 
     <string name="placeholder">Placeholder</string>
 
+    <string name="separator_comma">Comma ,</string>
+    <string name="separator_parenthesis">Parenthesis ( )</string>
+    <string name="separator_period">Period .</string>
+
     <string name="title_notebook">Notebook</string>
     <string name="title_pattern">Pattern</string>
 </resources>

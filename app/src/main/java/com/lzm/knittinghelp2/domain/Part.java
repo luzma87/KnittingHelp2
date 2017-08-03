@@ -1,7 +1,7 @@
-package com.lzm.knittinghelp2;
+package com.lzm.knittinghelp2.domain;
 
-import com.lzm.knittinghelp2.exceptions.PartException;
-import com.lzm.knittinghelp2.exceptions.StepException;
+import com.lzm.knittinghelp2.domain.exceptions.PartException;
+import com.lzm.knittinghelp2.domain.exceptions.StepException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class Part {
         return content;
     }
 
-    public void split(int position, String separator) {
+    public void split(int position, Separator separator) {
         Step step = steps.remove(position);
         step.setSeparator(separator);
         steps.addAll(position, step.split());

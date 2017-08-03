@@ -8,10 +8,10 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.lzm.knittinghelp2.Part;
+import com.lzm.knittinghelp2.domain.Part;
 import com.lzm.knittinghelp2.R;
-import com.lzm.knittinghelp2.Section;
-import com.lzm.knittinghelp2.exceptions.SectionException;
+import com.lzm.knittinghelp2.domain.Section;
+import com.lzm.knittinghelp2.domain.exceptions.SectionException;
 import com.lzm.knittinghelp2.helpers.Utils;
 import com.lzm.knittinghelp2.pattern.PatternFragment;
 

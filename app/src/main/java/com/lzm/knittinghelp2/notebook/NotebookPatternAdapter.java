@@ -8,7 +8,7 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.lzm.knittinghelp2.MainActivity;
-import com.lzm.knittinghelp2.Pattern;
+import com.lzm.knittinghelp2.domain.Pattern;
 import com.lzm.knittinghelp2.R;
 
 import java.util.ArrayList;

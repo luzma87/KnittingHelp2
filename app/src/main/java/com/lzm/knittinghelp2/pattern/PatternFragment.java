@@ -9,15 +9,15 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.lzm.knittinghelp2.MainActivity;
-import com.lzm.knittinghelp2.Part;
-import com.lzm.knittinghelp2.Pattern;
+import com.lzm.knittinghelp2.domain.Part;
+import com.lzm.knittinghelp2.domain.Pattern;
 import com.lzm.knittinghelp2.PatternInserter;
 import com.lzm.knittinghelp2.R;
-import com.lzm.knittinghelp2.Section;
-import com.lzm.knittinghelp2.Step;
+import com.lzm.knittinghelp2.domain.Section;
+import com.lzm.knittinghelp2.domain.Step;
 import com.lzm.knittinghelp2.enums.KnittingFragment;
-import com.lzm.knittinghelp2.exceptions.PatternException;
-import com.lzm.knittinghelp2.exceptions.SectionException;
+import com.lzm.knittinghelp2.domain.exceptions.PatternException;
+import com.lzm.knittinghelp2.domain.exceptions.SectionException;
 import com.lzm.knittinghelp2.pattern.components.SectionCardView;
 
 import java.util.ArrayList;

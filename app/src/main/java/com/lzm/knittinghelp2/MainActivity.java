@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.lzm.knittinghelp2.domain.Pattern;
 import com.lzm.knittinghelp2.enums.KnittingFragment;
 import com.lzm.knittinghelp2.helpers.FragmentHelper;
 import com.lzm.knittinghelp2.notebook.NotebookFragment;

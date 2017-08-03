@@ -5,10 +5,10 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 
 import com.google.android.flexbox.FlexboxLayout;
-import com.lzm.knittinghelp2.Step;
+import com.lzm.knittinghelp2.domain.Step;
 import com.lzm.knittinghelp2.R;
-import com.lzm.knittinghelp2.Part;
-import com.lzm.knittinghelp2.exceptions.PartException;
+import com.lzm.knittinghelp2.domain.Part;
+import com.lzm.knittinghelp2.domain.exceptions.PartException;
 import com.lzm.knittinghelp2.helpers.Utils;
 import com.lzm.knittinghelp2.pattern.PatternFragment;
 

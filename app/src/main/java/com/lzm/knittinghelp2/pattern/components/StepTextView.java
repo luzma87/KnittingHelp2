@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.lzm.knittinghelp2.R;
-import com.lzm.knittinghelp2.Step;
+import com.lzm.knittinghelp2.domain.Step;
 import com.lzm.knittinghelp2.helpers.Utils;
 import com.lzm.knittinghelp2.pattern.PatternFragment;
 

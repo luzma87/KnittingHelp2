@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lzm.knittinghelp2.MainActivity;
-import com.lzm.knittinghelp2.Pattern;
+import com.lzm.knittinghelp2.domain.Pattern;
 import com.lzm.knittinghelp2.PatternInserter;
 import com.lzm.knittinghelp2.R;
 import com.lzm.knittinghelp2.enums.KnittingFragment;
