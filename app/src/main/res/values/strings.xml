@@ -28,4 +28,5 @@
     <string name="title_notebook">Notebook</string>
     <string name="title_pattern">Pattern</string>
     <string name="counter_name_placeholder">Counter name</string>
+    <string name="menu_notebook">Notebook</string>
 </resources>

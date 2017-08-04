@@ -1,10 +1,12 @@
 package com.lzm.knittinghelp2;
 
+import android.app.Fragment;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity
         int titleRes = NOTEBOOK.getTitleId();
         NotebookFragment notebookFragment = NotebookFragment.newInstance();
         FragmentHelper.openFragment(this, notebookFragment, getString(titleRes), false);
+        navigationView.getMenu().getItem(0).setChecked(true);
     }
 
     private String getAppVersion() {
@@ -105,7 +108,7 @@ public class MainActivity extends AppCompatActivity
 
         MenuItem itemPatternEdit = menu.findItem(R.id.action_pattern_edit);
 
-        if(activeFragment == PATTERN) {
+        if (activeFragment == PATTERN) {
             itemPatternEdit.setVisible(true);
         } else {
             itemPatternEdit.setVisible(false);
@@ -116,9 +119,9 @@ public class MainActivity extends AppCompatActivity
 
     private void makeToolbarIconsWhite(Menu menu) {
         int white = ContextCompat.getColor(this, R.color.white);
-        for(int i = 0; i < menu.size(); i++){
+        for (int i = 0; i < menu.size(); i++) {
             Drawable drawable = menu.getItem(i).getIcon();
-            if(drawable != null) {
+            if (drawable != null) {
                 drawable.mutate();
                 drawable.setColorFilter(white, PorterDuff.Mode.SRC_ATOP);
             }
@@ -142,16 +145,21 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_counters) {
-            int titleRes = COUNTERS.getTitleId();
-            CountersFragment countersFragment = CountersFragment.newInstance();
-            FragmentHelper.openFragment(this, countersFragment, getString(titleRes), false);
+        int titleRes = NOTEBOOK.getTitleId();
+        Fragment fragment = NotebookFragment.newInstance();
+
+        if (id == R.id.nav_notebook) {
+            titleRes = NOTEBOOK.getTitleId();
+            fragment = NotebookFragment.newInstance();
+        } else if (id == R.id.nav_counters) {
+            titleRes = COUNTERS.getTitleId();
+            fragment = CountersFragment.newInstance();
         }
 
+        FragmentHelper.openFragment(this, fragment, getString(titleRes), false);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
