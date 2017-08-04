@@ -1,33 +1,28 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="?attr/actionBarSize"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context="com.lzm.knittinghelp2.counters.CountersFragment">
 
-    <LinearLayout
+    <com.lzm.knittinghelp2.counters.components.CounterCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_margin="8dp" />
 
-        <com.lzm.knittinghelp2.counters.components.CounterCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp" />
+    <com.lzm.knittinghelp2.counters.components.CounterCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:titleBackground="@color/counter_header" />
 
-        <com.lzm.knittinghelp2.counters.components.CounterCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:titleBackground="@color/counter_header" />
-
-        <com.lzm.knittinghelp2.counters.components.CounterCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:titleBackground="@color/primary"
-            app:titleColor="@color/text_light" />
-    </LinearLayout>
-</FrameLayout>
+    <com.lzm.knittinghelp2.counters.components.CounterCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:titleBackground="@color/primary"
+        app:titleColor="@color/text_light" />
+</LinearLayout>
