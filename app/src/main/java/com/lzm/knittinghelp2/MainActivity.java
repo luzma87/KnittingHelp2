@@ -21,6 +21,7 @@ import com.lzm.knittinghelp2.helpers.FragmentHelper;
 import com.lzm.knittinghelp2.notebook.NotebookFragment;
 import com.lzm.knittinghelp2.pattern.PatternFragment;
 
+import static com.lzm.knittinghelp2.enums.KnittingFragment.COUNTERS;
 import static com.lzm.knittinghelp2.enums.KnittingFragment.NOTEBOOK;
 import static com.lzm.knittinghelp2.enums.KnittingFragment.PATTERN;
 
@@ -144,18 +145,10 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_counters) {
+            int titleRes = COUNTERS.getTitleId();
+            CounterFragment counterFragment = CounterFragment.newInstance();
+            FragmentHelper.openFragment(this, counterFragment, getString(titleRes), false);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

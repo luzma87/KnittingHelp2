@@ -6,6 +6,8 @@
     <string name="app_name">Knitting Help 2</string>
     <string name="app_version">App version %1$s</string>
 
+    <string name="menu_counters">Counters</string>
+
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
 
@@ -22,6 +24,7 @@
     <string name="separator_parenthesis">Parenthesis ( )</string>
     <string name="separator_period">Period .</string>
 
+    <string name="title_counters">Counters</string>
     <string name="title_notebook">Notebook</string>
     <string name="title_pattern">Pattern</string>
 </resources>

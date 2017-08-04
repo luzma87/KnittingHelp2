@@ -4,7 +4,8 @@ import com.lzm.knittinghelp2.R;
 
 public enum KnittingFragment {
     NOTEBOOK(R.string.title_notebook),
-    PATTERN(R.string.title_pattern);
+    PATTERN(R.string.title_pattern),
+    COUNTERS(R.string.title_counters);
 
     private int titleId;
 

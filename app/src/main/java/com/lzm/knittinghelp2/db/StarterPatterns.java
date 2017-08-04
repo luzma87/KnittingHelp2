@@ -1,8 +1,8 @@
-package com.lzm.knittinghelp2;
+package com.lzm.knittinghelp2.db;
 
 import com.lzm.knittinghelp2.domain.Pattern;
 
-public class PatternInserter {
+public class StarterPatterns {
 
     public static Pattern tmntPattern() {
         String tmntPatternName = "Amigurumi Tiny Mutant Ninja Turtle";

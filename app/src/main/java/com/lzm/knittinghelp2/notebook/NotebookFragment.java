@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lzm.knittinghelp2.MainActivity;
+import com.lzm.knittinghelp2.db.StarterPatterns;
 import com.lzm.knittinghelp2.domain.Pattern;
-import com.lzm.knittinghelp2.PatternInserter;
 import com.lzm.knittinghelp2.R;
 import com.lzm.knittinghelp2.enums.KnittingFragment;
 
@@ -83,9 +83,9 @@ public class NotebookFragment extends Fragment {
     }
 
     private void initPatterns() {
-        Pattern tmntPattern = PatternInserter.tmntPattern();
+        Pattern tmntPattern = StarterPatterns.tmntPattern();
         patterns.add(tmntPattern);
-        Pattern splinterPattern = PatternInserter.splinterPattern();
+        Pattern splinterPattern = StarterPatterns.splinterPattern();
         patterns.add(splinterPattern);
     }
 
