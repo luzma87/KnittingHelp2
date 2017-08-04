@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:layout_marginTop="?attr/actionBarSize"
     android:fitsSystemWindows="true"
-    tools:context="com.lzm.knittinghelp2.CounterFragment">
+    tools:context="com.lzm.knittinghelp2.counters.CountersFragment">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -29,6 +29,7 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:id="@+id/counters_decrease"
                     style="@style/red_button"
                     android:layout_width="0dp"
                     android:layout_height="100dp"
@@ -37,6 +38,7 @@
                     android:textAppearance="@android:style/TextAppearance.Material.Large" />
 
                 <TextView
+                    android:id="@+id/counters_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -45,6 +47,7 @@
                     android:textAppearance="@android:style/TextAppearance.Material.Large" />
 
                 <Button
+                    android:id="@+id/counters_increase"
                     style="@style/green_button"
                     android:layout_width="0dp"
                     android:layout_height="100dp"

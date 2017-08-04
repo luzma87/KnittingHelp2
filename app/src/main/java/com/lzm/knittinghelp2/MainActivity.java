@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.lzm.knittinghelp2.counters.CountersFragment;
 import com.lzm.knittinghelp2.domain.Pattern;
 import com.lzm.knittinghelp2.enums.KnittingFragment;
 import com.lzm.knittinghelp2.helpers.FragmentHelper;
@@ -147,8 +148,8 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_counters) {
             int titleRes = COUNTERS.getTitleId();
-            CounterFragment counterFragment = CounterFragment.newInstance();
-            FragmentHelper.openFragment(this, counterFragment, getString(titleRes), false);
+            CountersFragment countersFragment = CountersFragment.newInstance();
+            FragmentHelper.openFragment(this, countersFragment, getString(titleRes), false);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
