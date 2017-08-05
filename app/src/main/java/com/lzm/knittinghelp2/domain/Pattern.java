@@ -6,6 +6,7 @@ import com.lzm.knittinghelp2.domain.exceptions.SectionException;
 import com.lzm.knittinghelp2.domain.exceptions.StepException;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Pattern implements Comparable<Pattern> {
@@ -16,6 +17,8 @@ public class Pattern implements Comparable<Pattern> {
     private List<Section> sections;
 
     private int activeSectionIndex;
+    private Date creationDate;
+    private Date updateDate;
 
     public Pattern(long id, String name, String content) {
         this.id = id;
@@ -132,5 +135,13 @@ public class Pattern implements Comparable<Pattern> {
     @Override
     public int compareTo(Pattern pattern) {
         return this.getName().compareTo(pattern.getName());
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 }
