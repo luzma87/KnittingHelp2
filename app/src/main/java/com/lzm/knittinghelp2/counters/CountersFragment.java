@@ -30,7 +30,7 @@ public class CountersFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.counter_fragment, container, false);
+        View view = inflater.inflate(R.layout.counters_fragment, container, false);
 
         unbinder = ButterKnife.bind(this, view);
 

@@ -49,25 +49,25 @@
 
         <ImageButton
             android:id="@+id/buttonPrevSection"
-            style="@style/primary_button"
+            style="@style/button_primary"
             android:contentDescription="@string/pattern_previous_section"
             android:src="@drawable/ic_pattern_prev_section_24dp" />
 
         <ImageButton
             android:id="@+id/buttonPrev"
-            style="@style/secondary_button"
+            style="@style/button_secondary"
             android:contentDescription="@string/pattern_previous_step"
             android:src="@drawable/ic_pattern_prev_step_24dp" />
 
         <ImageButton
             android:id="@+id/buttonNext"
-            style="@style/secondary_button"
+            style="@style/button_secondary"
             android:contentDescription="@string/pattern_next_step"
             android:src="@drawable/ic_pattern_next_step_24dp" />
 
         <ImageButton
             android:id="@+id/buttonNextSection"
-            style="@style/primary_button"
+            style="@style/button_primary"
             android:contentDescription="@string/pattern_next_section"
             android:src="@drawable/ic_pattern_next_section_24dp" />
     </LinearLayout>

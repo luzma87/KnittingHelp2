@@ -21,27 +21,28 @@
         <item name="android:layout_marginRight">3dp</item>
         <item name="android:padding">10dp</item>
     </style>
-
-    <style name="green_button" parent="button">
+    <style name="button_counter_green" parent="button">
         <item name="android:backgroundTint">@color/green</item>
         <item name="android:tint">@color/text_primary</item>
         <item name="android:textColor">@color/text_primary</item>
     </style>
-
-    <style name="primary_button" parent="button">
-        <item name="android:backgroundTint">@color/primary</item>
-        <item name="android:tint">@color/text_light</item>
-        <item name="android:textColor">@color/text_light</item>
-    </style>
-
-    <style name="red_button" parent="button">
+    <style name="button_counter_red" parent="button">
         <item name="android:backgroundTint">@color/red</item>
         <item name="android:tint">@color/text_primary</item>
         <item name="android:textColor">@color/text_primary</item>
     </style>
-
-    <style name="secondary_button" parent="button">
+    <style name="button_primary" parent="button">
+        <item name="android:backgroundTint">@color/primary</item>
+        <item name="android:tint">@color/text_light</item>
+        <item name="android:textColor">@color/text_light</item>
+    </style>
+    <style name="button_secondary" parent="button">
         <item name="android:backgroundTint">@color/primary_light</item>
+        <item name="android:tint">@color/text_primary</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+    <style name="button_neutral" parent="button">
+        <item name="android:backgroundTint">@color/counter_button</item>
         <item name="android:tint">@color/text_primary</item>
         <item name="android:textColor">@color/text_primary</item>
     </style>

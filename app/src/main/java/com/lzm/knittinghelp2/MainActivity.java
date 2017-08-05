@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity
         int titleRes = NOTEBOOK.getTitleId();
         NotebookFragment notebookFragment = NotebookFragment.newInstance();
         FragmentHelper.openFragment(this, notebookFragment, getString(titleRes), false);
-        navigationView.getMenu().getItem(0).setChecked(true);
+        navigationView.setCheckedItem(R.id.nav_notebook);
     }
 
     private String getAppVersion() {

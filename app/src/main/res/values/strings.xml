@@ -6,7 +6,12 @@
     <string name="app_name">Knitting Help 2</string>
     <string name="app_version">App version %1$s</string>
 
+    <string name="counter_infinity">∞</string>
+    <string name="counter_name_placeholder">Counter name</string>
+    <string name="counter_text">%1$d of %2$s</string>
+
     <string name="menu_counters">Counters</string>
+    <string name="menu_notebook">Notebook</string>
 
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -27,6 +32,4 @@
     <string name="title_counters">Counters</string>
     <string name="title_notebook">Notebook</string>
     <string name="title_pattern">Pattern</string>
-    <string name="counter_name_placeholder">Counter name</string>
-    <string name="menu_notebook">Notebook</string>
 </resources>
